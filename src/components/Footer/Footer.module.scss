@@ -1,0 +1,26 @@
+.footer {
+  background: var(--color-primary);
+  color: #fff;
+  padding: var(--spacer) 0;
+  font-size: 0.875rem;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacer);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.links {
+  display: flex;
+  gap: var(--spacer);
+  a {
+    color: #fff;
+    text-decoration: underline;
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+}
