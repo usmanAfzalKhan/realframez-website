@@ -78,6 +78,23 @@
   gap: 0.5em;
 }
 
+.radioGroup {
+  display: flex;
+  gap: 2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  align-items: center;
+
+  label {
+    font-weight: 400;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+  }
+}
+
 .submitBtn {
   background: #192b50;
   color: #fff;

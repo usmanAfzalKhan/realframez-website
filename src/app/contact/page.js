@@ -10,9 +10,11 @@ export default function ContactPage() {
     phone: '',
     services: [],
     date: '',
-    referred: '',
+    referred: '',        // "yes" or "no"
+    referredBy: '',      // who referred you
     message: '',
   })
+  const [showReferredBy, setShowReferredBy] = useState(false)
 
   const handleChange = e => {
     const { name, value, type, checked } = e.target
@@ -23,6 +25,13 @@ export default function ContactPage() {
           ? [...f.services, value]
           : f.services.filter(s => s !== value),
       }))
+    } else if (name === 'referred') {
+      setForm(f => ({
+        ...f,
+        referred: value,
+        referredBy: value === 'yes' ? f.referredBy : '',
+      }))
+      setShowReferredBy(value === 'yes')
     } else {
       setForm(f => ({ ...f, [name]: value }))
     }
@@ -30,6 +39,10 @@ export default function ContactPage() {
 
   const handleSubmit = e => {
     e.preventDefault()
+    if (form.referred === 'yes' && !form.referredBy.trim()) {
+      alert('Please provide who referred you.')
+      return
+    }
     alert('Booking request submitted!\n\n' + JSON.stringify(form, null, 2))
     // TODO: send to backend/service
   }
@@ -95,15 +108,46 @@ export default function ContactPage() {
           />
         </label>
 
-        <label>
-          Referred by someone?
-          <input
-            name="referred"
-            value={form.referred}
-            onChange={handleChange}
-            placeholder="Name or leave blank"
-          />
-        </label>
+        <fieldset className={styles.fieldset}>
+          <legend>Have you been referred?*</legend>
+          <div className={styles.radioGroup}>
+            <label>
+              <input
+                type="radio"
+                name="referred"
+                value="yes"
+                checked={form.referred === 'yes'}
+                onChange={handleChange}
+                required
+              />
+              Yes
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="referred"
+                value="no"
+                checked={form.referred === 'no'}
+                onChange={handleChange}
+              />
+              No
+            </label>
+          </div>
+        </fieldset>
+
+        {form.referred === 'yes' && (
+          <label>
+            Who referred you?*
+            <input
+              name="referredBy"
+              value={form.referredBy}
+              onChange={handleChange}
+              required
+              placeholder="Enter name"
+              maxLength={32}
+            />
+          </label>
+        )}
 
         <label>
           Additional Message (optional)
