@@ -1,0 +1,19 @@
+/* src/app/page.module.scss */
+.hero {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  text-align: center;
+
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacer);
+  }
+  p {
+    font-size: 1.25rem;
+  }
+}

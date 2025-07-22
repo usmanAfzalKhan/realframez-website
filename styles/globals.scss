@@ -49,11 +49,17 @@ a:hover {
   color: var(--color-accent);
 }
 
-/* 4. Utility helpers */
+/* 4. Container utility */
 .container {
   width: 100%;
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   padding: 0 var(--spacer);
+}
+
+/* 5. Ensure content sits below the 60px header */
+main {
+  padding: var(--spacer);
+  padding-top: calc(60px + var(--spacer));
 }
