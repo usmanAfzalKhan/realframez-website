@@ -1,0 +1,59 @@
+/* styles/globals.scss */
+
+/* 1. Simple CSS reset */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. CSS variables: tweak to match RealFramez brand */
+:root {
+  /* Palette */
+  --color-bg: #ffffff;
+  --color-primary: #1e2746;
+  --color-accent: #f5c22b;
+  --color-text: #333333;
+
+  /* Typography */
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
+
+  /* Spacing scale */
+  --spacer: 1rem;
+}
+
+/* 3. Base typography */
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  scroll-behavior: smooth;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  margin-bottom: var(--spacer);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: var(--color-accent);
+}
+
+/* 4. Utility helpers */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 var(--spacer);
+}
