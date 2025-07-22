@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import styles from './ServiceCard.module.scss'
 
-export default function ServiceCard({ title, description, href }) {
+export default function ServiceCard({ title, description, slug }) {
   return (
     <motion.div
       className={styles.card}
@@ -16,13 +16,12 @@ export default function ServiceCard({ title, description, href }) {
       transition={{ duration: 0.5 }}
     >
       <div className={styles.placeholder}>
-        {/* Empty image placeholder (could use an SVG or text icon if you like) */}
         <span className={styles.imgIcon}>🖼️</span>
       </div>
       <h3>{title}</h3>
       <p>{description}</p>
-      <Link href={href} className={styles.cta}>
-        Book Now
+      <Link href={`/services/${slug}`} className={styles.cta}>
+        Book Now
       </Link>
     </motion.div>
   )

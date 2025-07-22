@@ -1,9 +1,10 @@
+// src/app/layout.js
 import '../../styles/globals.scss'
 import Header from '../components/Header/Header'
+import Footer from '../components/Footer/Footer'
 
 export const metadata = {
   title: 'RealFramez',
-  description: 'Professional real estate photography portfolio',
 }
 
 export default function RootLayout({ children }) {
@@ -11,7 +12,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Header />
-        <main>{children}</main>
+        <main style={{
+          minHeight: 'calc(100vh - 180px)',
+          paddingTop: '2rem',
+          paddingBottom: '2rem'
+        }}>
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   )

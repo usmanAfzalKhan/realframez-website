@@ -1,3 +1,5 @@
+// src/app/services/page.js
+
 import ServiceCard from '../../components/ServiceCard/ServiceCard'
 import styles from './page.module.scss'
 import { services } from '../../data/services'
@@ -19,7 +21,12 @@ export default function ServicesPage() {
       </header>
       <div className={styles.grid}>
         {services.map((svc) => (
-          <ServiceCard key={svc.title} {...svc} />
+          <ServiceCard
+            key={svc.slug}
+            title={svc.title}
+            description={svc.short}
+            slug={svc.slug}
+          />
         ))}
       </div>
     </main>
