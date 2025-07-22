@@ -1,52 +1,29 @@
+// src/app/page.js
 'use client'
 
-import { motion } from 'framer-motion'
-import styles from './page.module.scss'
+import Hero from '../components/Hero/Hero'
+import TeaserCarousel from '../components/TeaserCarousel/TeaserCarousel'
 import Footer from '../components/Footer/Footer'
+import styles from './page.module.scss'
 
 export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <motion.section
-        className={styles.hero}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <motion.h1
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        >
-          RealFramez
-        </motion.h1>
-        <motion.p
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-        >
-          Professional Real Estate Photography
-        </motion.p>
-      </motion.section>
+      <Hero />
 
-      {/* Portfolio placeholder */}
-      <section className={styles.section}>
-        <h2>Portfolio</h2>
-        <p>(Gallery coming soon…)</p>
+      {/* Intro */}
+      <section className={styles.intro}>
+        <h2>Welcome to RealFramez</h2>
+        <p>
+          At RealFramez, we specialize in high-quality real estate photography—
+          interior, exterior, aerial, and twilight shoots—to make your property
+          stand out.
+        </p>
       </section>
 
-      {/* About placeholder */}
-      <section className={styles.section}>
-        <h2>About</h2>
-        <p>RealFramez captures your property at its best—stunning images that sell.</p>
-      </section>
-
-      {/* Contact placeholder */}
-      <section className={styles.section}>
-        <h2>Contact</h2>
-        <p>Get a quote or ask questions at <a href="mailto:info@realframez.com">info@realframez.com</a></p>
-      </section>
+      {/* Teaser Carousel */}
+      <TeaserCarousel />
 
       {/* Footer */}
       <Footer />

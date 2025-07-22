@@ -1,0 +1,22 @@
+.hero {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  padding: var(--spacer) 0;
+}
+
+.title {
+  font-size: 3rem;
+  margin-bottom: var(--spacer);
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  max-width: 600px;
+}

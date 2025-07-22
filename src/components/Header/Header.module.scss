@@ -1,13 +1,12 @@
+/* src/components/Header/Header.module.scss */
 .header {
   position: fixed;
-  top: 0;
-  width: 100%;
+  top: 0; width: 100%;
   background: var(--color-bg);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   z-index: 100;
 }
 .container {
-  position: relative;       /* enable dropdown positioning */
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 var(--spacer);
@@ -20,39 +19,37 @@
   font-family: var(--font-heading);
   font-size: 1.25rem;
   color: var(--color-primary);
+  text-decoration: none;
 }
-
-/* Desktop nav */
 .nav {
   display: flex;
   gap: var(--spacer);
   a {
+    text-decoration: none;
+    color: var(--color-text);
     font-weight: 500;
     &:hover {
       color: var(--color-accent);
     }
   }
-}
 
-/* Mobile dropdown */
-@media (max-width: 768px) {
-  .nav {
+  /* Mobile dropdown */
+  @media (max-width: 768px) {
     display: none;
     position: absolute;
-    top: 100%;               /* right below the header */
-    right: var(--spacer);     /* align to the toggle button */
+    top: 100%;
+    right: var(--spacer);
     flex-direction: column;
     background: var(--color-bg);
     padding: var(--spacer);
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     min-width: 140px;
-  }
-  .nav.open {
-    display: flex;
+    &.open {
+      display: flex;
+    }
   }
 }
-
 .toggle {
   display: none;
   background: none;
@@ -60,6 +57,7 @@
   flex-direction: column;
   gap: 4px;
   span {
+    display: block;
     width: 24px;
     height: 2px;
     background: var(--color-text);

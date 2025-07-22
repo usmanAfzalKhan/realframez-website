@@ -1,7 +1,11 @@
 // next.config.mjs
 import path from 'path';
 
-const nextConfig = {
+export default {
+  experimental: {
+    // Turn off the CSS‐only HMR that triggers these errors
+    disableCssHMR: true,
+  },
   webpack(config) {
     config.resolve.alias = {
       ...config.resolve.alias,
@@ -10,5 +14,3 @@ const nextConfig = {
     return config;
   },
 };
-
-export default nextConfig;

@@ -1,29 +1,21 @@
-.hero {
-  min-height: calc(100vh - 60px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  color: #fff;
-  text-align: center;
-  width: 100%;
-}
+/* src/app/page.module.scss */
 
-/* Page.module.scss (after .hero) */
-
-.section {
-  padding: calc(var(--spacer) * 2) var(--spacer);
+/* Intro Section */
+.intro {
+  max-width: 800px;
+  margin: calc(var(--spacer) * 2) auto;
   text-align: center;
 
   h2 {
-    font-size: 2rem;
-    margin-bottom: var(--spacer);
+    font-size: 2.5rem;
     color: var(--color-primary);
+    margin-bottom: var(--spacer);
   }
+
   p {
-    font-size: 1rem;
-    max-width: 600px;
-    margin: 0 auto;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin-bottom: calc(var(--spacer) * 1.5);
+    color: var(--color-text);
   }
 }

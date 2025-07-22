@@ -1,0 +1,72 @@
+/* src/components/TeaserCarousel/TeaserCarousel.module.scss */
+
+.carousel {
+  padding: calc(var(--spacer) * 2) var(--spacer);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  margin-bottom: var(--spacer);
+  text-align: center;
+}
+
+/* DESKTOP: grid layout showing all options */
+.track {
+  display: grid;
+  gap: var(--spacer);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.card {
+  background: var(--color-bg);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 0.5rem;
+  padding: var(--spacer);
+  text-align: center;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: var(--color-accent);
+  }
+}
+
+/* Swipe cue hidden by default (desktop) */
+.indicator {
+  display: none;
+}
+
+/* MOBILE: switch to scroll‑snap carousel + show indicator */
+@media (max-width: 768px) {
+  .track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: calc(var(--spacer) / 2);
+    padding-bottom: var(--spacer);
+
+    /* hide default scrollbar in WebKit */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  .card {
+    flex: 0 0 calc((100% - 2 * var(--spacer)) / 3);
+    scroll-snap-align: start;
+  }
+  .indicator {
+    display: block;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    opacity: 0.7;
+    margin-top: calc(var(--spacer) / 2);
+  }
+}
