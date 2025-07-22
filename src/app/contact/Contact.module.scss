@@ -1,0 +1,112 @@
+.main {
+  max-width: 480px;
+  margin: 32px auto 0 auto;
+  padding: 2rem 1.5rem 1rem 1.5rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(20,30,60,0.08);
+
+  h1 {
+    text-align: center;
+    color: var(--color-primary, #192b50);
+    font-size: 2rem;
+    margin-bottom: 1.4em;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    gap: 0.5em;
+    color: #202944;
+    margin-bottom: 0.2em;
+  }
+
+  input,
+  textarea,
+  select {
+    font: inherit;
+    padding: 0.7em 1em;
+    border-radius: 8px;
+    border: 1px solid #d3d7e1;
+    background: #f7f8fa;
+    margin-top: 0.2em;
+  }
+
+  input[type="checkbox"] {
+    accent-color: #263375;
+    width: 1.18em;
+    height: 1.18em;
+    margin-right: 0.6em;
+    margin-top: 0;
+  }
+}
+
+.fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.legendHint {
+  font-size: 0.98em;
+  font-weight: 400;
+  color: #5b5e7c;
+  margin-left: 0.3em;
+}
+
+.checkboxGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6em 2em;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+.checkboxLabel {
+  font-weight: 400;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5em;
+}
+
+.submitBtn {
+  background: #192b50;
+  color: #fff;
+  padding: 0.95em 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
+  transition: background 0.2s;
+  margin-top: 0.6em;
+  cursor: pointer;
+}
+.submitBtn:hover {
+  background: #31458a;
+}
+
+@media (max-width: 600px) {
+  .main {
+    max-width: 99vw;
+    padding: 1.2rem 0.5rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .main h1 {
+    font-size: 1.18rem;
+    margin-bottom: 1.1em;
+  }
+  .checkboxGrid {
+    grid-template-columns: 1fr;
+    gap: 0.7em;
+  }
+}
