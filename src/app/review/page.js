@@ -6,7 +6,7 @@ import initialReviews from '../../data/reviews'
 function StarRating({ value, onChange, readOnly = false }) {
   return (
     <div className={styles.stars}>
-      {[1,2,3,4,5].map(i => (
+      {[1, 2, 3, 4, 5].map(i => (
         <span
           key={i}
           className={i <= value ? styles.starActive : styles.star}
@@ -51,7 +51,7 @@ export default function ReviewPage() {
         {reviews.slice(0, 6).map((r, idx) => (
           <div className={styles.reviewCard} key={idx}>
             <StarRating value={r.rating} readOnly />
-            <div className={styles.reviewText}>"{r.text}"</div>
+            <div className={styles.reviewText}>{r.text}</div>
             <div className={styles.reviewName}>— {r.name}</div>
           </div>
         ))}

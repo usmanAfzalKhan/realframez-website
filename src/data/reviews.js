@@ -14,6 +14,11 @@ const reviews = [
     rating: 5,
     text: "The twilight shots made our listing stand out! Will use again.",
   },
-]
+  {
+    name: "Sarah",
+    rating: 5,
+    text: 'Best photographer!',
+  },
+];
 
-export default reviews
+export default reviews;
