@@ -21,7 +21,7 @@ export default function ServiceCard({ title, description, slug }) {
       <h3>{title}</h3>
       <p>{description}</p>
       <Link href={`/services/${slug}`} className={styles.cta}>
-        Book Now
+        View Details
       </Link>
     </motion.div>
   )
