@@ -1,22 +1,190 @@
+// Hero.module.scss
+
+// Color palette & animation timing
+$bg-color: #181b23;
+$overlay-bg: rgba(23, 26, 43, 0.6);
+$text-color: #f6f6fa;
+$accent-color: #ffcc57;
+$transition-fast: 300ms ease-out;
+
+// Hero section container
 .hero {
-  min-height: calc(100vh - 60px);
+  position: relative;
+  width: 100%;
+  height: clamp(60vh, 80vh, 100vh);
+  overflow: hidden;
+}
+
+// Background image wrapper (fills hero)
+.bgWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  // Next/Image <Image> element will fill this
+  img {
+    object-fit: cover;
+  }
+}
+
+// Fade‐in keyframes for image transitions
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+// Applied to the Image when slide changes
+.fade {
+  animation: fadeIn 520ms ease-out both;
+}
+
+// Overlay: semi‐transparent dark layer + content centering
+.overlay {
+  position: relative;
+  z-index: 2;
+  background: $overlay-bg;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  color: #fff;
+  justify-content: center;
   text-align: center;
-  width: 100%;
-  padding: var(--spacer) 0;
+  padding: clamp(1.5rem, 5vw, 4rem);
 }
 
+// Slide title
 .title {
-  font-size: 3rem;
-  margin-bottom: var(--spacer);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  color: $text-color;
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 1.1;
+  margin: 0 0 clamp(1rem, 2vw, 1.5rem);
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
 }
 
+// Slide subtitle
 .subtitle {
-  font-size: 1.25rem;
-  max-width: 600px;
+  font-family: sans-serif;
+  color: $text-color;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  margin: 0 0 clamp(1.5rem, 3vw, 2rem);
+  max-width: 80%;
+  line-height: 1.4;
+}
+
+// Call‑to‑action button
+.ctaBtn {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $text-color;
+  background: transparent;
+  border: 2px solid $accent-color;
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+  border-radius: 0.25rem;
+  transition: background $transition-fast, color $transition-fast, transform $transition-fast;
+
+  &:hover,
+  &:focus-visible {
+    background: $accent-color;
+    color: $bg-color;
+    transform: translateY(-2px);
+    outline: none;
+  }
+}
+
+// Pagination dots container
+.dots {
+  display: flex;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+// Individual dot (inactive)
+.dot {
+  width: clamp(0.75rem, 2vw, 1rem);
+  height: clamp(0.75rem, 2vw, 1rem);
+  border: 1px solid $text-color;
+  border-radius: 50%;
+  background: transparent;
+  transition: background $transition-fast;
+
+  &:hover,
+  &:focus-visible {
+    background: rgba($text-color, 0.3);
+    outline: none;
+  }
+}
+
+// Active dot
+.dotActive {
+  @extend .dot;
+  background: $accent-color;
+}
+
+// Arrow buttons (prev/next)
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(23, 26, 43, 0.5);
+  border: none;
+  width: clamp(2.5rem, 5vw, 3.5rem);
+  height: clamp(2.5rem, 5vw, 3.5rem);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-color;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  cursor: pointer;
+  z-index: 3;
+  transition: background $transition-fast, transform $transition-fast;
+
+  &:hover,
+  &:focus-visible {
+    background: $accent-color;
+    color: $bg-color;
+    transform: translateY(-50%) scale(1.05);
+    outline: none;
+  }
+}
+
+// Positioning for left arrow
+.left {
+  left: clamp(1rem, 5vw, 2rem);
+}
+
+// Positioning for right arrow
+.right {
+  right: clamp(1rem, 5vw, 2rem);
+}
+
+// Logo watermark in hero (bottom‐left)
+.heroLogo {
+  position: absolute;
+  bottom: clamp(1rem, 4vw, 2rem);
+  left: clamp(1rem, 4vw, 2rem);
+  z-index: 4;
+
+  img {
+    display: block;
+    width: clamp(2rem, 5vw, 3rem);
+    height: auto;
+  }
+}
+
+// Desktop adjustments: remove overlay padding, adjust dots/arrows
+@media (min-width: 768px) {
+  .overlay {
+    padding: clamp(2rem, 5vw, 6rem);
+  }
+
+  .dots {
+    margin-top: clamp(2rem, 4vw, 3rem);
+  }
 }

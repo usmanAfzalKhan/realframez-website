@@ -1,53 +1,92 @@
+// About.module.scss
+
+// Color palette & transitions
+$bg-color:    #171a2b;
+$text-color:  #f6f6fa;
+$text-light:  rgba($text-color, 0.85);
+$card-bg:     #212537;
+$accent:      #ffcc57;
+$transition:  300ms ease-out;
+
+// Main wrapper
 .main {
-  max-width: 680px;
-  margin: 2.5rem auto 0 auto;
-  padding: 2rem 1.5rem 3rem 1.5rem;
-  background: #fff;
-  border-radius: 1.25rem;
-  box-shadow: 0 2px 12px rgba(20, 30, 40, 0.05);
-}
-
-.heading {
-  color: var(--color-primary, #1a3050);
-  font-size: 2.2rem;
+  background: $bg-color;
+  color: $text-color;
+  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-bottom: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 4rem);
+    margin-bottom: clamp(1rem, 3vw, 2rem);
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
+  }
 }
 
+// Mission statement paragraph
+.mission {
+  font-family: sans-serif;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: $text-light;
+  max-width: 800px;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  line-height: 1.6;
+}
+
+// Sections container: stacked on mobile, grid on desktop
 .sections {
-  margin-top: 2.5rem;
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  width: 100%;
 }
 
+// Individual section “cards”
 .section {
-  margin-bottom: 2rem;
-}
+  background: $card-bg;
+  border-radius: 0.5rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 1.5rem);
+  transition: transform $transition, box-shadow $transition;
 
-.section h2 {
-  font-size: 1.15em;
-  color: var(--color-primary, #1a3050);
-  margin-bottom: 0.5em;
-  font-weight: 600;
-}
-
-.section p {
-  color: #444;
-  line-height: 1.65;
-  font-size: 1.09em;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .main {
-    padding: 1rem 0.5rem 2rem 0.5rem;
-    border-radius: 0.85rem;
+  &:hover,
+  &:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    outline: none;
   }
-  .heading {
-    font-size: 1.45rem;
-    margin-bottom: 1.3rem;
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin: 0;
+    color: $text-color;
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
   }
-  .section h2 {
-    font-size: 1.07em;
+
+  p {
+    font-family: sans-serif;
+    font-size: clamp(1rem, 3vw, 1.125rem);
+    color: $text-light;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+// Desktop layout: three columns
+@media (min-width: 768px) {
+  .sections {
+    grid-template-columns: repeat(3, 1fr);
   }
 }

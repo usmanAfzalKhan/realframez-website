@@ -1,210 +1,195 @@
+// Gallery.module.scss
+
+// Color palette & transitions
+$bg-color:     #171a2b;
+$text-color:   #f6f6fa;
+$text-light:   rgba($text-color, 0.7);
+$accent:       #ffcc57;
+$overlay-bg:   rgba(23, 26, 43, 0.6);
+$transition:   300ms ease-out;
+
+// Main container
 .main {
-  max-width: 1080px;
+  background: $bg-color;
+  color: $text-color;
+  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem 3.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.main h1 {
-  font-size: 2.3rem;
-  color: var(--color-primary);
-  margin-bottom: 0.4em;
-}
-
-.intro {
-  color: var(--color-text);
-  margin-bottom: 2rem;
-  text-align: center;
-  max-width: 500px;
-}
-
-.hintText {
-  color: #d1a900;
-  font-weight: 500;
-}
-
-.grid {
-  display: grid;
-  gap: 1.2rem;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  width: 100%;
-}
-
-.imgCard {
-  background: #f4f6fa;
-  border-radius: 0.75rem;
-  padding: 1.5rem 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(30, 41, 59, 0.07);
-  transition: box-shadow 0.22s, transform 0.18s;
-  cursor: pointer;
-  min-height: 120px;
-  outline: none;
-  position: relative;
-  &:hover,
-  &:focus {
-    box-shadow: 0 6px 18px rgba(30, 41, 59, 0.18);
-    transform: translateY(-2px) scale(1.02);
-    .hintOverlay {
-      opacity: 1;
-    }
+  // Page title
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: clamp(0.5rem, 2vw, 1rem);
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
   }
 }
 
-.placeholder {
-  opacity: 0.7;
-  width: 120px;
-  height: 90px;
-  object-fit: contain;
-  pointer-events: none;
-  border-radius: 0.5rem;
+// Intro text under title
+.intro {
+  font-family: sans-serif;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: $text-light;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  line-height: 1.6;
+
+  .hintText {
+    font-weight: 700;
+    color: $accent;
+  }
 }
 
+// Responsive grid of images
+.grid {
+  display: grid;
+  gap: clamp(1rem, 3vw, 1.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 45%, 1fr), 1fr));
+}
+
+// Each thumbnail card
+.imgCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform $transition, box-shadow $transition;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    outline: none;
+  }
+}
+
+// Thumbnail image styling
+.placeholder {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform $transition;
+  
+  .imgCard:hover &,
+  .imgCard:focus-within & {
+    transform: scale(1.05);
+  }
+}
+
+// “Click to enlarge” overlay on hover
 .hintOverlay {
   position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(30, 30, 50, 0.78);
-  color: #fff8c4;
-  padding: 0.22em 1em;
-  font-size: 0.98em;
-  border-radius: 14px;
+  inset: 0;
+  background: $overlay-bg;
+  color: $text-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 3vw, 1rem);
   opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-  z-index: 2;
-  font-family: inherit;
-  font-weight: 400;
-  letter-spacing: 0.04em;
+  transition: opacity $transition;
+
+  .imgCard:hover &,
+  .imgCard:focus-within & {
+    opacity: 1;
+  }
 }
 
+// Modal backdrop
 .modalBackdrop {
   position: fixed;
   inset: 0;
-  z-index: 30;
-  background: rgba(25, 29, 45, 0.8);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.22s;
+  z-index: 2000;
+  overflow: auto;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
+// Modal content container
 .modalContent {
-  background: #fff;
-  padding: 1.6rem 2.2rem 1.1rem 2.2rem;
-  border-radius: 1.5rem;
-  min-width: 260px;
-  max-width: 95vw;
-  max-height: 87vh;
-  box-shadow: 0 10px 40px rgba(20,28,35,0.30);
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: popIn 0.18s;
-}
+  background: $bg-color;
+  border-radius: 0.5rem;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  max-width: clamp(300px, 90vw, 800px);
+  width: 100%;
+  outline: none;
 
-@keyframes popIn {
-  from { transform: scale(0.94); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-.modalImg {
-  width: min(520px, 80vw);
-  max-height: 60vh;
-  object-fit: contain;
-  border-radius: 0.8rem;
-  margin-bottom: 0.8rem;
-  background: #f8fafc;
-  box-shadow: 0 2px 12px rgba(30, 41, 59, 0.11);
-  transition: box-shadow 0.17s;
-}
-
-.modalCaption {
-  color: #212a3c;
-  font-size: 1.09rem;
-  margin-bottom: 0.8rem;
-  text-align: center;
-}
-
-.modalClose {
-  position: absolute;
-  top: 0.85rem;
-  right: 2.3rem;
-  background: #232a44;
-  color: #fff;
-  font-size: 2.1rem;
-  border: none;
-  border-radius: 100px;
-  cursor: pointer;
-  padding: 0.07em 0.45em 0.08em 0.45em;
-  box-shadow: 0 0 6px rgba(80,80,80,0.11);
-  opacity: 0.93;
-  transition: background 0.18s, color 0.16s;
-  &:hover {
-    background: #ff5555;
-    color: #fff;
+  &:focus-visible {
+    outline: 2px solid $accent;
   }
 }
 
+// Prev/Next navigation buttons
 .modalNav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #ecefff;
+  background: rgba(23, 26, 43, 0.6);
   border: none;
-  color: #2d3349;
-  font-size: 2.4rem;
+  width: clamp(2.5rem, 5vw, 3.5rem);
+  height: clamp(2.5rem, 5vw, 3.5rem);
+  border-radius: 50%;
+  color: $text-color;
+  font-size: clamp(1.5rem, 4vw, 2rem);
   cursor: pointer;
-  padding: 0.17em 0.37em;
-  border-radius: 0.8rem;
-  box-shadow: 0 0 10px rgba(50, 60, 110, 0.11);
-  opacity: 0.92;
-  z-index: 2;
-  transition: background 0.18s, color 0.16s, transform 0.14s;
-  &:hover {
-    background: #2d3349;
-    color: #fff;
-    transform: translateY(-50%) scale(1.09);
+  transition: background $transition, transform $transition;
+
+  &:hover,
+  &:focus-visible {
+    background: $accent;
+    color: $bg-color;
+    transform: translateY(-50%) scale(1.1);
+    outline: none;
   }
 }
 
-.prev { left: -0.5rem; }
-.next { right: -0.5rem; }
+// Positioning for prev/next
+.prev { left: clamp(1rem, 4vw, 2rem); }
+.next { right: clamp(1rem, 4vw, 2rem); }
 
-@media (max-width: 700px) {
-  .modalContent {
-    padding: 0.9rem 0.1rem 0.6rem 0.1rem;
+// Modal image styling
+.modalImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(90vh - clamp(6rem, 10vw, 12rem)); // leave room for caption & buttons
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+// Caption below modal image
+.modalCaption {
+  margin-top: clamp(1rem, 3vw, 1.5rem);
+  font-family: sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  color: $text-light;
+  text-align: center;
+}
+
+// Close button (×) in modal
+.modalClose {
+  position: absolute;
+  top: clamp(0.5rem, 2vw, 1rem);
+  right: clamp(0.5rem, 2vw, 1rem);
+  background: transparent;
+  border: none;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  color: $text-color;
+  cursor: pointer;
+  transition: color $transition, transform $transition;
+
+  &:hover,
+  &:focus-visible {
+    color: $accent;
+    transform: scale(1.2);
+    outline: none;
   }
-  .modalClose {
-    top: 0.2rem;
-    right: 0.5rem;
-    font-size: 2rem;
-    padding: 0.05em 0.35em;
-  }
-  .modalImg {
-    width: 98vw;
-    max-width: 98vw;
-    max-height: 45vh;
-  }
-  .modalNav {
-    font-size: 2rem;
-    top: 50%;
-    padding: 0.13em 0.24em;
-    border-radius: 0.5rem;
-    left: -0.2rem;
-    right: -0.2rem;
-  }
-  .prev { left: 0.1rem; }
-  .next { right: 0.1rem; }
 }

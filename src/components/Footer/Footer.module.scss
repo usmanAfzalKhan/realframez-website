@@ -1,63 +1,72 @@
+// Footer.module.scss
+
+// Color palette & transitions
+$bg-color:    #181b23;
+$text-color:  #f6f6fa;
+$text-light:  rgba($text-color, 0.8);  // added definition
+$accent:      #ffcc57;
+$transition:  300ms ease-out;
+
+// Footer wrapper
 .footer {
-  width: 100%;
-  background: var(--color-primary);
-  color: #fff;
-  padding: 1.1rem 0 0.95rem 0;
-  box-shadow: 0 -2px 8px rgba(20,25,40,0.07);
+  background: $bg-color;
+  padding: clamp(1.5rem, 4vw, 2.5rem) 0;
 }
 
+// Inner container: center and space items
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 3rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--spacer);
+  flex-wrap: wrap;
+}
 
-  @media (max-width: 600px) {
-    flex-direction: column;
-    gap: 0.6rem;
-    padding: 0 1rem;
+// Brand text
+.brand {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: $text-color;
+  display: flex;
+  align-items: center;
+
+  .copyright {
+    margin-left: 0.5rem;
+    font-size: 0.9em;
+    color: $text-light;  // now available
   }
 }
 
-.brand {
-  font-family: var(--font-heading), 'Montserrat', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  display: flex;
-  align-items: center;
-  gap: 0.25em;
-}
-
-.copyright {
-  font-size: 1em;
-  font-weight: 500;
-  opacity: 0.75;
-  margin-left: 2px;
-  user-select: none;
-}
-
-
+// Social & contact links
 .links {
   display: flex;
-  align-items: center;
-  gap: 1.35rem;
+  gap: clamp(1rem, 3vw, 1.5rem);
 
   a {
-    color: #fff;
-    display: flex;
-    align-items: center;
-    opacity: 0.92;
-    transition: color 0.18s, opacity 0.18s, transform 0.18s;
-    border-radius: 50%;
+    color: $text-color;
+    transition: color $transition, transform $transition;
 
-    &:hover {
-      color: var(--color-accent);
-      opacity: 1;
-      transform: scale(1.13) rotate(-4deg);
-      background: rgba(245,194,43,0.12);
+    &:hover,
+    &:focus-visible {
+      color: $accent;
+      transform: translateY(-2px);
+      outline: none;
     }
+
+    svg {
+      display: block;
+    }
+  }
+}
+
+// Responsive: stack on small screens
+@media (max-width: 480px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 1.5rem);
   }
 }

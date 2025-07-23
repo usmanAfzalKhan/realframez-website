@@ -1,6 +1,6 @@
 /* styles/globals.scss */
 
-/* reset */
+/* 1. Reset & box‑sizing */
 *,
 *::before,
 *::after {
@@ -9,57 +9,84 @@
   box-sizing: border-box;
 }
 
-/* CSS variables */
+/* 2. CSS variables for global theming */
 :root {
-  /* palette */
-  --color-bg: #ffffff;
-  --color-header-bg: #1e2746;   /* deep navy for header/footer */
-  --color-primary: #1e2746;     /* main brand navy */
-  --color-accent: #f5c22b;      /* warm gold accent */
-  --color-text: #333333;        /* dark gray body text */
+  /* Core palette */
+  --bg-color:       #171a2b;
+  --text-color:     #f6f6fa;
+  --accent-color:   #ffcc57;
 
-  /* typography */
-  --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Montserrat', sans-serif;
+  /* Typography */
+  --font-heading:   'Montserrat', sans-serif;
+  --font-body:      sans-serif;
 
-  /* spacing */
-  --spacer: 1rem;
+  /* Layout offsets */
+  --header-height:  clamp(4rem, 10vw, 6rem);   /* matches fixed header total height */
+  --footer-height:  clamp(3.5rem, 8vw, 5rem);  /* matches footer total height */
 }
 
+/* 3. Global html/body settings */
 html {
-  font-family: var(--font-sans);
-  font-size: 16px;
-  scroll-behavior: smooth;
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  line-height: 1.5;
+  font-size: 100%;               /* 16px base */
+  scroll-behavior: smooth;       /* smooth anchor/nav scrolling */
 }
 
+body {
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
+  min-height: 100vh;
+}
+
+/* 4. Main-content offset to avoid header/footer overlap */
+.main-content {
+  padding-top: var(--header-height);
+  padding-bottom: var(--footer-height);
+}
+
+/* 5. Typographic defaults */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  margin-bottom: var(--spacer);
+  color: var(--text-color);
+  line-height: 1.2;
+}
+
+p, label, span, li {
+  font-family: var(--font-body);
+  color: var(--text-color);
+}
+
+/* 6. Media & elements reset */
+img, picture, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 a {
-  color: var(--color-primary);
+  color: inherit;
   text-decoration: none;
-  transition: color 0.2s ease;
 }
 
-a:hover {
-  color: var(--color-accent);
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-/* page wrapper */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 var(--spacer);
+/* 7. Scrollbar hiding for WebKit where desired */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-
-/* ensure content clears fixed header */
-main {
-  padding: var(--spacer);
-  padding-top: calc(60px + var(--spacer));
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }

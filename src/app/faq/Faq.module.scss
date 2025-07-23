@@ -1,88 +1,100 @@
+// Faq.module.scss
+
+// Palette & transitions
+$bg-color:     #171a2b;
+$text-color:   #f6f6fa;
+$text-light:   rgba($text-color, 0.85);
+$accent:       #ffcc57;
+$overlay-bg:   rgba(23, 26, 43, 0.6);
+$transition:   300ms ease-out;
+
+// Main container
 .main {
-  max-width: 700px;
+  background: $bg-color;
+  color: $text-color;
+  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+  max-width: 900px;
   margin: 0 auto;
-  padding: 2.2rem 1rem 4rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
-.main h1 {
-  color: var(--color-primary);
-  font-size: 2.2rem;
-  margin-bottom: 0.3em;
-  text-align: center;
-}
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: clamp(0.5rem, 2vw, 1rem);
+    line-height: 1.1;
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
+  }
 
-.intro {
-  color: var(--color-text);
-  margin-bottom: 1.8rem;
-  text-align: center;
-  max-width: 540px;
-}
-
-.faqList {
-  width: 100%;
-}
-
-.faqItem {
-  border-radius: 1rem;
-  margin-bottom: 1.15rem;
-  background: #f5f7fb;
-  box-shadow: 0 1.5px 9px rgba(30,41,59,0.07);
-  overflow: hidden;
-  transition: box-shadow 0.19s;
-  border: 1.5px solid #f1f3f8;
-
-  &.open {
-    box-shadow: 0 5px 26px rgba(30,41,59,0.11);
-    border-color: var(--color-accent);
+  .intro {
+    font-family: sans-serif;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: $text-light;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+    line-height: 1.6;
   }
 }
 
+// FAQ list container
+.faqList {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+// Individual question item
+.faqItem {
+  background: $overlay-bg;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: background $transition;
+
+  &.open {
+    background: rgba(23, 26, 43, 0.8);
+  }
+}
+
+// Question button styling
 .question {
   width: 100%;
-  padding: 1.1em 1.1em 1.1em 1.25em;
-  background: none;
+  background: transparent;
   border: none;
-  text-align: left;
-  font-size: 1.1rem;
-  color: #19305c;
-  font-weight: 600;
+  padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1rem, 4vw, 2rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.125rem, 4vw, 1.5rem);
+  color: $text-color;
   cursor: pointer;
-  outline: none;
-  transition: color 0.16s;
-  .faqItem.open & {
-    color: var(--color-accent);
+  transition: background $transition, color $transition;
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(23, 26, 43, 0.9);
+    outline: none;
   }
 }
 
+// Toggle icon on question
 .toggleIcon {
-  font-size: 1.7rem;
-  margin-left: 0.9em;
-  color: #d1a900;
-  pointer-events: none;
-  user-select: none;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  color: $accent;
+  margin-left: clamp(0.5rem, 2vw, 1rem);
 }
 
+// Answer wrapper for smooth collapse/expand
 .answerWrap {
   overflow: hidden;
-  max-height: 0;
-  opacity: 0;
-  transition: max-height 0.27s cubic-bezier(0.51, 0.18, 0.45, 1.29), opacity 0.17s;
+  transition: max-height $transition, opacity $transition;
 }
 
+// Actual answer content
 .answer {
-  padding: 0.95em 1.1em 1.1em 1.6em;
-  color: #20314c;
-  font-size: 1.01rem;
-  line-height: 1.58;
-}
-
-@media (max-width: 600px) {
-  .main { padding: 1.1rem 0.3rem 3rem 0.3rem; }
-  .answer { padding-left: 1.15em; }
+  font-family: sans-serif;
+  font-size: clamp(0.95rem, 3vw, 1.125rem);
+  color: $text-light;
+  padding: clamp(0.75rem, 2vw, 1.25rem) clamp(1rem, 4vw, 2rem);
+  line-height: 1.6;
 }

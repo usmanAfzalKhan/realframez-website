@@ -1,0 +1,42 @@
+export const slides = [
+  {
+    title: "Welcome to RealFrames",
+    subtitle: "Professional Real Estate Photography",
+    button: null,
+    buttonLink: null,
+    desktopImg: "/images/hero/slide1-desktop.png",
+    mobileImg: "/images/hero/slide1-mobile.png",
+  },
+  {
+    title: "Interior Photography",
+    subtitle: "Showcase rooms with natural light and composition.",
+    button: "View Service",
+    buttonLink: "/services/interior-photography",
+    desktopImg: "/images/hero/slide2-desktop.png",
+    mobileImg: "/images/hero/slide2-mobile.png",
+  },
+  {
+    title: "Exterior Photography",
+    subtitle: "Capture curb appeal and landscape beauty.",
+    button: "View Service",
+    buttonLink: "/services/exterior-photography",
+    desktopImg: "/images/hero/slide3-desktop.png",
+    mobileImg: "/images/hero/slide3-mobile.png",
+  },
+  {
+    title: "Aerial Photography",
+    subtitle: "Stunning drone shots for unique perspectives.",
+    button: "View Service",
+    buttonLink: "/services/aerial-photography",
+    desktopImg: "/images/hero/slide4-desktop.png",
+    mobileImg: "/images/hero/slide4-mobile.png",
+  },
+  {
+    title: "Twilight Shoots",
+    subtitle: "Dramatic images at dusk for extra allure.",
+    button: "View Service",
+    buttonLink: "/services/twilight-shoots",
+    desktopImg: "/images/hero/slide5-desktop.png",
+    mobileImg: "/images/hero/slide5-mobile.png",
+  },
+];

@@ -1,129 +1,167 @@
+// Contact.module.scss
+
+// Color palette & transitions
+$bg-color:    #171a2b;
+$text-color:  #f6f6fa;
+$text-light:  rgba($text-color, 0.8);
+$accent:      #ffcc57;
+$input-bg:    #212537;
+$transition:  300ms ease-out;
+
+// Main wrapper
 .main {
-  max-width: 480px;
-  margin: 32px auto 0 auto;
-  padding: 2rem 1.5rem 1rem 1.5rem;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(20,30,60,0.08);
+  background: $bg-color;
+  color: $text-color;
+  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+  max-width: 800px;
+  margin: 0 auto;
 
   h1 {
-    text-align: center;
-    color: var(--color-primary, #192b50);
-    font-size: 2rem;
-    margin-bottom: 1.4em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    line-height: 1.1;
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
   }
 }
 
+// Form container
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.2em;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
 
   label {
     display: flex;
     flex-direction: column;
-    font-weight: 500;
-    gap: 0.5em;
-    color: #202944;
-    margin-bottom: 0.2em;
+    font-family: sans-serif;
+    font-size: clamp(1rem, 3vw, 1.125rem);
+    color: $text-light;
+
+    // Spacing below each form control
+    &:not(:last-child) {
+      margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    span {
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      color: $text-light;
+    }
+
+    input,
+    textarea,
+    select {
+      margin-top: clamp(0.5rem, 2vw, 1rem);
+      padding: clamp(0.75rem, 2vw, 1rem);
+      font-size: inherit;
+      font-family: inherit;
+      background: $input-bg;
+      color: $text-color;
+      border: 1px solid rgba($text-color, 0.3);
+      border-radius: 0.25rem;
+      transition: border-color $transition;
+
+      &:focus-visible {
+        border-color: $accent;
+        outline: none;
+      }
+    }
+
+    // Date input consistency
+    input[type="date"] {
+      max-width: 250px;
+    }
   }
 
-  input,
-  textarea,
-  select {
-    font: inherit;
-    padding: 0.7em 1em;
-    border-radius: 8px;
-    border: 1px solid #d3d7e1;
-    background: #f7f8fa;
-    margin-top: 0.2em;
+  // Fieldset styling
+  .fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    legend {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 3vw, 1.125rem);
+      color: $text-color;
+      margin-bottom: clamp(0.5rem, 2vw, 1rem);
+
+      .legendHint {
+        font-weight: 400;
+        font-size: clamp(0.85rem, 2.5vw, 1rem);
+        color: $text-light;
+        margin-left: 0.5rem;
+      }
+    }
   }
 
-  input[type="checkbox"] {
-    accent-color: #263375;
-    width: 1.18em;
-    height: 1.18em;
-    margin-right: 0.6em;
-    margin-top: 0;
+  // Checkbox grid for services
+  .checkboxGrid {
+    display: grid;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 40%, 1fr), 1fr));
   }
-}
 
-.fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-}
-
-.legendHint {
-  font-size: 0.98em;
-  font-weight: 400;
-  color: #5b5e7c;
-  margin-left: 0.3em;
-}
-
-.checkboxGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6em 2em;
-  margin-top: 0.3em;
-  margin-bottom: 0.3em;
-}
-
-.checkboxLabel {
-  font-weight: 400;
-  font-size: 1em;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  gap: 0.5em;
-}
-
-.radioGroup {
-  display: flex;
-  gap: 2em;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  align-items: center;
-
-  label {
-    font-weight: 400;
-    font-size: 1em;
+  .checkboxLabel {
     display: flex;
     align-items: center;
-    gap: 0.5em;
+    gap: 0.5rem;
+    font-family: sans-serif;
+    font-size: clamp(0.95rem, 2.5vw, 1rem);
+    color: $text-light;
+
+    input {
+      width: 1rem;
+      height: 1rem;
+      accent-color: $accent;
+      cursor: pointer;
+    }
+  }
+
+  // Radio button group
+  .radioGroup {
+    display: flex;
+    gap: clamp(1rem, 3vw, 1.5rem);
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: sans-serif;
+      font-size: clamp(0.95rem, 2.5vw, 1rem);
+      color: $text-light;
+
+      input {
+        width: 1rem;
+        height: 1rem;
+        accent-color: $accent;
+        cursor: pointer;
+      }
+    }
+  }
+
+  // Submit button
+  .submitBtn {
+    align-self: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(1rem, 3vw, 1.125rem);
+    color: $bg-color;
+    background: $accent;
+    border: none;
+    border-radius: 0.25rem;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
     cursor: pointer;
-  }
-}
+    transition: background $transition, transform $transition;
 
-.submitBtn {
-  background: #192b50;
-  color: #fff;
-  padding: 0.95em 0;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1em;
-  font-weight: 600;
-  transition: background 0.2s;
-  margin-top: 0.6em;
-  cursor: pointer;
-}
-.submitBtn:hover {
-  background: #31458a;
-}
-
-@media (max-width: 600px) {
-  .main {
-    max-width: 99vw;
-    padding: 1.2rem 0.5rem;
-    border-radius: 0;
-    box-shadow: none;
-  }
-  .main h1 {
-    font-size: 1.18rem;
-    margin-bottom: 1.1em;
-  }
-  .checkboxGrid {
-    grid-template-columns: 1fr;
-    gap: 0.7em;
+    &:hover,
+    &:focus-visible {
+      background: lighten($accent, 10%);
+      transform: translateY(-2px);
+      outline: none;
+    }
   }
 }

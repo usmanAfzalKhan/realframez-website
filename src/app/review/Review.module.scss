@@ -1,173 +1,244 @@
+// Review.module.scss
+
+// Color palette & transitions
+$bg-color:     #171a2b;
+$text-color:   #f6f6fa;
+$text-light:   rgba($text-color, 0.85);
+$accent:       #ffcc57;
+$transition:   300ms ease-out;
+
+// Main container styling
 .main {
-  max-width: 780px;
+  background: $bg-color;
+  color: $text-color;
+  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2.3rem 1rem 4rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+
+  h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: clamp(0.5rem, 2vw, 1rem);
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
+  }
 }
-.main h1 {
-  color: var(--color-primary);
-  font-size: 2.15rem;
-  margin-bottom: 0.25em;
-}
+
+// Introductory paragraph under title
 .intro {
-  color: var(--color-text);
-  margin-bottom: 2rem;
-  text-align: center;
-  max-width: 500px;
+  font-family: sans-serif;
+  font-size: clamp(1rem, 3vw, 1.25rem);
+  color: $text-light;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  line-height: 1.6;
 }
+
+// Grid layout for review cards
 .reviewGrid {
-  width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
-  gap: 1.2rem;
-  margin-bottom: 2.3rem;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(clamp(280px, 45%, 1fr), 1fr));
 }
+
+// Individual review card styling
 .reviewCard {
-  background: #fafbfc;
-  border-radius: 1.1rem;
-  padding: 1.3rem 1.1rem 0.7rem 1.1rem;
-  box-shadow: 0 2px 10px rgba(30,41,59,0.06);
+  background: $bg-color;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  padding: clamp(1.5rem, 4vw, 2rem);
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  min-height: 135px;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  transition: transform $transition, box-shadow $transition;
+
+  &:hover,
+  &:focus-within {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    outline: none;
+  }
 }
+
+// Star rating container
 .stars {
-  margin-bottom: 0.35em;
+  display: flex;
+  gap: clamp(0.25rem, 1vw, 0.5rem);
+
+  // Individual star (inactive)
+  .star {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    color: $text-light;
+    transition: color $transition;
+
+    &:hover,
+    &:focus-visible {
+      color: $accent;
+      outline: none;
+    }
+  }
+
+  // Active star styling
+  .starActive {
+    @extend .star;
+    color: $accent;
+  }
 }
-.star, .starActive {
-  font-size: 1.45em;
-  color: #ccc;
-  transition: color 0.14s;
-  user-select: none;
-}
-.starActive {
-  color: #ffbe28;
-  text-shadow: 0 2px 8px #ffefb7b2;
-}
+
+// Review text
 .reviewText {
-  font-size: 1.04rem;
-  color: #212b38;
-  margin-bottom: 0.6em;
-  line-height: 1.53;
+  font-family: sans-serif;
+  font-size: clamp(1rem, 3vw, 1.125rem);
+  color: $text-light;
+  line-height: 1.6;
 }
+
+// Reviewer name
 .reviewName {
-  color: #8e98a9;
-  font-size: 0.98em;
-  font-style: italic;
-  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  color: $accent;
+  text-align: right;
 }
 
+// Add Review button
 .addBtn {
-  background: var(--color-primary);
-  color: #fff;
-  border: none;
-  border-radius: 2em;
-  padding: 0.72em 2.1em;
-  font-size: 1.09rem;
-  font-weight: 600;
-  box-shadow: 0 2px 8px #a2bdd61a;
-  transition: background 0.15s;
-  margin-top: 0.4em;
+  margin: clamp(2rem, 5vw, 3rem) auto 0;
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 3vw, 1.125rem);
+  color: $text-color;
+  background: transparent;
+  border: 2px solid $accent;
+  border-radius: 0.25rem;
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
   cursor: pointer;
-  &:hover { background: var(--color-accent); }
+  transition: background $transition, color $transition, transform $transition;
+
+  &:hover,
+  &:focus-visible {
+    background: $accent;
+    color: $bg-color;
+    transform: translateY(-2px);
+    outline: none;
+  }
 }
 
+// Modal backdrop (semi-transparent overlay)
 .modalBackdrop {
   position: fixed;
   inset: 0;
-  z-index: 32;
-  background: rgba(15,18,28,0.58);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn 0.16s;
+  z-index: 2000;
+  overflow: auto;
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+
+// Modal form container
 .modalForm {
-  background: #fff;
-  border-radius: 1.2rem;
-  padding: 1.7rem 1.2rem 1.25rem 1.2rem;
-  min-width: 240px;
-  width: 94vw;
-  max-width: 350px;
-  box-shadow: 0 8px 30px rgba(15,28,45,0.18);
+  background: $bg-color;
+  border-radius: 0.5rem;
+  padding: clamp(2rem, 5vw, 3rem);
+  width: clamp(300px, 80vw, 500px);
   display: flex;
   flex-direction: column;
-  gap: 1.1em;
-  animation: popIn 0.19s;
-}
-@keyframes popIn {
-  from { transform: scale(0.96); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.modalForm h2 {
-  text-align: center;
-  margin-bottom: 0.25em;
-  color: var(--color-primary);
-  font-size: 1.25rem;
-}
-.modalForm label {
-  display: flex;
-  flex-direction: column;
-  font-size: 1.01em;
-  color: #142848;
-  margin-bottom: 0.1em;
-  gap: 0.15em;
-}
-.modalForm input,
-.modalForm textarea {
-  margin-top: 0.17em;
-  padding: 0.43em 0.7em;
-  border-radius: 0.7em;
-  border: 1.2px solid #e5e8ee;
-  font-size: 1em;
-  font-family: inherit;
-  resize: none;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
   outline: none;
-  transition: border 0.16s;
-  &:focus { border-color: var(--color-primary); }
-}
-.error {
-  color: #f33d47;
-  font-size: 1.04em;
-  margin-bottom: -0.7em;
-  text-align: center;
-}
-.formActions {
-  display: flex;
-  gap: 1em;
-  justify-content: flex-end;
-  margin-top: 0.5em;
-}
-.cancelBtn {
-  background: #e0e5ef;
-  color: #2a3142;
-  border: none;
-  border-radius: 2em;
-  padding: 0.38em 1.4em;
-  font-size: 1.03em;
-  cursor: pointer;
-  &:hover { background: #c6d3e2; }
-}
-.submitBtn {
-  background: var(--color-accent);
-  color: #fff;
-  border: none;
-  border-radius: 2em;
-  padding: 0.38em 1.4em;
-  font-size: 1.03em;
-  cursor: pointer;
-  font-weight: 600;
-  &:hover { background: var(--color-primary); }
-}
-@media (max-width: 600px) {
-  .main { padding: 1.1rem 0.3rem 3rem 0.3rem; }
-  .reviewGrid { grid-template-columns: 1fr; }
-  .modalForm { padding: 0.95rem 0.35rem 0.9rem 0.35rem; }
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin: 0;
+    color: $text-color;
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    font-family: sans-serif;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    color: $text-light;
+
+    input,
+    textarea {
+      margin-top: clamp(0.5rem, 1.5vw, 1rem);
+      padding: clamp(0.5rem, 1.5vw, 0.75rem);
+      font-size: inherit;
+      font-family: inherit;
+      border: 1px solid rgba($text-color, 0.3);
+      border-radius: 0.25rem;
+      background: #2a2d3c;
+      color: $text-color;
+      resize: vertical;
+      transition: border-color $transition;
+
+      &:focus {
+        border-color: $accent;
+        outline: none;
+      }
+    }
+  }
+
+  // Error message
+  .error {
+    color: $accent;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    text-align: center;
+  }
+
+  // Form action buttons container
+  .formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+
+    .cancelBtn,
+    .submitBtn {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+      border-radius: 0.25rem;
+      transition: background $transition, color $transition, transform $transition;
+      cursor: pointer;
+    }
+
+    // Cancel button style
+    .cancelBtn {
+      background: transparent;
+      color: $text-light;
+      border: 2px solid $text-light;
+
+      &:hover,
+      &:focus-visible {
+        background: $text-light;
+        color: $bg-color;
+        transform: translateY(-2px);
+        outline: none;
+      }
+    }
+
+    // Submit button style
+    .submitBtn {
+      background: $accent;
+      color: $bg-color;
+      border: none;
+
+      &:hover,
+      &:focus-visible {
+        background: lighten($accent, 10%);
+        outline: none;
+        transform: translateY(-2px);
+      }
+    }
+  }
 }

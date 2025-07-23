@@ -1,72 +1,88 @@
-/* src/components/TeaserCarousel/TeaserCarousel.module.scss */
+// TeaserCarousel.module.scss
 
+// Palette & transitions
+$bg-color:    #171a2b;
+$text-color:  #f6f6fa;
+$accent:      #ffcc57;
+$card-bg:     #212537;
+$transition:  300ms ease-out;
+
+// Carousel section wrapper
 .carousel {
-  padding: calc(var(--spacer) * 2) var(--spacer);
-  max-width: 1000px;
-  margin: 0 auto;
+  background: $bg-color;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 3rem);
+  overflow: hidden;
+  position: relative;
 }
 
+// Section heading
 .heading {
-  font-size: 1.75rem;
-  color: var(--color-primary);
-  margin-bottom: var(--spacer);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.75rem, 5vw, 3rem);
+  color: $text-color;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
   text-align: center;
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
 }
 
-/* DESKTOP: grid layout showing all options */
+// Horizontal scroll track
 .track {
-  display: grid;
-  gap: var(--spacer);
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+
+  // Hide scrollbar (WebKit & Firefox)
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
 }
 
+// Each teaser card
 .card {
-  background: var(--color-bg);
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 0.5rem;
-  padding: var(--spacer);
-  text-align: center;
-  font-weight: 500;
+  flex: 0 0 auto;
+  background: $card-bg;
+  color: $text-color;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 3vw, 1.25rem);
   text-decoration: none;
-  color: var(--color-text);
-  transition: transform 0.2s, box-shadow 0.2s;
+  border-radius: 0.5rem;
+  padding: clamp(1rem, 3vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
+  text-align: center;
+  scroll-snap-align: start;
+  transition: transform $transition, background $transition;
+  min-width: clamp(120px, 30%, 200px);
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
+    background: $accent;
+    color: $bg-color;
     transform: translateY(-4px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    border-color: var(--color-accent);
+    outline: none;
   }
 }
 
-/* Swipe cue hidden by default (desktop) */
+// Swipe indicator at bottom
 .indicator {
-  display: none;
+  position: absolute;
+  right: clamp(1.5rem, 5vw, 3rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  font-family: sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.125rem);
+  color: $accent;
+  opacity: 0.7;
+  pointer-events: none;
+  animation: fadePulse 2.5s ease-in-out infinite;
 }
 
-/* MOBILE: switch to scroll‑snap carousel + show indicator */
-@media (max-width: 768px) {
-  .track {
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: calc(var(--spacer) / 2);
-    padding-bottom: var(--spacer);
-
-    /* hide default scrollbar in WebKit */
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-  .card {
-    flex: 0 0 calc((100% - 2 * var(--spacer)) / 3);
-    scroll-snap-align: start;
-  }
-  .indicator {
-    display: block;
-    text-align: center;
-    font-size: 0.875rem;
-    color: var(--color-text);
-    opacity: 0.7;
-    margin-top: calc(var(--spacer) / 2);
-  }
+// Pulsing fade animation
+@keyframes fadePulse {
+  0%, 100%   { opacity: 0.7; }
+  50%        { opacity: 0.3; }
 }
