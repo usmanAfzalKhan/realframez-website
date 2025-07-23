@@ -1,6 +1,6 @@
 /* styles/globals.scss */
 
-/* 1. Simple CSS reset */
+/* reset */
 *,
 *::before,
 *::after {
@@ -9,23 +9,23 @@
   box-sizing: border-box;
 }
 
-/* 2. CSS variables: tweak to match RealFramez brand */
+/* CSS variables */
 :root {
-  /* Palette */
+  /* palette */
   --color-bg: #ffffff;
-  --color-primary: #1e2746;
-  --color-accent: #f5c22b;
-  --color-text: #333333;
+  --color-header-bg: #1e2746;   /* deep navy for header/footer */
+  --color-primary: #1e2746;     /* main brand navy */
+  --color-accent: #f5c22b;      /* warm gold accent */
+  --color-text: #333333;        /* dark gray body text */
 
-  /* Typography */
+  /* typography */
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Montserrat', sans-serif;
 
-  /* Spacing scale */
+  /* spacing */
   --spacer: 1rem;
 }
 
-/* 3. Base typography */
 html {
   font-family: var(--font-sans);
   font-size: 16px;
@@ -45,20 +45,20 @@ a {
   text-decoration: none;
   transition: color 0.2s ease;
 }
+
 a:hover {
   color: var(--color-accent);
 }
 
-/* 4. Container utility */
+/* page wrapper */
 .container {
   width: 100%;
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   padding: 0 var(--spacer);
 }
 
-/* 5. Ensure content sits below the 60px header */
+/* ensure content clears fixed header */
 main {
   padding: var(--spacer);
   padding-top: calc(60px + var(--spacer));
