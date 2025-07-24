@@ -1,13 +1,9 @@
 // Hero.module.scss
 
-// Color palette & animation timing
-$bg-color: #181b23;
-$overlay-bg: rgba(23, 26, 43, 0.6);
-$text-color: #f6f6fa;
-$accent-color: #ffcc57;
-$transition-fast: 300ms ease-out;
+$transition:   300ms ease-out;
+$accent:       #ffcc57;
+$text-color:   #f6f6fa;
 
-// Hero section container
 .hero {
   position: relative;
   width: 100%;
@@ -15,176 +11,149 @@ $transition-fast: 300ms ease-out;
   overflow: hidden;
 }
 
-// Background image wrapper (fills hero)
 .bgWrap {
   position: absolute;
   inset: 0;
   z-index: 1;
-
-  // Next/Image <Image> element will fill this
-  img {
-    object-fit: cover;
-  }
+  overflow: hidden; // ensure sliding image stays clipped
 }
 
-// Fade‐in keyframes for image transitions
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-// Applied to the Image when slide changes
-.fade {
-  animation: fadeIn 520ms ease-out both;
-}
-
-// Overlay: semi‐transparent dark layer + content centering
-.overlay {
-  position: relative;
-  z-index: 2;
-  background: $overlay-bg;
+.motionWrap {
+  position: absolute;
   inset: 0;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: clamp(1.5rem, 5vw, 4rem);
-}
+  pointer-events: none;
 
-// Slide title
-.title {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  color: $text-color;
-  font-size: clamp(2rem, 6vw, 4rem);
-  line-height: 1.1;
-  margin: 0 0 clamp(1rem, 2vw, 1.5rem);
-  -webkit-font-smoothing: antialiased;
-  font-smooth: always;
-}
+  .title {
+    pointer-events: auto;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem,6vw,4rem);
+    color: $text-color;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    margin: 0;
+  }
 
-// Slide subtitle
-.subtitle {
-  font-family: sans-serif;
-  color: $text-color;
-  font-size: clamp(1rem, 3vw, 1.5rem);
-  margin: 0 0 clamp(1.5rem, 3vw, 2rem);
-  max-width: 80%;
-  line-height: 1.4;
-}
+  .subtitle {
+    pointer-events: auto;
+    font-family: sans-serif;
+    font-size: clamp(1rem,3vw,1.5rem);
+    color: $text-color;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    margin: clamp(0.75rem,2vw,1.25rem) 0;
+  }
 
-// Call‑to‑action button
-.ctaBtn {
-  display: inline-block;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: $text-color;
-  background: transparent;
-  border: 2px solid $accent-color;
-  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
-  border-radius: 0.25rem;
-  transition: background $transition-fast, color $transition-fast, transform $transition-fast;
+  .ctaBtn {
+    pointer-events: auto;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(0.9rem,2.5vw,1.125rem);
+    color: $text-color;
+    background: transparent;
+    border: 2px solid $accent;
+    padding: clamp(0.75rem,2vw,1rem) clamp(1.5rem,3vw,2rem);
+    border-radius: 0.25rem;
+    margin-bottom: clamp(1.5rem,4vw,2rem);
+    transition: background $transition, color $transition, transform $transition, box-shadow $transition;
 
-  &:hover,
-  &:focus-visible {
-    background: $accent-color;
-    color: $bg-color;
-    transform: translateY(-2px);
-    outline: none;
+    &:hover,
+    &:focus-visible {
+      background: $accent;
+      color: #171a2b;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 4px 12px rgba($accent, 0.6);
+      outline: none;
+    }
+  }
+
+  .dots {
+    pointer-events: auto;
+    display: flex;
+    gap: clamp(0.5rem,2vw,1rem);
+    margin-top: clamp(1rem,3vw,1.5rem);
+
+    button {
+      width: clamp(0.75rem,2vw,1rem);
+      height: clamp(0.75rem,2vw,1rem);
+      border: 1px solid $text-color;
+      background: transparent;
+      border-radius: 50%;
+      transition: background $transition, transform $transition;
+
+      &:hover,
+      &:focus-visible {
+        background: rgba($text-color,0.3);
+        transform: scale(1.2);
+        outline: none;
+      }
+    }
+
+    .dotActive {
+      background: $accent;
+      border-color: transparent;
+      transform: scale(1.3);
+    }
   }
 }
 
-// Pagination dots container
-.dots {
-  display: flex;
-  gap: clamp(0.5rem, 2vw, 1rem);
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
-}
-
-// Individual dot (inactive)
-.dot {
-  width: clamp(0.75rem, 2vw, 1rem);
-  height: clamp(0.75rem, 2vw, 1rem);
-  border: 1px solid $text-color;
-  border-radius: 50%;
-  background: transparent;
-  transition: background $transition-fast;
-
-  &:hover,
-  &:focus-visible {
-    background: rgba($text-color, 0.3);
-    outline: none;
-  }
-}
-
-// Active dot
-.dotActive {
-  @extend .dot;
-  background: $accent-color;
-}
-
-// Arrow buttons (prev/next)
 .arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(23, 26, 43, 0.5);
-  border: none;
-  width: clamp(2.5rem, 5vw, 3.5rem);
-  height: clamp(2.5rem, 5vw, 3.5rem);
+  pointer-events: auto;
+  background: rgba(23,26,43,0.6);
+  width: clamp(2.5rem,5vw,3.5rem);
+  height: clamp(2.5rem,5vw,3.5rem);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   color: $text-color;
-  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(1.5rem,4vw,2rem);
   cursor: pointer;
+  transition: background $transition, transform $transition;
   z-index: 3;
-  transition: background $transition-fast, transform $transition-fast;
 
   &:hover,
   &:focus-visible {
-    background: $accent-color;
-    color: $bg-color;
-    transform: translateY(-50%) scale(1.05);
+    background: $accent;
+    color: #171a2b;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 4px 12px rgba($accent, 0.6);
     outline: none;
   }
+
+  &.left { left: clamp(1rem,5vw,2rem); }
+  &.right{ right: clamp(1rem,5vw,2rem); }
 }
 
-// Positioning for left arrow
-.left {
-  left: clamp(1rem, 5vw, 2rem);
-}
-
-// Positioning for right arrow
-.right {
-  right: clamp(1rem, 5vw, 2rem);
-}
-
-// Logo watermark in hero (bottom‐left)
 .heroLogo {
   position: absolute;
-  bottom: clamp(1rem, 4vw, 2rem);
-  left: clamp(1rem, 4vw, 2rem);
+  bottom: clamp(1rem,4vw,2rem);
+  left: clamp(1rem,4vw,2rem);
   z-index: 4;
 
   img {
-    display: block;
-    width: clamp(2rem, 5vw, 3rem);
+    width: clamp(2rem,5vw,3rem);
     height: auto;
   }
 }
 
-// Desktop adjustments: remove overlay padding, adjust dots/arrows
+// Desktop tweaks
 @media (min-width: 768px) {
   .overlay {
-    padding: clamp(2rem, 5vw, 6rem);
-  }
-
-  .dots {
-    margin-top: clamp(2rem, 4vw, 3rem);
+    .title    { font-size: clamp(3rem,5vw,5rem); }
+    .subtitle { font-size: clamp(1.25rem,3vw,1.75rem); }
   }
 }
