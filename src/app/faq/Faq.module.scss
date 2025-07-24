@@ -1,33 +1,42 @@
-// Faq.module.scss
+/* src/components/Faq/Faq.module.scss */
 
-// Palette & transitions
-$bg-color:     #171a2b;
-$text-color:   #f6f6fa;
-$text-light:   rgba($text-color, 0.85);
-$accent:       #ffcc57;
-$overlay-bg:   rgba(23, 26, 43, 0.6);
-$transition:   300ms ease-out;
+/* Theme variables */
+$bg-color:    #171a2b;
+$text-color:  #f6f6fa;
+$text-light:  rgba($text-color, 0.8);
+$accent:      #ffcc57;
+$transition:  300ms cubic-bezier(0.4,0,0.2,1);
 
-// Main container
+/* Fade-in keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Container */
 .main {
   background: $bg-color;
   color: $text-color;
-  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
-  max-width: 900px;
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem);
+  max-width: 800px;
   margin: 0 auto;
+  text-align: center; // center align heading & intro
 
   h1 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: clamp(2rem, 6vw, 3rem);
-    margin-bottom: clamp(0.5rem, 2vw, 1rem);
-    line-height: 1.1;
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: clamp(1rem, 3vw, 2rem);
     -webkit-font-smoothing: antialiased;
-    font-smooth: always;
   }
 
   .intro {
-    font-family: sans-serif;
     font-size: clamp(1rem, 3vw, 1.25rem);
     color: $text-light;
     margin-bottom: clamp(2rem, 5vw, 3rem);
@@ -35,66 +44,76 @@ $transition:   300ms ease-out;
   }
 }
 
-// FAQ list container
+/* FAQ List */
 .faqList {
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 3vw, 1.5rem);
+  margin: 0 auto;
 }
 
-// Individual question item
+/* Individual FAQ item */
 .faqItem {
-  background: $overlay-bg;
+  background: lighten($bg-color, 2%);
   border-radius: 0.5rem;
   overflow: hidden;
+  animation: fadeIn 400ms ease-out;
   transition: background $transition;
 
   &.open {
-    background: rgba(23, 26, 43, 0.8);
+    background: lighten($bg-color, 5%);
   }
-}
 
-// Question button styling
-.question {
-  width: 100%;
-  background: transparent;
-  border: none;
-  padding: clamp(1rem, 2.5vw, 1.5rem) clamp(1rem, 4vw, 2rem);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.125rem, 4vw, 1.5rem);
-  color: $text-color;
-  cursor: pointer;
-  transition: background $transition, color $transition;
+  /* Question button */
+  .question {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    color: $text-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: color $transition, background $transition;
 
-  &:hover,
-  &:focus-visible {
-    background: rgba(23, 26, 43, 0.9);
-    outline: none;
+    &:hover,
+    &:focus-visible {
+      background: rgba($accent, 0.1);
+      outline: none;
+    }
+
+    .toggleIcon {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: $accent;
+      margin-left: 1rem;
+    }
   }
-}
 
-// Toggle icon on question
-.toggleIcon {
-  font-size: clamp(1.25rem, 4vw, 1.75rem);
-  color: $accent;
-  margin-left: clamp(0.5rem, 2vw, 1rem);
-}
+  /* Answer wrapper: animates height, opacity, and slide */
+  .answerWrap {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: max-height $transition, opacity $transition, transform $transition;
+    overflow: hidden;
+  }
 
-// Answer wrapper for smooth collapse/expand
-.answerWrap {
-  overflow: hidden;
-  transition: max-height $transition, opacity $transition;
-}
+  &.open .answerWrap {
+    max-height: 400px;
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-// Actual answer content
-.answer {
-  font-family: sans-serif;
-  font-size: clamp(0.95rem, 3vw, 1.125rem);
-  color: $text-light;
-  padding: clamp(0.75rem, 2vw, 1.25rem) clamp(1rem, 4vw, 2rem);
-  line-height: 1.6;
+  /* Inner answer content */
+  .answer {
+    padding: clamp(0.75rem, 2.5vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+    font-size: clamp(0.95rem, 2.5vw, 1.125rem);
+    color: $text-light;
+    line-height: 1.6;
+  }
 }
