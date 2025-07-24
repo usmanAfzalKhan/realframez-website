@@ -1,6 +1,5 @@
 // Footer.module.scss
 
-// Palette & transitions
 $bg-color:    #181b23;
 $text-color:  #f6f6fa;
 $text-light:  rgba($text-color, 0.6);
@@ -18,16 +17,13 @@ $transition:  300ms ease-out;
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  row-gap: clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
   align-items: center;
-  justify-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2rem);
 
   @media (min-width: 600px) {
-    grid-template-columns: 1fr auto;
-    align-items: start;
-    justify-items: start;
+    justify-content: space-between;
   }
 }
 
@@ -36,9 +32,16 @@ $transition:  300ms ease-out;
   font-weight: 700;
   font-size: clamp(1.25rem, 2.5vw, 1.5rem);
   color: $text-color;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.separator {
+  width: 1px;
+  height: clamp(2rem, 5vw, 3rem);
+  background: $accent;
+  opacity: 0.3;
 }
 
 .links {
@@ -67,32 +70,5 @@ $transition:  300ms ease-out;
 }
 
 .backToTop {
-  grid-column: 1 / -1;
-  text-align: center;
-  margin-top: clamp(1rem, 3vw, 2rem);
-
-  a {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    text-decoration: none;
-    color: $text-light;
-    background: none;
-    border: 2px solid $text-light;
-    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
-    border-radius: 0.25rem;
-    transition: background $transition, color $transition, transform $transition;
-
-    &:hover,
-    &:focus-visible {
-      background: $accent;
-      color: #181b23;
-      transform: translateY(-2px);
-      outline: none;
-    }
-  }
-
-  @media (min-width: 600px) {
-    grid-column: auto;
-    margin-top: 0;
-  }
+  /* If you have a backToTop element, style it here */
 }
