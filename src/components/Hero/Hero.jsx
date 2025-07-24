@@ -24,12 +24,17 @@ const swipeVariants = {
   }),
 };
 
+const textVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } },
+};
+
 export default function Hero() {
   const [current, setCurrent] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [direction, setDirection] = useState("next");
 
-  // mobile check
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
     onResize();
@@ -37,7 +42,6 @@ export default function Hero() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // keyboard nav
   useEffect(() => {
     const handler = (e) => {
       if (e.key === "ArrowLeft") prevSlide();
@@ -62,11 +66,7 @@ export default function Hero() {
   return (
     <section className={styles.hero} aria-label="Hero slider">
       <div className={styles.bgWrap}>
-        <AnimatePresence
-          initial={false}
-          custom={direction}
-          mode="wait"
-        >
+        <AnimatePresence initial={false} custom={direction} mode="wait">
           <motion.div
             key={current}
             className={styles.motionWrap}
@@ -90,13 +90,44 @@ export default function Hero() {
       </div>
 
       <div className={styles.overlay}>
-        <h1 className={styles.title}>{slide.title}</h1>
-        <p className={styles.subtitle}>{slide.subtitle}</p>
-        {slide.button && (
-          <Link href={slide.buttonLink} className={styles.ctaBtn}>
-            {slide.button}
-          </Link>
-        )}
+        <AnimatePresence initial={false} mode="wait">
+          <motion.h1
+            key={`title-${current}`}
+            variants={textVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className={styles.title}
+          >
+            {slide.title}
+          </motion.h1>
+          <motion.p
+            key={`sub-${current}`}
+            variants={textVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={{ delay: 0.1 }}
+            className={styles.subtitle}
+          >
+            {slide.subtitle}
+          </motion.p>
+          {slide.button && (
+            <motion.div
+              key={`btn-${current}`}
+              variants={textVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ delay: 0.2 }}
+              className={styles.ctaWrapper}
+            >
+              <Link href={slide.buttonLink} className={styles.ctaBtn}>
+                {slide.button}
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className={styles.dots}>
           {slides.map((_, i) => (
             <button
