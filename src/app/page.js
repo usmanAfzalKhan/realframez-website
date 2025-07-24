@@ -9,12 +9,13 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <section className={styles.intro}>
-        <h2>Welcome to RealFramez</h2>
-        <p>
-          At RealFramez, we specialize in high-quality real estate photography—interior, exterior, aerial, and twilight shoots—to make your property stand out.
-        </p>
-      </section>
+<section className={styles.intro}>
+  <h2>Elevate Your Property’s Story</h2>
+  <p>
+    Discover how our premium real estate photography—interior, exterior, aerial, and twilight—makes listings stand out and sell fast.
+  </p>
+</section>
+
       <TeaserCarousel />
     </>
   )

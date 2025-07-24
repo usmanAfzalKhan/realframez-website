@@ -1,72 +1,98 @@
 // Footer.module.scss
 
-// Color palette & transitions
+// Palette & transitions
 $bg-color:    #181b23;
 $text-color:  #f6f6fa;
-$text-light:  rgba($text-color, 0.8);  // added definition
+$text-light:  rgba($text-color, 0.6);
 $accent:      #ffcc57;
+$border:      rgba($text-color, 0.1);
 $transition:  300ms ease-out;
 
-// Footer wrapper
 .footer {
   background: $bg-color;
-  padding: clamp(1.5rem, 4vw, 2.5rem) 0;
+  color: $text-color;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3rem);
+  border-top: 1px solid $border;
 }
 
-// Inner container: center and space items
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 clamp(1.5rem, 5vw, 3rem);
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  row-gap: clamp(1.5rem, 4vw, 2.5rem);
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  justify-items: center;
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    justify-items: start;
+  }
 }
 
-// Brand text
 .brand {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
   color: $text-color;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
+}
 
-  .copyright {
-    margin-left: 0.5rem;
-    font-size: 0.9em;
-    color: $text-light;  // now available
+.links {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.links a {
+  color: $text-light;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  transition: color $transition, transform $transition;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &:hover,
+  &:focus-visible {
+    color: $accent;
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  svg {
+    transition: color $transition;
   }
 }
 
-// Social & contact links
-.links {
-  display: flex;
-  gap: clamp(1rem, 3vw, 1.5rem);
+.backToTop {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: clamp(1rem, 3vw, 2rem);
 
   a {
-    color: $text-color;
-    transition: color $transition, transform $transition;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    text-decoration: none;
+    color: $text-light;
+    background: none;
+    border: 2px solid $text-light;
+    padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+    border-radius: 0.25rem;
+    transition: background $transition, color $transition, transform $transition;
 
     &:hover,
     &:focus-visible {
-      color: $accent;
+      background: $accent;
+      color: #181b23;
       transform: translateY(-2px);
       outline: none;
     }
-
-    svg {
-      display: block;
-    }
   }
-}
 
-// Responsive: stack on small screens
-@media (max-width: 480px) {
-  .container {
-    flex-direction: column;
-    align-items: center;
-    gap: clamp(1rem, 3vw, 1.5rem);
+  @media (min-width: 600px) {
+    grid-column: auto;
+    margin-top: 0;
   }
 }

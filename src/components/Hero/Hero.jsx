@@ -75,6 +75,13 @@ export default function Hero() {
             initial="initial"
             animate="animate"
             exit="exit"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.3}
+            onDragEnd={(e, info) => {
+              if (info.offset.x > 50) prevSlide();
+              if (info.offset.x < -50) nextSlide();
+            }}
           >
             <Image
               src={imgSrc}
