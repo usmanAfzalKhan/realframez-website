@@ -39,4 +39,20 @@ export const slides = [
     desktopImg: "/images/hero/slide5-desktop.png",
     mobileImg: "/images/hero/slide5-mobile.png",
   },
+    {
+    title: "Video Production",
+    subtitle: "Cinematic real estate video creation",
+    button: null,
+    buttonLink: null,
+    desktopImg: "/images/hero/slide6-desktop.png",
+    mobileImg: "/images/hero/slide6-mobile.png",
+  },
+  {
+    title: "360° Virtual Tours",
+    subtitle: "Immersive Matterport virtual walkthroughs",
+    button: null,
+    buttonLink: null,
+    desktopImg: "/images/hero/slide7-desktop.png",
+    mobileImg: "/images/hero/slide7-mobile.png",
+  },
 ];

@@ -2,11 +2,25 @@
 
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import styles from './ServiceCard.module.scss'
 
 export default function ServiceCard({ title, description, slug }) {
+  // track mobile breakpoint
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768)
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  // build the correct image path
+  const imgSrc = `/images/services/${slug}-${isMobile ? 'mobile' : 'desktop'}.png`
+
   return (
     <motion.div
       className={styles.card}
@@ -16,7 +30,14 @@ export default function ServiceCard({ title, description, slug }) {
       transition={{ duration: 0.5 }}
     >
       <div className={styles.placeholder}>
-        <span className={styles.imgIcon}>🖼️</span>
+        <Image
+          src={imgSrc}
+          alt={title}
+          fill
+          style={{ objectFit: 'cover' }}
+          priority
+          draggable={false}
+        />
       </div>
       <h3>{title}</h3>
       <p>{description}</p>

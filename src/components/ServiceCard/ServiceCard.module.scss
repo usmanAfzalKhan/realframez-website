@@ -1,95 +1,92 @@
-// ServiceCard.module.scss
+/* src/components/ServiceCard/ServiceCard.module.scss */
 
-// Palette & transitions
-$card-bg: #212537;
-$placeholder-bg: #181b23;
-$text-color: #f6f6fa;
-$accent: #ffcc57;
-$transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+// Theme palette & transitions
+$card-bg:     #212537;
+$text-color:  #f6f6fa;
+$text-light:  rgba($text-color, 0.8);
+$accent:      #ffcc57;
+$transition:  300ms ease-out;
 
-// Card container
 .card {
   background: $card-bg;
+  color: $text-color;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  overflow: hidden;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: clamp(1rem, 2.5vw, 2rem);
+  justify-content: space-between;
+  align-items: stretch;
   transition: transform $transition, box-shadow $transition;
-  cursor: default;
 
-  // Lift & accent border on hover/focus
+  /* fixed height so all cards match */
+  height: clamp(380px, 36vw, 420px);
+  max-width: 300px;
+  margin: 0 auto;
+
   &:hover,
   &:focus-within {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     outline: none;
+  }
+
+  /* image container at top */
+  .placeholder {
+    position: relative;       // required for next/image fill
+    width: 100%;
+    height: clamp(160px, 22vw, 220px);
+    border-radius: 0.25rem;
+    overflow: hidden;
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    background: $card-bg;     // fallback bg while loading
   }
 
   h3 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: clamp(1.25rem, 3vw, 1.5rem);
-    color: $text-color;
-    margin: clamp(1rem, 2vw, 1.5rem) 0 0.75rem;
-    line-height: 1.2;
+    margin: 0 clamp(0.5rem, 2vw, 1rem);
     -webkit-font-smoothing: antialiased;
-    font-smooth: always;
   }
 
   p {
     font-family: sans-serif;
     font-size: clamp(0.9rem, 2.5vw, 1rem);
-    color: $text-color;
-    margin: 0 0 clamp(1.5rem, 2.5vw, 2rem);
-    line-height: 1.4;
-    max-width: 90%;
+    color: $text-light;
+    line-height: 1.5;
+    margin: clamp(0.5rem, 2vw, 1rem) 0;
+    flex-grow: 1;
+  }
+
+  .cta {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    color: $accent;
+    text-decoration: none;
+    padding: clamp(0.5rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.25rem);
+    border: 2px solid $accent;
+    border-radius: 0.25rem;
+    transition: background $transition, color $transition, transform $transition;
+    margin-top: clamp(1rem, 2vw, 1.5rem);
+
+    &:hover,
+    &:focus-visible {
+      background: $accent;
+      color: #171a2b;
+      transform: translateY(-2px);
+      outline: none;
+    }
   }
 }
 
-// Placeholder for image/icon
-.placeholder {
-  background: $placeholder-bg;
-  border-radius: 0.375rem;
-  width: 100%;
-  padding-top: 56.25%; // 16:9 aspect ratio placeholder
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-
-  // Center the icon
-  .imgIcon {
-    position: absolute;
-    font-size: clamp(2rem, 5vw, 3rem);
-    color: $text-color;
-    pointer-events: none;
-  }
-}
-
-// CTA link
-.cta {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: clamp(0.85rem, 2.5vw, 1rem);
-  color: $text-color;
-  text-decoration: none;
-  border: 2px solid $accent;
-  border-radius: 0.25rem;
-  padding: clamp(0.5rem, 1.5vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
-  transition: background $transition, color $transition, transform $transition;
-
-  &:hover,
-  &:focus-visible {
-    background: $accent;
-    color: $card-bg;
-    transform: translateY(-2px);
-    outline: none;
+// On mobile, pull the button up tighter
+@media (max-width: 767px) {
+  .card {
+    .cta {
+      margin-top: clamp(0.25rem, 1.5vw, 0.5rem);
+    }
   }
 }

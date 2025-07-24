@@ -1,147 +1,92 @@
-// src/app/services/[slug]/ServiceDetail.module.scss
+/* src/app/services/[slug]/ServiceDetail.module.scss */
 
-// Color palette & transitions
 $bg-color:    #171a2b;
 $text-color:  #f6f6fa;
-$text-light:  rgba($text-color, 0.85);
+$text-light:  rgba($text-color, 0.8);
 $accent:      #ffcc57;
-$card-bg:     #212537;
 $transition:  300ms ease-out;
 
-// Main page wrapper
 .main {
   background: $bg-color;
   color: $text-color;
-  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem) clamp(2rem, 5vw, 4rem);
-  max-width: 1000px;
+  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+  max-width: 1200px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(2rem, 5vw, 3rem);
+
+  .backWrap {
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+
+    .backBtn {
+      color: $accent;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color $transition;
+
+      &:hover {
+        color: lighten($accent, 10%);
+      }
+    }
+  }
 
   h1 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-    font-smooth: always;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
   }
-}
 
-// "Not Found" message styling
-.notFound {
-  font-family: sans-serif;
-  font-size: clamp(1.25rem, 4vw, 1.75rem);
-  color: $text-light;
-  text-align: center;
-  padding: clamp(4rem, 10vw, 6rem) 0;
-}
+  .album {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
 
-// Back button wrapper for spacing
-.backWrap {
-  margin-top: clamp(1rem, 3vw, 2rem);
-}
-
-// Back to services link
-.backBtn {
-  display: inline-block;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  color: $text-color;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  padding: clamp(0.25rem, 1vw, 0.5rem) 0;
-  transition: color $transition, border-color $transition;
-
-  &:hover,
-  &:focus-visible {
-    color: $accent;
-    border-color: $accent;
-    outline: none;
+    .imgBox {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
   }
-}
 
-// Image gallery grid
-.album {
-  display: grid;
-  gap: clamp(1rem, 3vw, 1.5rem);
-  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 45%, 1fr), 1fr));
-}
+  .desc {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: $text-light;
+    line-height: 1.6;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
 
-// Each image box
-.imgBox {
-  background: $card-bg;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-// Placeholder image within imgBox
-.placeholder {
-  opacity: 0.75;
-  width: clamp(2rem, 6vw, 4rem);
-  height: auto;
-}
-
-// Description paragraph
-.desc {
-  font-family: sans-serif;
-  font-size: clamp(1rem, 3vw, 1.125rem);
-  color: $text-light;
-  line-height: 1.6;
-  margin: 0;
-}
-
-// Price and booking section
-.priceBox {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 1.5rem);
-
-  // On desktop, lay out side by side
-  @media (min-width: 600px) {
-    flex-direction: row;
+  .priceBox {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-  }
-}
+    flex-wrap: wrap;
+    gap: clamp(1rem, 2vw, 2rem);
 
-// Starting price text
-.starting {
-  font-family: sans-serif;
-  font-size: clamp(1rem, 3vw, 1.25rem);
-  color: $text-light;
+    .starting {
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
 
-  span {
-    color: $accent;
-    font-weight: 700;
-  }
-}
+      span {
+        color: $accent;
+        font-weight: 700;
+      }
+    }
 
-// Book Now button
-.bookBtn {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  color: $text-color;
-  background: transparent;
-  border: 2px solid $accent;
-  border-radius: 0.25rem;
-  padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
-  cursor: pointer;
-  transition: background $transition, color $transition, transform $transition;
+    .bookBtn {
+      background: $accent;
+      color: $bg-color;
+      border: none;
+      padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 4vw, 2rem);
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: background $transition;
 
-  &:hover,
-  &:focus-visible {
-    background: $accent;
-    color: $bg-color;
-    transform: translateY(-2px);
-    outline: none;
+      &:hover {
+        background: lighten($accent, 10%);
+      }
+    }
   }
 }

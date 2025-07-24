@@ -1,54 +1,48 @@
-// src/app/services/page.module.scss
+/* src/app/services/page.module.scss */
 
-// Palette & utility variables
-$bg-color:   #171a2b;       // Matte charcoal background
-$text-color: #f6f6fa;       // Soft white text
-$text-light: rgba($text-color, 0.85);
-$accent:     #ffcc57;       // Gold accent
+// Theme palette & transitions
+$bg-color:   #171a2b;
+$text-color: #f6f6fa;
+$text-light: rgba($text-color, 0.8);
+$accent:     #ffcc57;
 $transition: 300ms ease-out;
 
-// Main content wrapper
 .main {
   background: $bg-color;
   color: $text-color;
-  // Top padding to clear fixed header (approx. header height + spacing)
-  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem) clamp(2rem, 5vw, 4rem);
+  padding: clamp(4rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem);
   max-width: 1200px;
   margin: 0 auto;
-}
 
-// Section header: title + intro text
-.header {
-  text-align: center;
-  margin-bottom: clamp(2rem, 5vw, 4rem);
+  .header {
+    text-align: center;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
 
-  h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: clamp(0.5rem, 2vw, 1rem);
-    -webkit-font-smoothing: antialiased;
-    font-smooth: always;
+    h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.1;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    p {
+      font-family: sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: $text-light;
+      margin: clamp(1rem, 3vw, 1.5rem) 0 0;
+      line-height: 1.6;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
-  p {
-    font-family: sans-serif;
-    font-size: clamp(1rem, 3vw, 1.25rem);
-    color: $text-light;
-    line-height: 1.6;
-    max-width: 700px;
-    margin: 0 auto;
+  .grid {
+    display: grid;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    align-items: start;
   }
-}
-
-// Services grid: responsive, fluid columns
-.grid {
-  display: grid;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
-
-  // auto-fit as many cards as will fit; cards shrink no smaller than ~280px
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(clamp(280px, 40%, 1fr), 1fr)
-  );
 }
