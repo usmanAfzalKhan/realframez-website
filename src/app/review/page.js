@@ -16,12 +16,12 @@ import {
   doc
 } from 'firebase/firestore'
 import { db } from '../../firebase'
-import styles from './review.module.scss'
+import styles from './Review.module.scss'
 import initialReviews from '../../data/reviews'
 
 // basic profanity check
 const PROFANITY = new RegExp(
-  `\\b(?:fuck|shit|bitch|asshole|bastard|dick|pussy|cunt|slut|whore|nigga|nigger|paki|chink|spic)\\b`,
+  `\\b(?:fuck|shit|bitch|asshole|bastard|dick|pussy|cunt|slut|whore|nigga|nigger|paki|nigga|chink|spic)\\b`,
   'i'
 )
 
