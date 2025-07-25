@@ -13,7 +13,7 @@ import {
   limit
 } from 'firebase/firestore'
 import { db } from '../../firebase'
-import styles from './review.module.scss'
+import styles from './Review.module.scss'
 import initialReviews from '../../data/reviews'
 
 // basic profanity check
