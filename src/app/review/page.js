@@ -16,7 +16,7 @@ import {
   doc
 } from 'firebase/firestore'
 import { db } from '../../firebase'
-import styles from './review.module.scss'
+import styles from './Review.module.scss'
 
 // basic profanity check
 const PROFANITY = new RegExp(
