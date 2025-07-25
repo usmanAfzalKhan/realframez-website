@@ -1,24 +1,15 @@
 const reviews = [
   {
-    name: "Alyssa M.",
+    name: 'Sarah',
+    text: 'RealFramez delivered stunning photos that sold my listing in days!',
     rating: 5,
-    text: "Photos were amazing, helped my property sell so quickly! Highly recommend RealFramez.",
   },
   {
-    name: "David S.",
-    rating: 4,
-    text: "Great attention to detail and very responsive service.",
-  },
-  {
-    name: "Priya K.",
+    name: 'Mike',
+    text: 'Very professional, friendly, and the twilight shots were 🔥.',
     rating: 5,
-    text: "The twilight shots made our listing stand out! Will use again.",
   },
-  {
-    name: "Sarah",
-    rating: 5,
-    text: 'Best photographer!',
-  },
-];
+  // you can add more seed reviews here...
+]
 
-export default reviews;
+export default reviews

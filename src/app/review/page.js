@@ -1,110 +1,197 @@
+// src/app/review/page.js
+
 'use client'
-import { useState } from 'react'
-import styles from './Review.module.scss'
+
+import { useState, useRef, useEffect } from 'react'
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  orderBy,
+  onSnapshot,
+  limit
+} from 'firebase/firestore'
+import { db } from '../../firebase'
+import styles from './review.module.scss'
 import initialReviews from '../../data/reviews'
 
-function StarRating({ value, onChange, readOnly = false }) {
-  return (
-    <div className={styles.stars}>
-      {[1, 2, 3, 4, 5].map(i => (
-        <span
-          key={i}
-          className={i <= value ? styles.starActive : styles.star}
-          onClick={() => !readOnly && onChange(i)}
-          style={{ cursor: readOnly ? 'default' : 'pointer' }}
-          aria-label={`${i} star`}
-        >
-          ★
-        </span>
-      ))}
-    </div>
-  )
-}
+// basic profanity check
+const PROFANITY = new RegExp(
+  `\\b(?:fuck|shit|bitch|asshole|bastard|dick|pussy|cunt|slut|whore|nigga|nigger|paki|chink|spic)\\b`,
+  'i'
+)
 
 export default function ReviewPage() {
-  const [reviews, setReviews] = useState(initialReviews)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [form, setForm] = useState({ name: '', text: '', rating: 0 })
+  const [reviews, setReviews] = useState(initialReviews.slice(0, 8))
+  const [showForm, setShowForm] = useState(false)
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+  const [lastRating, setLastRating] = useState(0)
+
+  const [name, setName] = useState('')
+  const [text, setText] = useState('')
+  const [rating, setRating] = useState(0)
   const [error, setError] = useState('')
 
-  const handleFormChange = (field, value) => {
-    setForm({ ...form, [field]: value })
-    setError('')
-  }
+  const textareaRef = useRef(null)
 
-  const handleSubmit = e => {
+  // Fetch newest 8 reviews (or fallback to samples)
+  useEffect(() => {
+    const q = query(
+      collection(db, 'reviews'),
+      orderBy('timestamp', 'desc'),
+      limit(8)
+    )
+    const unsub = onSnapshot(q, snap => {
+      if (snap.empty) {
+        setReviews(initialReviews.slice(0, 8))
+      } else {
+        setReviews(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+      }
+    })
+    return () => unsub()
+  }, [])
+
+  const handleSubmit = async e => {
     e.preventDefault()
-    if (!form.name.trim() || !form.text.trim() || !form.rating) {
-      setError('All fields required including a star rating.')
+
+    // validation
+    if (!name.trim() || !text.trim() || rating === 0) {
+      setError('All fields are required.')
       return
     }
-    setReviews([{ ...form }, ...reviews])
-    setForm({ name: '', text: '', rating: 0 })
-    setModalOpen(false)
+    if (PROFANITY.test(name) || PROFANITY.test(text)) {
+      setError('Please remove profanity before submitting.')
+      return
+    }
+    if (text.length > 200) {
+      setError('Review must be 200 characters or less.')
+      return
+    }
+
+    // show thank you for any rating
+    setHasSubmitted(true)
+    setLastRating(rating)
+    setShowForm(false)
+
+    // only save if rating >= 4
+    if (rating < 4) return
+
+    try {
+      await addDoc(collection(db, 'reviews'), {
+        name: name.trim(),
+        text: text.trim(),
+        rating,
+        timestamp: serverTimestamp()
+      })
+    } catch {
+      setError('Submission failed. Please try again.')
+    }
   }
 
   return (
     <div className={styles.main}>
-      <h1>What Our Clients Say</h1>
-      <p className={styles.intro}>See how RealFramez has helped real clients get results.</p>
+      <div className={styles.header}>
+        <h1>What Our Clients Say</h1>
+        <p className={styles.intro}>
+          See how RealFramez has helped real clients get results.
+        </p>
+      </div>
+
       <div className={styles.reviewGrid}>
-        {reviews.slice(0, 6).map((r, idx) => (
-          <div className={styles.reviewCard} key={idx}>
-            <StarRating value={r.rating} readOnly />
-            <div className={styles.reviewText}>{r.text}</div>
+        {reviews.map((r, i) => (
+          <div className={styles.reviewCard} key={r.id || i}>
+            <div className={styles.stars}>
+              {[1,2,3,4,5].map(n => (
+                <span
+                  key={n}
+                  className={n <= r.rating ? styles.starActive : styles.star}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
+            <p className={styles.reviewText}>{r.text}</p>
             <div className={styles.reviewName}>— {r.name}</div>
           </div>
         ))}
       </div>
-      <button className={styles.addBtn} onClick={() => setModalOpen(true)}>
-        Add a Review
-      </button>
 
-      {modalOpen && (
-        <div className={styles.modalBackdrop} onClick={() => setModalOpen(false)}>
-          <form
-            className={styles.modalForm}
-            onClick={e => e.stopPropagation()}
-            onSubmit={handleSubmit}
+      {!showForm && !hasSubmitted && (
+        <div className={styles.addBtnWrap}>
+          <button
+            className={styles.addBtn}
+            onClick={() => setShowForm(true)}
           >
-            <h2>Add Your Review</h2>
-            <label>
-              Name
-              <input
-                type="text"
-                value={form.name}
-                maxLength={22}
-                onChange={e => handleFormChange('name', e.target.value)}
-                placeholder="Your name"
-                required
-              />
-            </label>
-            <label>
-              Your Review
-              <textarea
-                rows={3}
-                maxLength={180}
-                value={form.text}
-                onChange={e => handleFormChange('text', e.target.value)}
-                placeholder="Write a few words about your experience"
-                required
-              />
-            </label>
-            <label>
-              Rating
-              <StarRating value={form.rating} onChange={v => handleFormChange('rating', v)} />
-            </label>
-            {error && <div className={styles.error}>{error}</div>}
-            <div className={styles.formActions}>
-              <button type="button" onClick={() => setModalOpen(false)} className={styles.cancelBtn}>
-                Cancel
-              </button>
-              <button type="submit" className={styles.submitBtn}>
-                Submit
-              </button>
-            </div>
-          </form>
+            Add a Review
+          </button>
         </div>
+      )}
+
+      {hasSubmitted && (
+        <div className={styles.thankMsg}>
+          Thank you for your review!
+        </div>
+      )}
+
+      {showForm && !hasSubmitted && (
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <label className={styles.label}>
+            Name<span className={styles.req}>*</span>
+            <input
+              className={styles.input}
+              type="text"
+              maxLength={22}
+              value={name}
+              onChange={e => setName(e.target.value)}
+              placeholder="Your name"
+            />
+          </label>
+
+          <label className={styles.label}>
+            Your Review<span className={styles.req}>*</span>
+            <textarea
+              className={styles.textarea}
+              ref={textareaRef}
+              maxLength={200}
+              value={text}
+              onChange={e => setText(e.target.value)}
+              placeholder="Write a few words..."
+            />
+          </label>
+
+          <div className={styles.counter}>{text.length}/200</div>
+
+          <label className={`${styles.label} ${styles.ratingLabel}`}>
+            Rating<span className={styles.req}>*</span>
+            <div className={styles.starsInput}>
+              {[1,2,3,4,5].map(n => (
+                <span
+                  key={n}
+                  className={n <= rating ? styles.starFilled : styles.starEmpty}
+                  onClick={() => setRating(n)}
+                  tabIndex={0}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setRating(n)}
+                  aria-label={`${n} star`}>
+                  ★
+                </span>
+              ))}
+            </div>
+          </label>
+
+          {error && <div className={styles.error}>{error}</div>}
+
+          <div className={styles.formActions}>
+            <button
+              type="button"
+              className={styles.cancelBtn}
+              onClick={() => { setShowForm(false); setError('') }}
+            >Cancel</button>
+            <button type="submit" className={styles.submitBtn}>
+              Submit
+            </button>
+          </div>
+        </form>
       )}
     </div>
   )
