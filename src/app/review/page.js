@@ -10,10 +10,13 @@ import {
   query,
   orderBy,
   onSnapshot,
-  limit
+  limit,
+  getDocs,
+  deleteDoc,
+  doc
 } from 'firebase/firestore'
 import { db } from '../../firebase'
-import styles from './Review.module.scss'
+import styles from './review.module.scss'
 import initialReviews from '../../data/reviews'
 
 // basic profanity check
@@ -78,12 +81,22 @@ export default function ReviewPage() {
     if (rating < 4) return
 
     try {
+      // 1) Add the new review
       await addDoc(collection(db, 'reviews'), {
         name: name.trim(),
         text: text.trim(),
         rating,
         timestamp: serverTimestamp()
       })
+
+      // 2) Prune any beyond the newest 8
+      const allSnap = await getDocs(
+        query(collection(db, 'reviews'), orderBy('timestamp', 'desc'))
+      )
+      const toDelete = allSnap.docs.slice(8)
+      await Promise.all(
+        toDelete.map(d => deleteDoc(doc(db, 'reviews', d.id)))
+      )
     } catch {
       setError('Submission failed. Please try again.')
     }
@@ -172,7 +185,8 @@ export default function ReviewPage() {
                   onClick={() => setRating(n)}
                   tabIndex={0}
                   onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setRating(n)}
-                  aria-label={`${n} star`}>
+                  aria-label={`${n} star`}
+                >
                   ★
                 </span>
               ))}
@@ -186,7 +200,9 @@ export default function ReviewPage() {
               type="button"
               className={styles.cancelBtn}
               onClick={() => { setShowForm(false); setError('') }}
-            >Cancel</button>
+            >
+              Cancel
+            </button>
             <button type="submit" className={styles.submitBtn}>
               Submit
             </button>
