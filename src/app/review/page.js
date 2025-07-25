@@ -16,17 +16,16 @@ import {
   doc
 } from 'firebase/firestore'
 import { db } from '../../firebase'
-import styles from './Review.module.scss'
-import initialReviews from '../../data/reviews'
+import styles from './review.module.scss'
 
 // basic profanity check
 const PROFANITY = new RegExp(
-  `\\b(?:fuck|shit|bitch|asshole|bastard|dick|pussy|cunt|slut|whore|nigga|nigger|paki|nigga|chink|spic)\\b`,
+  `\\b(?:fuck|shit|bitch|asshole|bastard|dick|pussy|cunt|slut|whore|nigga|nigger|paki|chink|spic)\\b`,
   'i'
 )
 
 export default function ReviewPage() {
-  const [reviews, setReviews] = useState(initialReviews.slice(0, 8))
+  const [reviews, setReviews] = useState([])          // ← start empty
   const [showForm, setShowForm] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [lastRating, setLastRating] = useState(0)
@@ -38,20 +37,26 @@ export default function ReviewPage() {
 
   const textareaRef = useRef(null)
 
-  // Fetch newest 8 reviews (or fallback to samples)
+  // 1) On mount: fetch the latest 8 once, then set up listener
   useEffect(() => {
-    const q = query(
-      collection(db, 'reviews'),
-      orderBy('timestamp', 'desc'),
-      limit(8)
-    )
-    const unsub = onSnapshot(q, snap => {
-      if (snap.empty) {
-        setReviews(initialReviews.slice(0, 8))
-      } else {
-        setReviews(snap.docs.map(d => ({ id: d.id, ...d.data() })))
-      }
-    })
+    let unsub = () => {}
+
+    // fetch top 8 immediately
+    (async () => {
+      const initialSnap = await getDocs(
+        query(collection(db, 'reviews'), orderBy('timestamp', 'desc'), limit(8))
+      )
+      setReviews(initialSnap.docs.map(d => ({ id: d.id, ...d.data() })))
+
+      // then listen for real‑time updates (keeps it in sync)
+      unsub = onSnapshot(
+        query(collection(db, 'reviews'), orderBy('timestamp', 'desc'), limit(8)),
+        snap => {
+          setReviews(snap.docs.map(d => ({ id: d.id, ...d.data() })))
+        }
+      )
+    })()
+
     return () => unsub()
   }, [])
 
@@ -72,16 +77,16 @@ export default function ReviewPage() {
       return
     }
 
-    // show thank you for any rating
+    // show thank you
     setHasSubmitted(true)
     setLastRating(rating)
     setShowForm(false)
 
-    // only save if rating >= 4
+    // only persist good reviews
     if (rating < 4) return
 
     try {
-      // 1) Add the new review
+      // add the new review
       await addDoc(collection(db, 'reviews'), {
         name: name.trim(),
         text: text.trim(),
@@ -89,7 +94,7 @@ export default function ReviewPage() {
         timestamp: serverTimestamp()
       })
 
-      // 2) Prune any beyond the newest 8
+      // prune extras (9th+)
       const allSnap = await getDocs(
         query(collection(db, 'reviews'), orderBy('timestamp', 'desc'))
       )
