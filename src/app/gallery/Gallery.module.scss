@@ -1,195 +1,154 @@
-// Gallery.module.scss
+// src/app/gallery/Gallery.module.scss
 
-// Color palette & transitions
-$bg-color:     #171a2b;
-$text-color:   #f6f6fa;
-$text-light:   rgba($text-color, 0.7);
-$accent:       #ffcc57;
-$overlay-bg:   rgba(23, 26, 43, 0.6);
-$transition:   300ms ease-out;
+$bg:     #171a2b;
+$fg:     #f6f6fa;
+$accent: #ffcc57;
+$trans:  200ms ease-out;
 
-// Main container
-.main {
-  background: $bg-color;
-  color: $text-color;
-  padding: clamp(5rem, 10vw, 7rem) clamp(1.5rem, 5vw, 3rem);
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.gallery {
+  background: $bg;
+  color: $fg;
+  padding: 4rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
 
-  // Page title
-  h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 6vw, 3rem);
-    margin-bottom: clamp(0.5rem, 2vw, 1rem);
-    -webkit-font-smoothing: antialiased;
-    font-smooth: always;
+  .heading {
+    text-align: center;
+    font: 2.5rem 'Montserrat', sans-serif;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s both;
   }
-}
 
-// Intro text under title
-.intro {
-  font-family: sans-serif;
-  font-size: clamp(1rem, 3vw, 1.25rem);
-  color: $text-light;
-  margin-bottom: clamp(2rem, 5vw, 3rem);
-  line-height: 1.6;
-
-  .hintText {
-    font-weight: 700;
-    color: $accent;
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
   }
-}
 
-// Responsive grid of images
-.grid {
-  display: grid;
-  gap: clamp(1rem, 3vw, 1.5rem);
-  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 45%, 1fr), 1fr));
-}
-
-// Each thumbnail card
-.imgCard {
-  position: relative;
-  overflow: hidden;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-  cursor: pointer;
-  transition: transform $transition, box-shadow $transition;
-
-  &:hover,
-  &:focus-within {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
-    outline: none;
+  .thumb {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: transform $trans;
+    animation: fadeIn 0.5s both;
+    &:hover { transform: scale(1.05); }
   }
-}
 
-// Thumbnail image styling
-.placeholder {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  transition: transform $transition;
-  
-  .imgCard:hover &,
-  .imgCard:focus-within & {
-    transform: scale(1.05);
+  .overlay {
+    position: fixed;
+    inset: 0;
+    padding: 2rem;
+    background: rgba($bg, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s both;
+    z-index: 1000;
+    box-sizing: border-box;
   }
-}
 
-// “Click to enlarge” overlay on hover
-.hintOverlay {
-  position: absolute;
-  inset: 0;
-  background: $overlay-bg;
-  color: $text-color;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700;
-  font-size: clamp(0.9rem, 3vw, 1rem);
-  opacity: 0;
-  transition: opacity $transition;
-
-  .imgCard:hover &,
-  .imgCard:focus-within & {
-    opacity: 1;
+  .modal {
+    background: lighten($bg, 5%);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    max-width: 80vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: zoomIn 0.3s both;
+    box-sizing: border-box;
+    overflow-y: auto;           // allow scrolling if content is too tall
   }
-}
 
-// Modal backdrop
-.modalBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000;
-  overflow: auto;
-}
-
-// Modal content container
-.modalContent {
-  position: relative;
-  background: $bg-color;
-  border-radius: 0.5rem;
-  padding: clamp(1.5rem, 4vw, 3rem);
-  max-width: clamp(300px, 90vw, 800px);
-  width: 100%;
-  outline: none;
-
-  &:focus-visible {
-    outline: 2px solid $accent;
-  }
-}
-
-// Prev/Next navigation buttons
-.modalNav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(23, 26, 43, 0.6);
-  border: none;
-  width: clamp(2.5rem, 5vw, 3.5rem);
-  height: clamp(2.5rem, 5vw, 3.5rem);
-  border-radius: 50%;
-  color: $text-color;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  cursor: pointer;
-  transition: background $transition, transform $transition;
-
-  &:hover,
-  &:focus-visible {
+  .closeBtn {
     background: $accent;
-    color: $bg-color;
-    transform: translateY(-50%) scale(1.1);
-    outline: none;
+    color: $bg;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-bottom: 1rem;
+    transition: transform $trans;
+    &:hover { transform: scale(1.1); }
   }
-}
 
-// Positioning for prev/next
-.prev { left: clamp(1rem, 4vw, 2rem); }
-.next { right: clamp(1rem, 4vw, 2rem); }
+  .modalImg {
+    width: 100%;
+    height: auto;
+    max-height: calc(80vh - 6rem); // leaves ~6rem for padding, closeBtn, and nav
+    object-fit: contain;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;          // space before nav
+  }
 
-// Modal image styling
-.modalImg {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: calc(90vh - clamp(6rem, 10vw, 12rem)); // leave room for caption & buttons
-  object-fit: contain;
-  margin: 0 auto;
-}
+  .nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
 
-// Caption below modal image
-.modalCaption {
-  margin-top: clamp(1rem, 3vw, 1.5rem);
-  font-family: sans-serif;
-  font-size: clamp(0.9rem, 2.5vw, 1rem);
-  color: $text-light;
-  text-align: center;
-}
+  .prevBtn,
+  .nextBtn {
+    background: $accent;
+    color: $bg;
+    border: none;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    /* no hover animation */
+  }
 
-// Close button (×) in modal
-.modalClose {
-  position: absolute;
-  top: clamp(0.5rem, 2vw, 1rem);
-  right: clamp(0.5rem, 2vw, 1rem);
-  background: transparent;
-  border: none;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-  color: $text-color;
-  cursor: pointer;
-  transition: color $transition, transform $transition;
+  /* newly added subtitles */
+  .subtitle {
+    text-align: center;
+    font-size: 1.25rem;
+    margin: 0 0 0.5rem;
+    color: rgba($fg, 0.85);
+  }
 
-  &:hover,
-  &:focus-visible {
-    color: $accent;
-    transform: scale(1.2);
-    outline: none;
+  .note {
+    text-align: center;
+    font-style: italic;
+    margin: 0 0 1.5rem;
+    color: rgba($fg, 0.7);
+  }
+
+  @media (max-width: 768px) {
+    .modal {
+      padding: 1rem;
+      max-width: 95vw;
+      max-height: 70vh;
+    }
+    .closeBtn,
+    .prevBtn,
+    .nextBtn {
+      width: 2rem;
+      height: 2rem;
+      font-size: 1.25rem;
+    }
+    .modalImg {
+      max-height: calc(70vh - 5rem);
+      margin-bottom: 0.75rem;
+    }
   }
 }

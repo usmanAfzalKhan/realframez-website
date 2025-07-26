@@ -1,92 +1,108 @@
+// src/app/gallery/page.js
+
 'use client'
+
 import { useState, useEffect, useRef } from 'react'
+import { galleryImages } from '../../data/galleryImages'
 import styles from './Gallery.module.scss'
-import galleryImages from '../../data/galleryImages'
 
 export default function GalleryPage() {
-  const [modalIdx, setModalIdx] = useState(null)
-  const modalRef = useRef(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isOpen, setIsOpen] = useState(false)
+  const overlayRef = useRef(null)
 
-  // ESC key closes modal
+  const openModal = (idx) => {
+    setCurrentIndex(idx)
+    setIsOpen(true)
+  }
+  const closeModal = () => {
+    setIsOpen(false)
+  }
+
+  const prevImage = (e) => {
+    e.stopPropagation()
+    setCurrentIndex(
+      (currentIndex - 1 + galleryImages.length) % galleryImages.length
+    )
+  }
+  const nextImage = (e) => {
+    e.stopPropagation()
+    setCurrentIndex((currentIndex + 1) % galleryImages.length)
+  }
+
+  // ESC / arrow keys
   useEffect(() => {
-    if (modalIdx === null) return
-    function handleKey(e) {
-      if (e.key === 'Escape') setModalIdx(null)
-      if (e.key === 'ArrowRight') showNext()
-      if (e.key === 'ArrowLeft') showPrev()
+    const onKey = (e) => {
+      if (!isOpen) return
+      if (e.key === 'Escape') closeModal()
+      if (e.key === 'ArrowLeft') prevImage(e)
+      if (e.key === 'ArrowRight') nextImage(e)
     }
-    window.addEventListener('keydown', handleKey)
-    return () => window.removeEventListener('keydown', handleKey)
-    // eslint-disable-next-line
-  }, [modalIdx])
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [isOpen, currentIndex])
 
-  const openModal = idx => setModalIdx(idx)
-  const closeModal = () => setModalIdx(null)
-  const showPrev = () => setModalIdx(i => (i === 0 ? galleryImages.length - 1 : i - 1))
-  const showNext = () => setModalIdx(i => (i === galleryImages.length - 1 ? 0 : i + 1))
-
-  // Trap focus in modal (optional)
-  useEffect(() => {
-    if (modalIdx === null) return
-    const modal = modalRef.current
-    if (modal) modal.focus()
-  }, [modalIdx])
+  const stop = (e) => e.stopPropagation()
 
   return (
-    <div className={styles.main}>
-      <h1>Gallery</h1>
-      <p className={styles.intro}>
-        Explore our work. <span className={styles.hintText}>Click any image to enlarge.</span> (Full gallery coming soon!)
-      </p>
+    <div className={styles.gallery}>
+      <h1 className={styles.heading}>Gallery</h1>
+
+      {/* newly added descriptions */}
+      <p className={styles.subtitle}>Explore our curated gallery of real estate photographs, showcasing properties in their best light—from elegant interiors to breathtaking views.</p>
+      <p className={styles.note}>Click to enlarge</p>
+
       <div className={styles.grid}>
-        {galleryImages.map((img, i) => (
-          <div
-            key={img.id}
-            className={styles.imgCard}
-            tabIndex={0}
-            role="button"
-            aria-label={`View image: ${img.alt}`}
-            onClick={() => openModal(i)}
-            onKeyDown={e => e.key === 'Enter' && openModal(i)}
-          >
-            <img
-              src={img.src}
-              alt={img.alt}
-              className={styles.placeholder}
-              loading="lazy"
-              draggable={false}
-            />
-            <div className={styles.hintOverlay}>Click to enlarge</div>
-          </div>
+        {galleryImages.map((src, idx) => (
+          <img
+            key={idx}
+            src={src}
+            loading="lazy"
+            alt={`Gallery image ${idx + 1}`}
+            className={styles.thumb}
+            onClick={() => openModal(idx)}
+          />
         ))}
       </div>
 
-      {modalIdx !== null && (
+      {isOpen && (
         <div
-          className={styles.modalBackdrop}
+          className={styles.overlay}
           onClick={closeModal}
-          tabIndex={-1}
+          ref={overlayRef}
         >
-          <div
-            className={styles.modalContent}
-            ref={modalRef}
-            tabIndex={0}
-            onClick={e => e.stopPropagation()}
-          >
-            <button className={styles.modalNav + ' ' + styles.prev} onClick={showPrev} aria-label="Previous image">
-              &#8592;
+          <div className={styles.modal} onClick={stop}>
+            <button
+              className={styles.closeBtn}
+              onClick={closeModal}
+              aria-label="Close"
+            >
+              ×
             </button>
+
             <img
-              src={galleryImages[modalIdx].src}
-              alt={galleryImages[modalIdx].alt}
+              src={galleryImages[currentIndex]}
+              loading="lazy"
+              alt={`Image ${currentIndex + 1}`}
               className={styles.modalImg}
-              draggable={false}
             />
-            <button className={styles.modalNav + ' ' + styles.next} onClick={showNext} aria-label="Next image">
-              &#8594;
-            </button>
-            <p className={styles.modalCaption}>{galleryImages[modalIdx].alt}</p>
-            <button className={styles.modalClose} onClick={closeModal} aria-label="Close">&times;</button>
+
+            <div className={styles.nav}>
+              <button
+                className={styles.prevBtn}
+                onClick={prevImage}
+                aria-label="Previous"
+              >
+                ‹
+              </button>
+              <button
+                className={styles.nextBtn}
+                onClick={nextImage}
+                aria-label="Next"
+              >
+                ›
+              </button>
+            </div>
           </div>
         </div>
       )}
