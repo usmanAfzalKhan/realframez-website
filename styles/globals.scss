@@ -1,92 +1,106 @@
-/* styles/globals.scss */
-
-/* 1. Reset & box‑sizing */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* 2. CSS variables for global theming */
+// globals.scss
 :root {
-  /* Core palette */
-  --bg-color:       #171a2b;
-  --text-color:     #f6f6fa;
-  --accent-color:   #ffcc57;
+  /* Colors */
+  --color-primary: #000000;
+  --color-neutral-light: #ffffff;
+  --color-neutral-dark: #171a2b;
+  --color-accent: #ffcc57;
+  --color-highlight: #ffd15c;
+  --color-success: #38a169;
+  --color-error: #e53e3e;
+
+  /* RGB versions for overlays */
+  --color-neutral-dark-rgb: 23,26,43;
+  --color-neutral-light-rgb: 255,255,255;
+  --color-accent-rgb: 255,204,87;
 
   /* Typography */
-  --font-heading:   'Montserrat', sans-serif;
-  --font-body:      sans-serif;
+  --fs-scale-h1: clamp(2rem, 6vw, 5rem);
+  --fs-scale-h2: clamp(1.75rem, 5vw, 3rem);
+  --fs-scale-h3: clamp(1.25rem, 3vw, 1.5rem);
+  --fs-body:     clamp(1rem, 2.5vw, 1.125rem);
+  --fs-small:    clamp(0.9rem, 2.5vw, 1rem);
 
-  /* Layout offsets */
-  --header-height:  clamp(4rem, 10vw, 6rem);   /* matches fixed header total height */
-  --footer-height:  clamp(3.5rem, 8vw, 5rem);  /* matches footer total height */
-}
+  /* Spacing */
+  --gap-xs: 0.5rem;
+  --gap-sm: 1rem;
+  --gap-md: 1.5rem;
+  --gap-lg: 2rem;
 
-/* 3. Global html/body settings */
-html {
-  font-size: 100%;               /* 16px base */
-  scroll-behavior: smooth;       /* smooth anchor/nav scrolling */
-}
+  /* Line‑heights */
+  --lh-tight:   1.2;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.8;
 
-body {
-  background: var(--bg-color);
-  color: var(--text-color);
-  font-family: var(--font-body);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  font-smooth: always;
-  min-height: 100vh;
-}
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
 
-/* 4. Main-content offset to avoid header/footer overlap */
-.main-content {
-  padding-top: var(--header-height);
-  padding-bottom: var(--footer-height);
-}
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+  --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
 
-/* 5. Typographic defaults */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  color: var(--text-color);
-  line-height: 1.2;
+  /* Transitions */
+  --transition-short: 200ms ease-out;
+  --transition-med:   300ms ease-out;
+
+  /* Container */
+  --max-width: 1200px;
 }
 
-p, label, span, li {
-  font-family: var(--font-body);
-  color: var(--text-color);
+$breakpoints: (
+  sm: 600px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px
+);
+
+@mixin respond($point) {
+  @media (min-width: map-get($breakpoints, $point)) {
+    @content;
+  }
 }
 
-/* 6. Media & elements reset */
-img, picture, video {
-  display: block;
-  max-width: 100%;
-  height: auto;
+/* Utility classes */
+.container {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gap-sm);
+  padding-right: var(--gap-sm);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.u-center     { text-align: center; }
+.u-uppercase  { text-transform: uppercase; }
+.u-bold       { font-weight: 700; }
+
+.grid-cols-2   { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--gap-md); }
+.grid-cols-3   { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--gap-md); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
 }
 
-button {
-  font-family: inherit;
-  background: none;
-  border: none;
-  cursor: pointer;
+/* Keyframes */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
-
-/* 7. Scrollbar hiding for WebKit where desired */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.1);
-  border-radius: 4px;
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
 }
-::-webkit-scrollbar-track {
-  background: transparent;
+@keyframes fadePulse {
+  0%,100% { opacity: 0.7; }
+  50%     { opacity: 0.3; }
 }

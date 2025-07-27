@@ -1,7 +1,9 @@
-/** @type {import('next').NextConfig} */
+import path from 'path';
+
 const nextConfig = {
-  reactStrictMode: true,
-  // Remove any invalid experimental keys!
+  sassOptions: {
+    includePaths: [path.join(process.cwd(), 'styles')],
+  },
 };
 
 export default nextConfig;

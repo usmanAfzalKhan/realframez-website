@@ -1,85 +1,71 @@
-/* src/components/Faq/Faq.module.scss */
+// src/app/faq/Faq.module.scss
+@use 'sass:color';
 
-/* Theme variables */
-$bg-color:    #171a2b;
-$text-color:  #f6f6fa;
-$text-light:  rgba($text-color, 0.8);
-$accent:      #ffcc57;
-$transition:  300ms cubic-bezier(0.4,0,0.2,1);
+$bg:     #171a2b;
+$text:   #f6f6fa;
+$accent: #ffcc57;
+$trans:  300ms ease-out;
 
-/* Fade-in keyframes */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
 }
 
-/* Container */
 .main {
-  background: $bg-color;
-  color: $text-color;
+  background: $bg;
+  color: $text;
   padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem);
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center; // center align heading & intro
+  text-align: center;
 
   h1 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin-bottom: clamp(1rem, 3vw, 2rem);
-    -webkit-font-smoothing: antialiased;
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    margin-bottom: 1.5rem;
   }
 
   .intro {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
     font-size: clamp(1rem, 3vw, 1.25rem);
-    color: $text-light;
-    margin-bottom: clamp(2rem, 5vw, 3rem);
+    color: rgba($text, 0.8);
+    margin-bottom: 2rem;
     line-height: 1.6;
   }
 }
 
-/* FAQ List */
 .faqList {
   display: flex;
   flex-direction: column;
   gap: clamp(1rem, 3vw, 1.5rem);
-  margin: 0 auto;
 }
 
-/* Individual FAQ item */
 .faqItem {
-  background: lighten($bg-color, 2%);
+  background: color.adjust($bg, $lightness: 5%);
   border-radius: 0.5rem;
   overflow: hidden;
-  animation: fadeIn 400ms ease-out;
-  transition: background $transition;
+  animation: fadeInUp 400ms ease-out both;
+  transition: background $trans;
 
   &.open {
-    background: lighten($bg-color, 5%);
+    background: color.adjust($bg, $lightness: 10%);
   }
 
-  /* Question button */
   .question {
     width: 100%;
-    background: transparent;
-    border: none;
     padding: clamp(1rem, 3vw, 1.5rem);
     text-align: left;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     font-size: clamp(1.1rem, 3vw, 1.5rem);
-    color: $text-color;
+    color: $text;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: transparent;
+    border: none;
     cursor: pointer;
-    transition: color $transition, background $transition;
+    transition: background $trans;
 
     &:hover,
     &:focus-visible {
@@ -94,12 +80,11 @@ $transition:  300ms cubic-bezier(0.4,0,0.2,1);
     }
   }
 
-  /* Answer wrapper: animates height, opacity, and slide */
   .answerWrap {
     max-height: 0;
     opacity: 0;
     transform: translateY(-10px);
-    transition: max-height $transition, opacity $transition, transform $transition;
+    transition: max-height $trans, opacity $trans, transform $trans;
     overflow: hidden;
   }
 
@@ -109,11 +94,12 @@ $transition:  300ms cubic-bezier(0.4,0,0.2,1);
     transform: translateY(0);
   }
 
-  /* Inner answer content */
   .answer {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
     padding: clamp(0.75rem, 2.5vw, 1rem) clamp(1.5rem, 4vw, 2rem);
     font-size: clamp(0.95rem, 2.5vw, 1.125rem);
-    color: $text-light;
+    color: rgba($text, 0.8);
     line-height: 1.6;
   }
 }
