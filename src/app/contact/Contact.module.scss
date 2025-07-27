@@ -1,4 +1,4 @@
-// src/app/contact/Contact.module.scss
+@use 'sass:color';
 
 $bg:      #171a2b;
 $text:    #f6f6fa;
@@ -66,16 +66,16 @@ $trans:   200ms ease-out;
   width: 100%;
   padding: 0.6rem;
   border-radius: 8px;
-  background: darken($bg, 5%);
+  background: color.adjust($bg, $lightness: -5%);
   color: $text;
-  border: 1px solid darken($bg, 10%);
+  border: 1px solid color.adjust($bg, $lightness: -10%);
   transition: border $trans, background $trans;
 }
 
 .input:focus,
 .textarea:focus {
   border-color: $accent;
-  background: lighten($bg, 5%);
+  background: color.adjust($bg, $lightness: 5%);
 }
 
 .phoneRow {
@@ -83,8 +83,8 @@ $trans:   200ms ease-out;
 }
 
 .plusOne {
-  background: darken($bg, 10%);
-  border: 1px solid darken($bg, 10%);
+  background: color.adjust($bg, $lightness: -10%);
+  border: 1px solid color.adjust($bg, $lightness: -10%);
   border-radius: 8px 0 0 8px;
   padding: 0.6rem;
   color: rgba($text, 0.6);
@@ -121,7 +121,7 @@ $trans:   200ms ease-out;
 }
 
 .error {
-  background: darken($bg, 10%);
+  background: color.adjust($bg, $lightness: -10%);
   color: #f43f5e;
   padding: 0.3rem 0.6rem;
   border-radius: 4px;
@@ -130,7 +130,7 @@ $trans:   200ms ease-out;
 }
 
 .success {
-  background: darken($bg, 5%);
+  background: color.adjust($bg, $lightness: -5%);
   color: #c9f3c9;
   border-radius: 10px;
   padding: 2rem;
@@ -160,7 +160,7 @@ $trans:   200ms ease-out;
 }
 
 .addBtn:hover {
-  background: darken($accent, 10%);
+  background: color.adjust($accent, $lightness: -10%);
   transform: translateY(-2px);
 }
 
