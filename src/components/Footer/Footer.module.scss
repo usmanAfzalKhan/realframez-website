@@ -1,26 +1,31 @@
-// Footer.module.scss
+// src/components/Footer/Footer.module.scss
+@use 'sass:color';
 
-$bg-color:    #181b23;
-$text-color:  #f6f6fa;
-$text-light:  rgba($text-color, 0.6);
-$accent:      #ffcc57;
-$border:      rgba($text-color, 0.1);
-$transition:  300ms ease-out;
+// Design system variables (imported globally via :root CSS vars)
+$bg-color:    var(--color-neutral-dark);
+$text-color:  #ffffff;           // pure white font for footer links
+$text-light:  rgba(#ffffff, 0.6);
+$accent:      var(--color-accent);
+$border:      rgba(#ffffff, 0.1);
+$transition:  var(--transition-med);
+$gap-md:      var(--gap-md);
+$gap-lg:      var(--gap-lg);
+$max-width:   var(--max-width);
 
 .footer {
   background: $bg-color;
   color: $text-color;
-  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 5vw, 3rem);
+  padding: $gap-lg $gap-md;
   border-top: 1px solid $border;
 }
 
 .container {
-  max-width: 1200px;
+  max-width: $max-width;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(1rem, 3vw, 2rem);
+  gap: $gap-md;
 
   @media (min-width: 600px) {
     justify-content: space-between;
@@ -30,45 +35,41 @@ $transition:  300ms ease-out;
 .brand {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-  color: $text-color;
+  font-size: var(--fs-body);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--gap-xs);
+  color: $text-color;
 }
 
 .separator {
   width: 1px;
-  height: clamp(2rem, 5vw, 3rem);
+  height: var(--gap-lg);
   background: $accent;
   opacity: 0.3;
 }
 
 .links {
   display: flex;
-  gap: clamp(1rem, 3vw, 2rem);
-}
+  gap: $gap-md;
 
-.links a {
-  color: $text-light;
-  font-size: clamp(1rem, 2vw, 1.125rem);
-  transition: color $transition, transform $transition;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
+  a {
+    color: $text-light;
+    font-size: var(--fs-body);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: color $transition, transform $transition;
 
-  &:hover,
-  &:focus-visible {
-    color: $accent;
-    transform: translateY(-2px);
-    outline: none;
+    &:hover,
+    &:focus-visible {
+      color: $accent;
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    svg {
+      transition: color $transition;
+    }
   }
-
-  svg {
-    transition: color $transition;
-  }
-}
-
-.backToTop {
-  /* If you have a backToTop element, style it here */
 }

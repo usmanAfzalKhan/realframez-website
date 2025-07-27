@@ -1,10 +1,16 @@
-// Header.module.scss
+// src/components/Header/Header.module.scss
+@use 'sass:color';
 
-// Palette & transitions
-$bg-color: #171a2b;
-$text-color: #f6f6fa;
-$accent: #ffcc57;
-$transition: 300ms ease-out;
+// Design system variables (imported via :root CSS vars)
+$bg-color: var(--color-neutral-dark);
+$text-color: #ffffff;              // override to pure white
+$accent:    var(--color-accent);
+$transition: var(--transition-med);
+$radius-sm: var(--radius-sm);
+$gap-sm:    var(--gap-sm);
+$gap-md:    var(--gap-md);
+$gap-lg:    var(--gap-lg);
+$max-width: var(--max-width);
 
 // Slide‑down on load
 @keyframes slideDown {
@@ -12,57 +18,53 @@ $transition: 300ms ease-out;
   to   { transform: translateY(0);    opacity: 1; }
 }
 
-// Header wrapper
 .header {
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   background: $bg-color;
   z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--shadow-md);
   transform: translateY(-100%);
   animation: slideDown 500ms ease-out forwards;
 }
 
-// Inner flex container
 .inner {
-  max-width: 1200px;
+  max-width: $max-width;
   margin: 0 auto;
-  padding: clamp(0.75rem, 4vw, 1.5rem) clamp(1rem, 5vw, 2rem);
+  padding: $gap-sm $gap-md;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-// Logo with hover animation
 .logo {
+  text-decoration: none;               // remove default link underline
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: $gap-sm;
   transition: transform $transition, color $transition;
 
   &:hover,
   &:focus-visible {
     transform: scale(1.1) rotate(-2deg);
     outline: none;
+
+    .text {
+      color: $accent;
+    }
   }
 
   .text {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: var(--fs-body);
     color: $text-color;
-    transition: color $transition;
     -webkit-font-smoothing: antialiased;
-  }
-
-  &:hover .text,
-  &:focus-visible .text {
-    color: $accent;
   }
 }
 
-// Hamburger (mobile only)
 .toggle {
   display: flex;
   flex-direction: column;
@@ -71,7 +73,6 @@ $transition: 300ms ease-out;
   height: clamp(1.5rem, 5vw, 2rem);
   background: none;
   border: none;
-  padding: 0;
   cursor: pointer;
   z-index: 1100;
 
@@ -79,7 +80,7 @@ $transition: 300ms ease-out;
     width: 100%;
     height: 2px;
     background: $text-color;
-    border-radius: 1px;
+    border-radius: $radius-sm;
     transition: transform $transition, opacity $transition;
   }
 
@@ -95,30 +96,30 @@ $transition: 300ms ease-out;
   }
 }
 
-// Nav (mobile drawer + desktop inline)
 .nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(1rem, 3vw, 1.5rem);
+  gap: $gap-md;
   position: fixed;
-  top: 0; right: 0;
+  top: 0;
+  right: 0;
   height: 100vh;
   width: 80%;
   max-width: 300px;
   background: $bg-color;
-  padding-top: clamp(4rem, 10vw, 6rem);
+  padding-top: $gap-lg;
   transform: translateX(100%);
   transition: transform $transition ease-in-out;
   z-index: 1050;
 
   a {
+    text-decoration: none;               // ensure nav links have no underline
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: clamp(1rem, 3vw, 1.125rem);
+    font-size: var(--fs-body);
     color: $text-color;
-    text-decoration: none;
-    padding: clamp(0.75rem, 2vw, 1rem);
+    padding: $gap-sm;
     transition: color $transition;
 
     &:hover,
@@ -133,11 +134,10 @@ $transition: 300ms ease-out;
   }
 }
 
-// Overlay behind mobile nav
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   opacity: 0;
   visibility: hidden;
   transition: opacity $transition;
@@ -149,41 +149,19 @@ $transition: 300ms ease-out;
   }
 }
 
-// Desktop adjustments
 @media (min-width: 768px) {
-  // Hide hamburger
-  .toggle {
-    display: none;
-  }
-
-  // Inline nav: single row, no wrap
+  .toggle { display: none; }
   .nav {
     position: static;
     flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: flex-end;
-    align-items: center;
-    height: auto;
     width: auto;
+    height: auto;
     background: none;
     padding: 0;
     transform: none;
     box-shadow: none;
-    gap: clamp(1rem, 2vw, 1.25rem);
-
-    a {
-      padding: 0;
-      white-space: nowrap;
-      font-size: clamp(0.9rem, 1.5vw, 1rem);
-    }
-
-    &.open {
-      /* no-op */
-    }
+    gap: $gap-sm;
   }
-
-  // Remove overlay
-  .overlay {
-    display: none;
-  }
+  .overlay { display: none; }
 }
