@@ -20,7 +20,7 @@ import styles from './Review.module.scss'
 
 // basic profanity check
 const PROFANITY = new RegExp(
-  `\\b(?:fuck|shit|bitch|asshole|bastard|dick|pussy|cunt|slut|whore|nigga|nigger|paki|chink|spic)\\b`,
+  `\\b(?:fuck|shit|bitch|asshole|bastard|bhenchod|dick|pussy|cunt|slut|whore|nigga|nigger|paki|chink|spic)\\b`,
   'i'
 )
 

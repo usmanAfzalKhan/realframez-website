@@ -1,15 +1,14 @@
-// page.module.scss
+// src/app/page.module.scss
 
-// Intro section between Hero and Carousel
 .intro {
-  background: var(--bg-color);
-  color: var(--text-color);
+  background: var(--color-neutral-dark);
+  color: var(--color-neutral-light);
   text-align: center;
+  margin-top: var(--gap-lg);                      // space below Hero
   padding: clamp(4rem, 10vw, 6rem) clamp(1.5rem, 5vw, 3rem);
   position: relative;
   overflow: hidden;
 
-  // Subtle patterned texture (replace with your own if desired)
   &::before {
     content: '';
     position: absolute;
@@ -30,9 +29,7 @@
     font-weight: 700;
     font-size: clamp(2rem, 6vw, 3.5rem);
     margin-bottom: clamp(1rem, 3vw, 1.5rem);
-    -webkit-font-smoothing: antialiased;
 
-    // Gold underline accent
     &::after {
       content: '';
       position: absolute;
@@ -41,7 +38,7 @@
       transform: translateX(-50%);
       width: 50%;
       height: 4px;
-      background: var(--accent-color);
+      background: var(--accent);
       border-radius: 2px;
     }
   }
