@@ -1,8 +1,9 @@
-// Hero.module.scss
+// src/components/Hero/Hero.module.scss
 
 $transition:   300ms ease-out;
 $accent:       #ffcc57;
 $text-color:   #f6f6fa;
+$dark-color:   var(--color-neutral-dark);
 
 .hero {
   position: relative;
@@ -11,16 +12,20 @@ $text-color:   #f6f6fa;
   overflow: hidden;
 }
 
-.bgWrap {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-}
-
+.bgWrap,
 .motionWrap {
   position: absolute;
   inset: 0;
+  z-index: 1;
+}
+
+.motionWrap {
+  :global(img) {
+    object-fit: cover !important;
+    object-position: center center !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 .overlay {
@@ -59,6 +64,7 @@ $text-color:   #f6f6fa;
 }
 
 .ctaWrapper {
+  margin-top: clamp(2rem, 5vw, 3rem);  // push button down
   margin-bottom: clamp(1.5rem, 4vw, 2rem);
 }
 
@@ -67,8 +73,8 @@ $text-color:   #f6f6fa;
   font-weight: 700;
   text-transform: uppercase;
   font-size: clamp(0.9rem, 2.5vw, 1.125rem);
-  color: $text-color;
-  background: transparent;
+  color: $dark-color;               // dark text on white
+  background: #ffda22;                 // white background
   border: 2px solid $accent;
   padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
   border-radius: 0.25rem;
@@ -76,9 +82,8 @@ $text-color:   #f6f6fa;
 
   &:hover,
   &:focus-visible {
-    background: transparent;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    color: $accent;
+    background: $accent;
+    color: $dark-color;
     transform: translateY(-2px) scale(1.02);
     outline: none;
   }
@@ -147,7 +152,6 @@ $text-color:   #f6f6fa;
   &.right{ right: clamp(1rem,5vw,2rem); }
 }
 
-// Adjust arrows down a bit on mobile
 @media (max-width: 767px) {
   .arrow {
     top: 60%; /* moved arrows slightly lower */
@@ -170,3 +174,4 @@ $text-color:   #f6f6fa;
   .title    { font-size: clamp(3rem,5vw,5rem); }
   .subtitle { font-size: clamp(1.25rem,3vw,1.75rem); }
 }
+
