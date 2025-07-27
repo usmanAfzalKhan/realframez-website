@@ -8,9 +8,10 @@ export const metadata = {
   title: 'RealFramez | Real Estate Photography',
   description: 'Premium Real Estate Photography and Media Services',
   icons: {
-    icon: '/images/Logo.png',
+    icon: '/images/logo.png',     // lowercase path
+    apple: '/images/logo.png',    // also good for iOS devices
   },
-}
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -23,13 +24,15 @@ export default function RootLayout({ children }) {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#121624" />
-        {/* Fallback favicon link */}
-        <link rel="icon" href="/images/Logo.png" />
+        {/* Fallback favicon */}
+        <link rel="icon" href="/images/logo.png" sizes="any" />
       </head>
       <body>
         <ScrollToTop />
         <Header />
-        <main className="main-content">{children}</main>
+        <main className="main-content">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
