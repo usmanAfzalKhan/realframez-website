@@ -1,4 +1,3 @@
-// globals.scss
 :root {
   /* Colors */
   --color-primary: #000000;
@@ -48,6 +47,15 @@
 
   /* Container */
   --max-width: 1200px;
+}
+
+/* Enforce site‑wide dark background */
+html,
+body {
+  background-color: var(--color-neutral-dark);
+  color: var(--fs-body);
+  margin: 0;
+  padding: 0;
 }
 
 $breakpoints: (
