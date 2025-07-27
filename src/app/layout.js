@@ -1,5 +1,6 @@
 // src/app/layout.js
 import '../../styles/globals.scss'
+import ScrollToTop from '../components/ScrollToTop'
 import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }) {
         <title>RealFramez | Real Estate Photography</title>
       </head>
       <body>
+        <ScrollToTop />
         <Header />
         <main className="main-content">
           {children}
