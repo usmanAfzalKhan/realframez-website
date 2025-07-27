@@ -1,3 +1,4 @@
+// src/app/contact/Contact.module.scss
 @use 'sass:color';
 
 $bg:      #171a2b;
@@ -5,7 +6,6 @@ $text:    #f6f6fa;
 $accent:  #ffcc57;
 $trans:   200ms ease-out;
 
-// Fade‑in‑up for button
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -14,29 +14,31 @@ $trans:   200ms ease-out;
 .main {
   background: $bg;
   color: $text;
+  padding-top: 5rem;  // ensure header clearance on desktop
   padding: 4rem 1rem;
   max-width: 800px;
   margin: 0 auto;
-  font-family: 'Montserrat', sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
   gap: 1rem;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin: 0 0 0.5rem;
-  color: $text;
   text-align: center;
+  margin-top: clamp(1rem, 3vw, 1.5rem);
+  margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
 }
 
 .intro {
   font-size: 1rem;
-  margin: 0 0 2rem;
-  color: rgba($text, 0.7);
+  font-weight: 400;
+  color: color.adjust($text, $alpha: 0.7);
   text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
 .form {
@@ -63,6 +65,7 @@ $trans:   200ms ease-out;
 
 .input,
 .textarea {
+  display: block;
   width: 100%;
   padding: 0.6rem;
   border-radius: 8px;
@@ -70,12 +73,16 @@ $trans:   200ms ease-out;
   color: $text;
   border: 1px solid color.adjust($bg, $lightness: -10%);
   transition: border $trans, background $trans;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  box-sizing: border-box;
 }
 
 .input:focus,
 .textarea:focus {
   border-color: $accent;
   background: color.adjust($bg, $lightness: 5%);
+  outline: none;
 }
 
 .phoneRow {
@@ -88,11 +95,7 @@ $trans:   200ms ease-out;
   border-radius: 8px 0 0 8px;
   padding: 0.6rem;
   color: rgba($text, 0.6);
-}
-
-.phoneRow .input {
-  border-radius: 0 8px 8px 0;
-  border-left: none;
+  font-size: 1rem;
 }
 
 .servicesGrid {
@@ -102,15 +105,10 @@ $trans:   200ms ease-out;
   margin-bottom: 0.6rem;
 }
 
-.servicesGrid > div {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-}
-
 .checkboxLabel {
   font-size: 0.95rem;
   color: $text;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .radioGroup {
@@ -131,12 +129,14 @@ $trans:   200ms ease-out;
 
 .success {
   background: color.adjust($bg, $lightness: -5%);
-  color: #c9f3c9;
+  color: #38a169;
   border-radius: 10px;
   padding: 2rem;
   text-align: center;
   box-shadow: 0 3px 16px rgba(0,0,0,0.3);
   margin: 2rem auto 0;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
 }
 
 .addBtnWrap {
@@ -155,13 +155,16 @@ $trans:   200ms ease-out;
   text-transform: uppercase;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
+  font-size: 1rem;
   letter-spacing: 0.05em;
   transition: background $trans, transform $trans;
 }
 
-.addBtn:hover {
+.addBtn:hover,
+.addBtn:focus-visible {
   background: color.adjust($accent, $lightness: -10%);
   transform: translateY(-2px);
+  outline: none;
 }
 
 .thankLogo {
@@ -171,7 +174,9 @@ $trans:   200ms ease-out;
 
 @media (max-width: 600px) {
   .main {
-    padding: 2rem 1rem;
+    padding-top: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     gap: 0.75rem;
   }
   .title {

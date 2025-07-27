@@ -14,6 +14,7 @@ $trans:  300ms ease-out;
 .main {
   background: $bg;
   color: $text;
+  padding-top: 5rem;  // ensure header clearance on desktop
   padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 3rem);
   text-align: center;
 
@@ -21,7 +22,8 @@ $trans:  300ms ease-out;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: clamp(1.75rem, 5vw, 3rem);
-    margin-bottom: 1.5rem;
+    margin-top: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
   }
 
   .intro {
@@ -101,5 +103,14 @@ $trans:  300ms ease-out;
     font-size: clamp(0.95rem, 2.5vw, 1.125rem);
     color: rgba($text, 0.8);
     line-height: 1.6;
+  }
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding-top: 5rem;
+    padding-left: clamp(1rem, 5vw, 2rem);
+    padding-right: clamp(1rem, 5vw, 2rem);
+    gap: clamp(0.75rem, 3vw, 1rem);
   }
 }
