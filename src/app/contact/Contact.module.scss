@@ -1,7 +1,7 @@
 // src/app/contact/Contact.module.scss
 @use 'sass:color';
 
-$bg:      #000000;  // updated to pure black for site theme
+$bg:      #000000;  // pure black background
 $text:    #f6f6fa;
 $accent:  #ffcc57;
 $trans:   200ms ease-out;
@@ -28,7 +28,7 @@ $trans:   200ms ease-out;
   font-size: 2.5rem;
   font-weight: 700;
   text-align: center;
-  margin-top: clamp(1rem, 3vw, 1.5rem);
+  margin-top: clamp(2rem, 5vw, 3rem);
   margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
 }
 
@@ -78,11 +78,47 @@ $trans:   200ms ease-out;
   box-sizing: border-box;
 }
 
+/* Date input styling */
+.input[type="date"] {
+  color: $text;
+  background: $bg;
+  color-scheme: dark;
+}
+.input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: brightness(0) invert(1);
+  cursor: pointer;
+}
+
 .input:focus,
 .textarea:focus {
   border-color: $accent;
   background: color.adjust($bg, $lightness: 5%);
   outline: none;
+}
+
+/* Radio buttons styling */
+.radioGroup input[type="radio"] {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: $bg;
+  cursor: pointer;
+  position: relative;
+  margin-right: 0.5rem;
+  transition: background $trans, border $trans;
+}
+.radioGroup input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.8rem;
+  height: 0.8rem;
+  background: #ffffff;
+  border-radius: 50%;
 }
 
 .phoneRow {
@@ -111,17 +147,12 @@ $trans:   200ms ease-out;
   width: 1.2rem;
   height: 1.2rem;
   border: 2px solid #ffffff;  // white border
-  background: #000000;        // black background
+  background: $bg;
   border-radius: 4px;
   position: relative;
   cursor: pointer;
   transition: background $trans, border $trans;
 }
-
-.servicesGrid input[type="checkbox"]:checked {
-  /* background stays black, show white check mark */
-}
-
 .servicesGrid input[type="checkbox"]:checked::after {
   content: '\2713'; /* Unicode checkmark */
   position: absolute;
@@ -193,7 +224,6 @@ $trans:   200ms ease-out;
   letter-spacing: 0.05em;
   transition: background $trans, transform $trans;
 }
-
 .addBtn:hover,
 .addBtn:focus-visible {
   background: color.adjust($accent, $lightness: -10%);
@@ -203,7 +233,7 @@ $trans:   200ms ease-out;
 
 .thankLogo {
   display: block;
-  margin: 0 auto 1rem;
+  margin: 2rem auto 1rem;
 }
 
 @media (max-width: 600px) {
@@ -215,6 +245,7 @@ $trans:   200ms ease-out;
   }
   .title {
     font-size: 2rem;
+    margin-top: clamp(2rem, 6vw, 4rem);
   }
   .form {
     padding: 1.5rem 1rem;

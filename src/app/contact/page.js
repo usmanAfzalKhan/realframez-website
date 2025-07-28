@@ -180,7 +180,7 @@ export default function ContactPage() {
             value={form.phone}
             onChange={handleChange}
             onBlur={handlePhoneBlur}
-            placeholder="6477452016"
+            placeholder="647-123-4567"
             required
           />
         </div>

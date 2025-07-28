@@ -8,7 +8,6 @@ import { motion } from 'framer-motion'
 import styles from './ServiceCard.module.scss'
 
 export default function ServiceCard({ title, description, slug }) {
-  // track mobile breakpoint
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768)
