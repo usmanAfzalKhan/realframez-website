@@ -1,13 +1,29 @@
 // src/app/page.module.scss
 
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .intro {
   background: var(--color-neutral-dark);
   color: var(--color-neutral-light);
   text-align: center;
-  margin-top: var(--gap-lg);                      // space below Hero
+  margin-top: var(--gap-lg); // space below Hero
   padding: clamp(4rem, 10vw, 6rem) clamp(1.5rem, 5vw, 3rem);
   position: relative;
   overflow: hidden;
+
+  // Fade-up on load
+  opacity: 0;
+  transform: translateY(32px);
+  animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.25s both;
 
   &::before {
     content: '';
@@ -30,6 +46,11 @@
     font-size: clamp(2rem, 6vw, 3.5rem);
     margin-bottom: clamp(1rem, 3vw, 1.5rem);
 
+    // Fade-up h2 slightly later
+    opacity: 0;
+    transform: translateY(32px);
+    animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+
     &::after {
       content: '';
       position: absolute;
@@ -49,5 +70,10 @@
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.6;
+
+    // Fade-up p after h2
+    opacity: 0;
+    transform: translateY(32px);
+    animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.55s both;
   }
 }

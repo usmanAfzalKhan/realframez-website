@@ -1,3 +1,4 @@
+// src/components/Hero/Hero.jsx
 "use client";
 
 import { useState, useEffect } from "react";
@@ -15,19 +16,27 @@ const swipeVariants = {
   animate: {
     x: "0%",
     opacity: 1,
-    transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+    transition: { duration: 0.28, ease: [0.45, 0, 0.55, 1] },
   },
   exit: (dir) => ({
     x: dir === "next" ? "-100%" : "100%",
     opacity: 0,
-    transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
+    transition: { duration: 0.28, ease: [0.45, 0, 0.55, 1] },
   }),
 };
 
 const textVariants = {
   initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.4, 0, 0.2, 1] } },
-  exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] } },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.45, 0, 0.55, 1] },
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    transition: { duration: 0.25, ease: [0.45, 0, 0.55, 1] },
+  },
 };
 
 export default function Hero() {
@@ -35,6 +44,7 @@ export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);
   const [direction, setDirection] = useState("next");
 
+  // Responsive flag
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
     onResize();
@@ -42,6 +52,7 @@ export default function Hero() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // Keyboard navigation
   useEffect(() => {
     const handler = (e) => {
       if (e.key === "ArrowLeft") prevSlide();
@@ -59,6 +70,20 @@ export default function Hero() {
     setDirection("next");
     setCurrent((c) => (c === slides.length - 1 ? 0 : c + 1));
   };
+
+  // PRELOAD current, next, previous images for instant transitions
+  const adjacent = [
+    slides[current],
+    slides[(current + 1) % slides.length],
+    slides[(current - 1 + slides.length) % slides.length],
+  ];
+  adjacent.forEach((slideObj) => {
+    const src = isMobile ? slideObj.mobileImg : slideObj.desktopImg;
+    if (typeof window !== "undefined") {
+      const img = new window.Image();
+      img.src = src;
+    }
+  });
 
   const slide = slides[current];
   const imgSrc = isMobile ? slide.mobileImg : slide.desktopImg;
@@ -91,6 +116,7 @@ export default function Hero() {
               style={{ objectFit: "cover" }}
               priority
               draggable={false}
+              unoptimized // Remove if you want Next.js optimization in prod
             />
           </motion.div>
         </AnimatePresence>
@@ -114,7 +140,7 @@ export default function Hero() {
             initial="initial"
             animate="animate"
             exit="exit"
-            transition={{ delay: 0.1 }}
+            transition={{ delay: 0.07 }}
             className={styles.subtitle}
           >
             {slide.subtitle}
@@ -126,7 +152,7 @@ export default function Hero() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.15 }}
               className={styles.ctaWrapper}
             >
               <Link href={slide.buttonLink} className={styles.ctaBtn}>

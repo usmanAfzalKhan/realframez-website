@@ -1,38 +1,28 @@
 // src/app/services/[slug]/page.js
 'use client'
 
-import React, { use, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { use as usePromise } from 'react'
 import { getServiceBySlug } from '../../../data/services'
 import styles from './ServiceDetail.module.scss'
 
 export default function ServiceDetailPage({ params }) {
-  // unwrap the incoming params promise to silence the Next.js warning:
-  const { slug } = usePromise(params)
+  const { slug } = params
   const svc = getServiceBySlug(slug)
 
-  // Detect mobile breakpoint
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
-    function onResize() {
-      setIsMobile(window.innerWidth < 768)
-    }
+    const onResize = () => setIsMobile(window.innerWidth < 768)
     onResize()
     window.addEventListener('resize', onResize)
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
   if (!svc) {
-    return (
-      <div className={styles.main}>
-        <div className={styles.notFound}>Service Not Found</div>
-      </div>
-    )
+    return <div className={styles.main}><p>Service Not Found</p></div>
   }
 
-  // Build the correct filename for desktop vs. mobile
   const imageName = `${slug}-${isMobile ? 'mobile' : 'desktop'}.png`
 
   return (
@@ -43,7 +33,7 @@ export default function ServiceDetailPage({ params }) {
         </Link>
       </div>
 
-      <h1>{svc.title}</h1>
+      <h1 className={styles.title}>{svc.title}</h1>
 
       <div className={styles.album}>
         <div className={styles.imgBox}>
@@ -51,15 +41,25 @@ export default function ServiceDetailPage({ params }) {
             src={`/images/services/${imageName}`}
             alt={svc.title}
             fill
-            sizes="(max-width: 767px) 100vw, 100vw"
+            sizes="100vw"
             style={{ objectFit: 'cover' }}
             priority
             draggable={false}
           />
+          <div className={styles.logoOverlay}>
+            <Image
+              src="/images/logo.png"
+              alt="RealFramez Logo"
+              width={28}
+              height={28}
+              priority
+            />
+          </div>
         </div>
       </div>
 
       <p className={styles.desc}>{svc.description}</p>
+      <p className={styles.desc}>{svc.why}</p>
 
       <div className={styles.priceBox}>
         <div className={styles.starting}>

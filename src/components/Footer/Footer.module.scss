@@ -6,7 +6,7 @@ $bg-color:    var(--color-neutral-dark);
 $text-color:  #ffffff;           // pure white font for footer links
 $text-light:  rgba(#ffffff, 0.6);
 $accent:      var(--color-accent);
-$border:      rgba(#ffffff, 0.1);
+$border:      #fff;              // solid white border
 $transition:  var(--transition-med);
 $gap-md:      var(--gap-md);
 $gap-lg:      var(--gap-lg);
@@ -16,7 +16,7 @@ $max-width:   var(--max-width);
   background: $bg-color;
   color: $text-color;
   padding: $gap-lg $gap-md;
-  border-top: 1px solid $border;
+  border-top: 2px solid $border;    // white border above footer
 }
 
 .container {

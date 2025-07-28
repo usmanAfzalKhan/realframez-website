@@ -1,5 +1,4 @@
 // src/components/ServiceCard/ServiceCard.jsx
-
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -18,7 +17,6 @@ export default function ServiceCard({ title, description, slug }) {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  // build the correct image path
   const imgSrc = `/images/services/${slug}-${isMobile ? 'mobile' : 'desktop'}.png`
 
   return (
@@ -38,9 +36,20 @@ export default function ServiceCard({ title, description, slug }) {
           priority
           draggable={false}
         />
+        <div className={styles.logoOverlay}>
+          <Image
+            src="/images/logo.png"
+            alt="RealFramez logo"
+            width={28}
+            height={28}
+            draggable={false}
+          />
+        </div>
       </div>
-      <h3>{title}</h3>
-      <p>{description}</p>
+
+      <h3 className={styles.title}>{title}</h3>
+      <p className={styles.desc}>{description}</p>
+
       <Link href={`/services/${slug}`} className={styles.cta}>
         View Details
       </Link>

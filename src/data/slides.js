@@ -2,8 +2,8 @@ export const slides = [
   {
     title: "Welcome to RealFrames",
     subtitle: "Professional Real Estate Photography",
-    button: null,
-    buttonLink: null,
+    button: "View Services",
+    buttonLink: "/services",
     desktopImg: "/images/hero/slide1-desktop.png",
     mobileImg: "/images/hero/slide1-mobile.png",
   },

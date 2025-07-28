@@ -14,10 +14,19 @@ export default function ServicesPage() {
     <main className={styles.main}>
       <header className={styles.header}>
         <h1>Our Services</h1>
-        <p>
-          Choose from our tailored real estate photography packages below and
-          book a session that fits your needs.
-        </p>
+  <p
+    style={{
+      fontFamily: `'Montserrat', sans-serif`,
+      fontSize: 'clamp(1rem, 3vw, 1.125rem)',
+      color: 'var(--color-neutral-light)',
+      lineHeight: 1.6,
+      maxWidth: '700px',
+      margin: '0 auto'
+    }}
+  >
+    Choose from our tailored real estate photography packages below and
+    book a session that fits your needs.
+  </p>
       </header>
       <div className={styles.grid}>
         {services.map((svc) => (

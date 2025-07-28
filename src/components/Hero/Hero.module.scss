@@ -64,7 +64,7 @@ $dark-color:   var(--color-neutral-dark);
 }
 
 .ctaWrapper {
-  margin-top: clamp(2rem, 5vw, 3rem);  // push button down
+  margin-top: clamp(2rem, 5vw, 3rem);
   margin-bottom: clamp(1.5rem, 4vw, 2rem);
 }
 
@@ -73,8 +73,8 @@ $dark-color:   var(--color-neutral-dark);
   font-weight: 700;
   text-transform: uppercase;
   font-size: clamp(0.9rem, 2.5vw, 1.125rem);
-  color: $dark-color;               // dark text on white
-  background: #ffda22;                 // white background
+  color: $dark-color;
+  background: #fff;
   border: 2px solid $accent;
   padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
   border-radius: 0.25rem;
@@ -154,7 +154,7 @@ $dark-color:   var(--color-neutral-dark);
 
 @media (max-width: 767px) {
   .arrow {
-    top: 60%; /* moved arrows slightly lower */
+    top: 60%;
   }
 }
 
@@ -174,4 +174,3 @@ $dark-color:   var(--color-neutral-dark);
   .title    { font-size: clamp(3rem,5vw,5rem); }
   .subtitle { font-size: clamp(1.25rem,3vw,1.75rem); }
 }
-
