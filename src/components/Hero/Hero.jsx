@@ -9,16 +9,23 @@ import styles from './Hero.module.scss'
 
 export default function Hero() {
   const [current, setCurrent] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
   const [showImage, setShowImage] = useState(false)
   const timeoutRef = useRef(null)
-  const [isMounted, setIsMounted] = useState(false)
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
 
+  // Detect mobile after mount
   useEffect(() => {
-    setIsMounted(true)
+    function onResize() {
+      setIsMobile(window.innerWidth < 768)
+    }
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  // Play video then switch to image
   useEffect(() => {
     setShowImage(false)
     clearTimeout(timeoutRef.current)
@@ -26,15 +33,15 @@ export default function Hero() {
     return () => clearTimeout(timeoutRef.current)
   }, [current])
 
-  const isMobile = isMounted && window.innerWidth < 768
   const slide = slides[current]
+  // <-- use slide.* directly, not prefixed
   const videoSrc = isMobile ? slide.mobileVideo : slide.desktopVideo
   const imageSrc = isMobile ? slide.mobileImage : slide.desktopImage
 
   const prev = () => setCurrent((current - 1 + slides.length) % slides.length)
   const next = () => setCurrent((current + 1) % slides.length)
 
-  // Handlers for touch/swipe
+  // Swipe support
   const onTouchStart = (e) => { touchStartX.current = e.changedTouches[0].screenX }
   const onTouchEnd = (e) => {
     touchEndX.current = e.changedTouches[0].screenX
@@ -57,6 +64,7 @@ export default function Hero() {
         autoPlay
         onEnded={() => setShowImage(true)}
       />
+
       <img
         key={imageSrc}
         className={`${styles.media} ${!showImage ? styles.hidden : styles.fadeIn}`}
@@ -68,8 +76,12 @@ export default function Hero() {
         <Image src="/images/logo.png" alt="Logo" width={60} height={60} />
       </div>
 
-      <button className={styles.arrowLeft} onClick={prev} aria-label="Previous slide">‹</button>
-      <button className={styles.arrowRight} onClick={next} aria-label="Next slide">›</button>
+      <button className={styles.arrowLeft} onClick={prev} aria-label="Previous slide">
+        ‹
+      </button>
+      <button className={styles.arrowRight} onClick={next} aria-label="Next slide">
+        ›
+      </button>
 
       <div className={styles.overlay}>
         <h1 className={styles.title}>{slide.title}</h1>
