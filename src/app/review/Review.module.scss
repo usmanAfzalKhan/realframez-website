@@ -78,12 +78,16 @@ $trans:  300ms ease-out;
   .reviewText {
     margin-bottom: 1rem;
     color: $muted;
+    font-family: 'Montserrat', sans-serif;
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
   }
   .reviewName {
     text-align: right;
     color: $accent;
     font-style: italic;
-    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: var(--fs-small);
   }
 
   .addBtnWrap {
@@ -208,5 +212,18 @@ $trans:  300ms ease-out;
     &:hover {
       transform: translateY(-2px) scale(1.02);
     }
+  }
+}
+
+/* Mobile tweaks: increase width by reducing side padding */
+@media (max-width: 600px) {
+  .main {
+    padding: clamp(4rem, 8vw, 6rem) 1rem; /* narrower side padding */
+  }
+  .reviewGrid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    margin: 0 auto 2rem;
+    gap: 1rem;
   }
 }
