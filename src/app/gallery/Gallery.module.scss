@@ -1,7 +1,7 @@
-// src/app/gallery/Gallery.module.scss
+/* src/app/gallery/Gallery.module.scss */
 @use 'sass:color';
 
-$bg:     #000000;  // changed to pure black
+$bg:     #000000;  // pure black background
 $fg:     #f6f6fa;
 $accent: #ffcc57;
 $trans:  200ms ease-out;
@@ -23,7 +23,7 @@ $trans:  200ms ease-out;
 .gallery {
   background: $bg;
   color: $fg;
-  padding-top: 5rem;   // header offset
+  padding-top: 5rem;
   padding: 4rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -35,6 +35,13 @@ $trans:  200ms ease-out;
     font-size: clamp(2rem, 5vw, 2.5rem);
     margin: clamp(1rem, 3vw, 1.5rem) 0;
     animation: fadeIn 0.5s both;
+  }
+
+  // push the heading further down on mobile
+  @media (max-width: 768px) {
+    .heading {
+      margin-top: clamp(3rem, 8vw, 6rem);
+    }
   }
 
   .subtitle,
@@ -95,7 +102,7 @@ $trans:  200ms ease-out;
     position: fixed;
     inset: 0;
     padding: 2rem;
-    background: rgba(#000, 0.9); // black overlay
+    background: rgba(#000, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,7 +112,7 @@ $trans:  200ms ease-out;
   }
 
   .modal {
-    background: #000; // pure black modal bg
+    background: #000;
     padding: 1.5rem;
     border-radius: 0.5rem;
     max-width: 80vw;

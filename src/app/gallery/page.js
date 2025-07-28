@@ -1,3 +1,4 @@
+// src/app/gallery/page.js
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -41,14 +42,25 @@ export default function GalleryPage() {
     return () => window.removeEventListener('keydown', onKey)
   }, [isOpen, currentIndex])
 
+  // Preload prev/next images for instant navigation
+  useEffect(() => {
+    if (!isOpen) return
+    const nextIdx = (currentIndex + 1) % galleryImages.length
+    const prevIdx = (currentIndex - 1 + galleryImages.length) % galleryImages.length
+    ;[nextIdx, prevIdx].forEach(i => {
+      const img = new window.Image()
+      img.src = galleryImages[i]
+    })
+  }, [currentIndex, isOpen])
+
   const stop = (e) => e.stopPropagation()
 
   return (
     <div className={styles.gallery}>
       <h1 className={styles.heading}>Gallery</h1>
       <p className={styles.subtitle}>
-        Explore our curated gallery of real estate photographs, showcasing
-        properties in their best light—from elegant interiors to breathtaking views.
+        Explore our curated gallery of real estate photographs, showcasing properties
+        in their best light—from elegant interiors to breathtaking views.
       </p>
       <p className={styles.note}>Click to enlarge</p>
 
