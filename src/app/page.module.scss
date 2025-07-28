@@ -20,7 +20,10 @@
   position: relative;
   overflow: hidden;
 
-  // Fade-up on load
+  // apply Montserrat to everything in here
+  font-family: 'Montserrat', sans-serif;
+
+  // Fade‑up on load
   opacity: 0;
   transform: translateY(32px);
   animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.25s both;
@@ -41,12 +44,12 @@
   h2 {
     position: relative;
     display: inline-block;
-    font-family: var(--font-heading);
+    margin-top: -4rem;    // lift it up slightly
     font-weight: 700;
     font-size: clamp(2rem, 6vw, 3.5rem);
     margin-bottom: clamp(1rem, 3vw, 1.5rem);
 
-    // Fade-up h2 slightly later
+    // Fade‑up h2 slightly later
     opacity: 0;
     transform: translateY(32px);
     animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
@@ -59,19 +62,18 @@
       transform: translateX(-50%);
       width: 50%;
       height: 4px;
-      background: var(--accent);
+      background: var(--color-accent);
       border-radius: 2px;
     }
   }
 
   p {
-    font-family: var(--font-body);
     font-size: clamp(1rem, 3vw, 1.25rem);
     max-width: 700px;
     margin: 0 auto;
     line-height: 1.6;
 
-    // Fade-up p after h2
+    // Fade‑up p after h2
     opacity: 0;
     transform: translateY(32px);
     animation: fadeUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.55s both;

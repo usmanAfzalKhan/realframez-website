@@ -51,15 +51,18 @@ $dark-color:   var(--color-neutral-dark);
   font-weight: 700;
   font-size: clamp(2rem, 6vw, 4rem);
   color: $text-color;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  /* heavier drop shadow + thin black outline */
+  text-shadow: 0 2px 8px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6);
+  -webkit-text-stroke: 0.5px black;
   margin: 0;
 }
 
 .subtitle {
-  font-family: sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: clamp(1rem, 3vw, 1.5rem);
   color: $text-color;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,0.6);
+  -webkit-text-stroke: 0.3px black;
   margin: clamp(0.75rem, 2vw, 1.25rem) 0;
 }
 
