@@ -1,4 +1,3 @@
-// src/app/layout.js
 import '../../styles/globals.scss'
 import ScrollToTop from '../components/ScrollToTop'
 import Header from '../components/Header/Header'
@@ -8,10 +7,10 @@ export const metadata = {
   title: 'RealFramez | Real Estate Photography',
   description: 'Premium Real Estate Photography and Media Services',
   icons: {
-    icon: '/images/logo.png',     // lowercase path
-    apple: '/images/logo.png',    // also good for iOS devices
+    icon: '/images/logo.png',
+    apple: '/images/logo.png',
   },
-};
+}
 
 export default function RootLayout({ children }) {
   return (
@@ -22,6 +21,37 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
           rel="stylesheet"
         />
+
+        {/* Preload hero videos & images */}
+        <link
+          rel="preload"
+          href="/videos/slide1-welcome-desktop.mp4"
+          as="video"
+          type="video/mp4"
+          media="(min-width:768px)"
+        />
+        <link
+          rel="preload"
+          href="/videos/slide1-welcome-mobile.mp4"
+          as="video"
+          type="video/mp4"
+          media="(max-width:767px)"
+        />
+        <link
+          rel="preload"
+          href="/images/hero/slide1-desktop.png"
+          as="image"
+          media="(min-width:768px)"
+        />
+        <link
+          rel="preload"
+          href="/images/hero/slide1-mobile.png"
+          as="image"
+          media="(max-width:767px)"
+        />
+
+        {/* Repeat the four lines above for slide2, slide3, etc. */}
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#121624" />
         {/* Fallback favicon */}
@@ -30,9 +60,7 @@ export default function RootLayout({ children }) {
       <body>
         <ScrollToTop />
         <Header />
-        <main className="main-content">
-          {children}
-        </main>
+        <main className="main-content">{children}</main>
         <Footer />
       </body>
     </html>
