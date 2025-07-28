@@ -1,4 +1,3 @@
-// src/app/services/[slug]/page.js
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -27,12 +26,6 @@ export default function ServiceDetailPage({ params }) {
 
   return (
     <div className={styles.main}>
-      <div className={styles.backWrap}>
-        <Link href="/services" className={styles.backBtn}>
-          &larr; Back to Services
-        </Link>
-      </div>
-
       <h1 className={styles.title}>{svc.title}</h1>
 
       <div className={styles.album}>
@@ -61,11 +54,20 @@ export default function ServiceDetailPage({ params }) {
       <p className={styles.desc}>{svc.description}</p>
       <p className={styles.desc}>{svc.why}</p>
 
+      <div className={styles.backWrap}>
+        <Link href={`/contact?service=${slug}`} className={styles.backBtn}>
+          &larr; Back to Services
+        </Link>
+      </div>
+
       <div className={styles.priceBox}>
         <div className={styles.starting}>
           Starting from <span>${svc.price}</span>
         </div>
-        <button className={styles.bookBtn}>Book Now</button>
+        {/* now a link so we carry the slug as a query param */}
+        <Link href={`/contact?service=${slug}`} className={styles.bookBtn}>
+          Book Now
+        </Link>
       </div>
     </div>
   )

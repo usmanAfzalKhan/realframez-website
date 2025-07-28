@@ -2,17 +2,20 @@
 'use client'
 
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import styles from './Contact.module.scss'
 import { services } from '../../data/services'
 
 export default function ContactPage() {
   const today = new Date().toISOString().split('T')[0]
+  const searchParams = useSearchParams()
+  const preselect = searchParams.get('service')
 
   const [form, setForm] = useState({
     name: '',
     phone: '',
-    services: [],
+    services: preselect ? [preselect] : [],
     date: today,
     referred: 'No',
     referredBy: '',
@@ -24,7 +27,7 @@ export default function ContactPage() {
   const [submittedPhone, setSubmittedPhone] = useState('')
 
   // Strip non‑digits and format as XXX‑XXX‑XXXX if 10 digits
-  const formatPhoneNumber = value => {
+  const formatPhoneNumber = (value) => {
     const digits = value.replace(/\D/g, '')
     if (digits.length === 10) {
       return digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')
@@ -32,7 +35,6 @@ export default function ContactPage() {
     return value
   }
 
-  // Other handlers...
   const validate = () => {
     const errs = {}
     if (!form.name.trim()) errs.name = 'Name is required.'
@@ -49,32 +51,37 @@ export default function ContactPage() {
     return Object.keys(errs).length === 0
   }
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target
-    setForm(f => ({ ...f, [name]: value }))
-    if (errors[name]) setErrors(e => ({ ...e, [name]: '' }))
-  }
-  const handlePhoneBlur = e => {
-    const formatted = formatPhoneNumber(e.target.value)
-    setForm(f => ({ ...f, phone: formatted }))
-  }
-  const handleServiceChange = e => {
-    const { value, checked } = e.target
-    setForm(f => ({
-      ...f,
-      services: checked ? [...f.services, value] : f.services.filter(s => s !== value),
-    }))
-    if (errors.services) setErrors(e => ({ ...e, services: '' }))
-  }
-  const handleSelectAll = e => {
-    setForm(f => ({
-      ...f,
-      services: e.target.checked ? services.map(s => s.slug) : [],
-    }))
-    if (errors.services) setErrors(e => ({ ...e, services: '' }))
+    setForm((f) => ({ ...f, [name]: value }))
+    if (errors[name]) setErrors((e) => ({ ...e, [name]: '' }))
   }
 
-  const handleSubmit = async e => {
+  const handlePhoneBlur = (e) => {
+    const formatted = formatPhoneNumber(e.target.value)
+    setForm((f) => ({ ...f, phone: formatted }))
+  }
+
+  const handleServiceChange = (e) => {
+    const { value, checked } = e.target
+    setForm((f) => ({
+      ...f,
+      services: checked
+        ? [...f.services, value]
+        : f.services.filter((s) => s !== value),
+    }))
+    if (errors.services) setErrors((e) => ({ ...e, services: '' }))
+  }
+
+  const handleSelectAll = (e) => {
+    setForm((f) => ({
+      ...f,
+      services: e.target.checked ? services.map((s) => s.slug) : [],
+    }))
+    if (errors.services) setErrors((e) => ({ ...e, services: '' }))
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (loading) return
     setStatus('')
@@ -180,7 +187,7 @@ export default function ContactPage() {
           <span className={styles.req}>*</span> Services Required
         </p>
         <div className={styles.servicesGrid}>
-          {services.map(svc => {
+          {services.map((svc) => {
             const id = `service-${svc.slug}`
             return (
               <div key={id}>
@@ -234,22 +241,21 @@ export default function ContactPage() {
           <p className={styles.label}>
             <span className={styles.req}>*</span> How did you hear about us?
           </p>
-          {['Yes','No'].map(val => (
+          {['Yes', 'No'].map((val) => (
             <div key={val}>
               <input
                 type="radio"
                 id={`ref-${val}`}
                 name="referred"
                 value={val}
-                checked={form.referred===val}
+                checked={form.referred === val}
                 onChange={handleChange}
               />
               <label htmlFor={`ref-${val}`}>{val}</label>
             </div>
           ))}
         </div>
-
-        {form.referred==='Yes' && (
+        {form.referred === 'Yes' && (
           <>
             <label className={styles.label} htmlFor="referredBy">
               <span className={styles.req}>*</span> Who referred you?
@@ -267,7 +273,7 @@ export default function ContactPage() {
           </>
         )}
 
-        {/* Message (optional) */}
+        {/* Message */}
         <label className={styles.label} htmlFor="message">
           Additional Message
         </label>
@@ -280,21 +286,15 @@ export default function ContactPage() {
           onChange={handleChange}
         />
 
-        {/* Send button */}
+        {/* Submit */}
         <div className={styles.addBtnWrap}>
-          <button
-            type="submit"
-            className={styles.addBtn}
-            disabled={loading}
-          >
+          <button type="submit" className={styles.addBtn} disabled={loading}>
             {loading ? 'Sending…' : 'Send Message'}
           </button>
         </div>
 
-        {status==='ERROR' && (
-          <p className={styles.error}>
-            ❌ Something went wrong. Please try again.
-          </p>
+        {status === 'ERROR' && (
+          <p className={styles.error}>❌ Something went wrong. Please try again.</p>
         )}
       </form>
     </section>

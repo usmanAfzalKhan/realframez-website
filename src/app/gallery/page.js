@@ -1,8 +1,7 @@
-// src/app/gallery/page.js
-
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { galleryImages } from '../../data/galleryImages'
 import styles from './Gallery.module.scss'
 
@@ -47,21 +46,26 @@ export default function GalleryPage() {
   return (
     <div className={styles.gallery}>
       <h1 className={styles.heading}>Gallery</h1>
-
-      {/* newly added descriptions */}
-      <p className={styles.subtitle}>Explore our curated gallery of real estate photographs, showcasing properties in their best light—from elegant interiors to breathtaking views.</p>
+      <p className={styles.subtitle}>
+        Explore our curated gallery of real estate photographs, showcasing
+        properties in their best light—from elegant interiors to breathtaking views.
+      </p>
       <p className={styles.note}>Click to enlarge</p>
 
       <div className={styles.grid}>
         {galleryImages.map((src, idx) => (
-          <img
-            key={idx}
-            src={src}
-            loading="lazy"
-            alt={`Gallery image ${idx + 1}`}
-            className={styles.thumb}
-            onClick={() => openModal(idx)}
-          />
+          <div key={idx} className={styles.thumbWrap}>
+            <Image
+              src={src}
+              alt={`Gallery image ${idx + 1}`}
+              width={400}
+              height={300}
+              sizes="(min-width: 700px) 23vw, (min-width: 400px) 45vw, 90vw"
+              priority={idx < 8}
+              className={styles.thumb}
+              onClick={() => openModal(idx)}
+            />
+          </div>
         ))}
       </div>
 
@@ -80,10 +84,12 @@ export default function GalleryPage() {
               ×
             </button>
 
-            <img
+            <Image
               src={galleryImages[currentIndex]}
-              loading="lazy"
               alt={`Image ${currentIndex + 1}`}
+              width={1200}
+              height={800}
+              sizes="80vw"
               className={styles.modalImg}
             />
 
