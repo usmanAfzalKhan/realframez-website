@@ -1,21 +1,18 @@
 // src/app/contact/page.js
 'use client'
 
-import { useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import styles from './Contact.module.scss'
 import { services } from '../../data/services'
 
 export default function ContactPage() {
   const today = new Date().toISOString().split('T')[0]
-  const searchParams = useSearchParams()
-  const preselect = searchParams.get('service')
 
   const [form, setForm] = useState({
     name: '',
     phone: '',
-    services: preselect ? [preselect] : [],
+    services: [],     // will fill in useEffect if ?service=…
     date: today,
     referred: 'No',
     referredBy: '',
@@ -25,6 +22,15 @@ export default function ContactPage() {
   const [status, setStatus] = useState('')       // '', 'ERROR', 'SENT'
   const [loading, setLoading] = useState(false)
   const [submittedPhone, setSubmittedPhone] = useState('')
+
+  // parse ?service=slug on client
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const pre = params.get('service')
+    if (pre) {
+      setForm(f => ({ ...f, services: [pre] }))
+    }
+  }, [])
 
   // Strip non‑digits and format as XXX‑XXX‑XXXX if 10 digits
   const formatPhoneNumber = (value) => {
@@ -53,32 +59,32 @@ export default function ContactPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setForm((f) => ({ ...f, [name]: value }))
-    if (errors[name]) setErrors((e) => ({ ...e, [name]: '' }))
+    setForm(f => ({ ...f, [name]: value }))
+    if (errors[name]) setErrors(e => ({ ...e, [name]: '' }))
   }
 
   const handlePhoneBlur = (e) => {
     const formatted = formatPhoneNumber(e.target.value)
-    setForm((f) => ({ ...f, phone: formatted }))
+    setForm(f => ({ ...f, phone: formatted }))
   }
 
   const handleServiceChange = (e) => {
     const { value, checked } = e.target
-    setForm((f) => ({
+    setForm(f => ({
       ...f,
       services: checked
         ? [...f.services, value]
-        : f.services.filter((s) => s !== value),
+        : f.services.filter(s => s !== value),
     }))
-    if (errors.services) setErrors((e) => ({ ...e, services: '' }))
+    if (errors.services) setErrors(e => ({ ...e, services: '' }))
   }
 
   const handleSelectAll = (e) => {
-    setForm((f) => ({
+    setForm(f => ({
       ...f,
-      services: e.target.checked ? services.map((s) => s.slug) : [],
+      services: e.target.checked ? services.map(s => s.slug) : [],
     }))
-    if (errors.services) setErrors((e) => ({ ...e, services: '' }))
+    if (errors.services) setErrors(e => ({ ...e, services: '' }))
   }
 
   const handleSubmit = async (e) => {
@@ -127,12 +133,10 @@ export default function ContactPage() {
         <h1 className={styles.title}>Thank You!</h1>
         <p className={styles.intro}>
           We appreciate you taking the time to reach out. A member of our team will contact you
-          at <strong>{submittedPhone}</strong> within the next 2–3 business days to confirm
-          your appointment and discuss any further details.
+          at <strong>{submittedPhone}</strong> within the next 2–3 business days.
         </p>
         <p className={styles.intro}>
           If you need immediate assistance, please call us at <strong>647‑123‑4567</strong>.
-          Thank you for choosing RealFrames — we look forward to working with you!
         </p>
       </section>
     )
@@ -187,7 +191,7 @@ export default function ContactPage() {
           <span className={styles.req}>*</span> Services Required
         </p>
         <div className={styles.servicesGrid}>
-          {services.map((svc) => {
+          {services.map(svc => {
             const id = `service-${svc.slug}`
             return (
               <div key={id}>
@@ -241,7 +245,7 @@ export default function ContactPage() {
           <p className={styles.label}>
             <span className={styles.req}>*</span> How did you hear about us?
           </p>
-          {['Yes', 'No'].map((val) => (
+          {['Yes', 'No'].map(val => (
             <div key={val}>
               <input
                 type="radio"
@@ -255,6 +259,7 @@ export default function ContactPage() {
             </div>
           ))}
         </div>
+
         {form.referred === 'Yes' && (
           <>
             <label className={styles.label} htmlFor="referredBy">
@@ -264,7 +269,7 @@ export default function ContactPage() {
               id="referredBy"
               name="referredBy"
               type="text"
-              className={styles.input}
+                  className={styles.input}
               value={form.referredBy}
               onChange={handleChange}
               required
