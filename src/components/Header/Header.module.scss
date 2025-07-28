@@ -77,8 +77,8 @@ $max-width: var(--max-width);
   z-index: 1100;
 
   .bar {
-    /* lengthened from 100% to 225% */
-    width: 225%;
+    /* lengthened from 100% to 200% */
+    width: 200%;
     height: 2px;
     background: $text-color;
     border-radius: $radius-sm;
