@@ -1,5 +1,4 @@
 // src/app/review/page.js
-
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
@@ -25,7 +24,8 @@ const PROFANITY = new RegExp(
 )
 
 export default function ReviewPage() {
-  const [reviews, setReviews] = useState([])          // ← start empty
+  const [reviews, setReviews] = useState([])
+  const [loadingReviews, setLoadingReviews] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [lastRating, setLastRating] = useState(0)
@@ -37,18 +37,21 @@ export default function ReviewPage() {
 
   const textareaRef = useRef(null)
 
-  // 1) On mount: fetch the latest 8 once, then set up listener
+  // 1) On mount: fetch latest 8 once, then set up listener
   useEffect(() => {
     let unsub = () => {}
 
-    // fetch top 8 immediately
-    (async () => {
+    ;(async () => {
+      setLoadingReviews(true)
+
+      // fetch top 8 immediately
       const initialSnap = await getDocs(
         query(collection(db, 'reviews'), orderBy('timestamp', 'desc'), limit(8))
       )
       setReviews(initialSnap.docs.map(d => ({ id: d.id, ...d.data() })))
+      setLoadingReviews(false)
 
-      // then listen for real‑time updates (keeps it in sync)
+      // then listen for real‑time updates
       unsub = onSnapshot(
         query(collection(db, 'reviews'), orderBy('timestamp', 'desc'), limit(8)),
         snap => {
@@ -94,14 +97,12 @@ export default function ReviewPage() {
         timestamp: serverTimestamp()
       })
 
-      // prune extras (9th+)
+      // prune extras (keep only latest 8)
       const allSnap = await getDocs(
         query(collection(db, 'reviews'), orderBy('timestamp', 'desc'))
       )
       const toDelete = allSnap.docs.slice(8)
-      await Promise.all(
-        toDelete.map(d => deleteDoc(doc(db, 'reviews', d.id)))
-      )
+      await Promise.all(toDelete.map(d => deleteDoc(doc(db, 'reviews', d.id))))
     } catch {
       setError('Submission failed. Please try again.')
     }
@@ -118,9 +119,13 @@ export default function ReviewPage() {
 
       <div className={styles.reviewGrid}>
         {reviews.map((r, i) => (
-          <div className={styles.reviewCard} key={r.id || i}>
+          <div
+            className={styles.reviewCard}
+            key={r.id || i}
+            style={{ animationDelay: `${i * 100}ms` }}
+          >
             <div className={styles.stars}>
-              {[1,2,3,4,5].map(n => (
+              {[1, 2, 3, 4, 5].map(n => (
                 <span
                   key={n}
                   className={n <= r.rating ? styles.starActive : styles.star}
@@ -135,7 +140,8 @@ export default function ReviewPage() {
         ))}
       </div>
 
-      {!showForm && !hasSubmitted && (
+      {/* Show button only after initial reviews have loaded */}
+      {!loadingReviews && !showForm && !hasSubmitted && (
         <div className={styles.addBtnWrap}>
           <button
             className={styles.addBtn}
@@ -183,7 +189,7 @@ export default function ReviewPage() {
           <label className={`${styles.label} ${styles.ratingLabel}`}>
             Rating<span className={styles.req}>*</span>
             <div className={styles.starsInput}>
-              {[1,2,3,4,5].map(n => (
+              {[1, 2, 3, 4, 5].map(n => (
                 <span
                   key={n}
                   className={n <= rating ? styles.starFilled : styles.starEmpty}

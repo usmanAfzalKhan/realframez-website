@@ -55,7 +55,7 @@ export default function ServiceDetailPage({ params }) {
       <p className={styles.desc}>{svc.why}</p>
 
       <div className={styles.backWrap}>
-        <Link href={`/contact?service=${slug}`} className={styles.backBtn}>
+        <Link href="/services" className={styles.backBtn}>
           &larr; Back to Services
         </Link>
       </div>
@@ -64,7 +64,6 @@ export default function ServiceDetailPage({ params }) {
         <div className={styles.starting}>
           Starting from <span>${svc.price}</span>
         </div>
-        {/* now a link so we carry the slug as a query param */}
         <Link href={`/contact?service=${slug}`} className={styles.bookBtn}>
           Book Now
         </Link>

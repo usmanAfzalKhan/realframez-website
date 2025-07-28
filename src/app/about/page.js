@@ -1,3 +1,4 @@
+// src/app/about/page.js
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -8,18 +9,15 @@ export default function AboutPage() {
   const [isOpen, setIsOpen] = useState(false)
   const overlayRef = useRef(null)
 
-  // open modal
   const openModal = () => setIsOpen(true)
   const closeModal = () => setIsOpen(false)
 
-  // close on ESC
   useEffect(() => {
     const onKey = (e) => e.key === 'Escape' && closeModal()
     if (isOpen) document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [isOpen])
 
-  // prevent click inside from closing
   const stop = (e) => e.stopPropagation()
 
   return (

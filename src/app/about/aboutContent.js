@@ -1,3 +1,4 @@
+// src/app/about/aboutContent.js
 const aboutContent = {
   heading: "About RealFramez",
   mission:

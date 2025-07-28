@@ -1,6 +1,6 @@
-// src/app/review/review.module.scss
+// src/app/review/Review.module.scss
 
-$bg:     #171a2b;
+$bg:     #000000;  // updated to pure black for consistency
 $fg:     #f6f6fa;
 $muted:  rgba($fg, 0.75);
 $accent: #ffcc57;
@@ -23,7 +23,6 @@ $trans:  300ms ease-out;
   padding: clamp(5rem, 10vw, 8rem);
   overflow-x: hidden;
 
-  // Center title & subtitle
   .header {
     text-align: center;
     max-width: 800px;
@@ -43,20 +42,16 @@ $trans:  300ms ease-out;
     }
   }
 
-  // Responsive grid
   .reviewGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, 1fr); // 4 per row on desktop
     gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto 2rem;
+    animation: fadeInUp 0.8s ease-out both;
 
-    .reviewCard {
-      background: lighten($bg, 5%);
-      padding: 1.5rem;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      animation: fadeInUp 0.5s ease-out both;
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(1, 1fr); // 1 per row on mobile
     }
   }
 
@@ -91,7 +86,6 @@ $trans:  300ms ease-out;
     font-size: 0.9rem;
   }
 
-  // Center Add button
   .addBtnWrap {
     text-align: center;
     margin-bottom: 2rem;
@@ -115,7 +109,6 @@ $trans:  300ms ease-out;
     }
   }
 
-  // Center thank-you message
   .thankMsg {
     text-align: center;
     color: $accent;
@@ -125,7 +118,6 @@ $trans:  300ms ease-out;
     animation: fadeInUp 0.9s ease-out both;
   }
 
-  // Form container
   .form {
     background: lighten($bg, 3%);
     padding: 2rem;
@@ -172,7 +164,6 @@ $trans:  300ms ease-out;
     font-family: 'Montserrat', sans-serif;
   }
 
-  // Pull rating up
   .ratingLabel {
     margin-top: -1.5rem;
     font-family: 'Montserrat', sans-serif;
@@ -216,35 +207,6 @@ $trans:  300ms ease-out;
     transition: transform $trans;
     &:hover {
       transform: translateY(-2px) scale(1.02);
-    }
-  }
-}
-
-// Mobile tweaks
-@media (max-width: 600px) {
-  .main {
-    padding: 3rem 1rem;
-
-    .header {
-      h1 { font-size: 1.75rem; }
-      p  { font-size: 0.9rem; }
-    }
-
-    .reviewGrid {
-      grid-template-columns: 1fr;
-    }
-
-    .addBtn {
-      width: 100%;
-    }
-
-    .form {
-      padding: 1.5rem;
-      max-width: 100%;
-    }
-
-    .ratingLabel {
-      margin-top: -1rem;
     }
   }
 }
