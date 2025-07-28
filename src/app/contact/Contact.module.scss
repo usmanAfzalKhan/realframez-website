@@ -1,7 +1,7 @@
 // src/app/contact/Contact.module.scss
 @use 'sass:color';
 
-$bg:      #171a2b;
+$bg:      #000000;  // updated to pure black for site theme
 $text:    #f6f6fa;
 $accent:  #ffcc57;
 $trans:   200ms ease-out;
@@ -71,7 +71,7 @@ $trans:   200ms ease-out;
   border-radius: 8px;
   background: color.adjust($bg, $lightness: -5%);
   color: $text;
-  border: 1px solid color.adjust($bg, $lightness: -10%);
+  border: 1px solid #ffffff;  // white border on input fields
   transition: border $trans, background $trans;
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
@@ -105,10 +105,44 @@ $trans:   200ms ease-out;
   margin-bottom: 0.6rem;
 }
 
+/* custom checkbox styles */
+.servicesGrid input[type="checkbox"] {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid #ffffff;  // white border
+  background: #000000;        // black background
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+  transition: background $trans, border $trans;
+}
+
+.servicesGrid input[type="checkbox"]:checked {
+  /* background stays black, show white check mark */
+}
+
+.servicesGrid input[type="checkbox"]:checked::after {
+  content: '\2713'; /* Unicode checkmark */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;  /* white check */
+  font-size: 1rem;
+}
+
 .checkboxLabel {
   font-size: 0.95rem;
   color: $text;
   font-family: 'Montserrat', sans-serif;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .radioGroup {
