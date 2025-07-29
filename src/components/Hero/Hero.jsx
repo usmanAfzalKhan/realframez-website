@@ -10,37 +10,62 @@ export default function Hero() {
   const [current, setCurrent] = useState(0)
   const [showImage, setShowImage] = useState(false)
   const timeoutRef = useRef(null)
+  const videoRef = useRef(null)
   const [isMounted, setIsMounted] = useState(false)
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
 
-  // mark as mounted so we can read `window`
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  // every time slide changes, reset image/video toggle
-  useEffect(() => {
-    setShowImage(false)
-    clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => setShowImage(true), 5000)
-    return () => clearTimeout(timeoutRef.current)
-  }, [current])
-
-  // determine mobile vs desktop
   const isMobile = isMounted && window.innerWidth < 768
   const slide = slides[current]
   const videoSrc = isMobile ? slide.mobileVideo : slide.desktopVideo
   const webmSrc = isMobile ? slide.mobileVideoWebM : slide.desktopVideoWebM
   const imageSrc = isMobile ? slide.mobileImage : slide.desktopImage
 
-  // navigation
-  const prev = () => setCurrent((current - 1 + slides.length) % slides.length)
-  const next = () => setCurrent((current + 1) % slides.length)
+  // Reset image/video toggle & preload next video's src
+  useEffect(() => {
+    setShowImage(false)
+    clearTimeout(timeoutRef.current)
 
-  // swipe handlers
-  const onTouchStart = e => (touchStartX.current = e.changedTouches[0].screenX)
-  const onTouchEnd = e => {
+    const nextIdx = (current + 1) % slides.length
+    const nextHref = isMounted
+      ? (window.innerWidth < 768
+          ? slides[nextIdx].mobileVideo
+          : slides[nextIdx].desktopVideo)
+      : null
+
+    if (nextHref) {
+      const link = document.createElement('link')
+      link.rel = 'preload'
+      link.as = 'video'
+      link.href = nextHref
+      document.head.appendChild(link)
+      return () => {
+        clearTimeout(timeoutRef.current)
+        document.head.removeChild(link)
+      }
+    }
+  }, [current, isMounted])
+
+  // When the video has loaded its first frame, play & start 5s timer
+  const handleLoadedData = () => {
+    if (videoRef.current) {
+      videoRef.current.play()
+      clearTimeout(timeoutRef.current)
+      timeoutRef.current = setTimeout(() => setShowImage(true), 5000)
+    }
+  }
+
+  const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length)
+  const next = () => setCurrent((c) => (c + 1) % slides.length)
+
+  const onTouchStart = (e) => {
+    touchStartX.current = e.changedTouches[0].screenX
+  }
+  const onTouchEnd = (e) => {
     touchEndX.current = e.changedTouches[0].screenX
     if (touchEndX.current - touchStartX.current > 50) prev()
     else if (touchStartX.current - touchEndX.current > 50) next()
@@ -48,20 +73,25 @@ export default function Hero() {
 
   return (
     <div
-      className={styles.hero}
+      className={`${styles.hero} ${styles.slideIn}`}
       style={{ backgroundImage: `url(${imageSrc})` }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
       <video
+        ref={videoRef}
         suppressHydrationWarning
         key={videoSrc}
         className={`${styles.media} ${showImage ? styles.hidden : ''}`}
         muted
         playsInline
-        autoPlay
         preload="auto"
         poster={imageSrc}
+        onLoadedData={handleLoadedData}
+        onEnded={() => {
+          setShowImage(true)
+          videoRef.current?.pause()
+        }}
       >
         {webmSrc && <source src={webmSrc} type="video/webm" />}
         <source src={videoSrc} type="video/mp4" />
