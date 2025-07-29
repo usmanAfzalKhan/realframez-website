@@ -33,7 +33,7 @@ export default function Footer() {
             <Facebook size={22} strokeWidth={1.6} />
           </a>
           <a
-            href="tel:+11234567890"
+            href="tel:+16475332748"
             aria-label="Phone"
           >
             <Phone size={22} strokeWidth={1.6} />
