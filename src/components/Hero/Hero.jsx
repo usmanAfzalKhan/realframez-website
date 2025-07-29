@@ -60,6 +60,8 @@ export default function Hero() {
         muted
         playsInline
         autoPlay
+        preload="auto"           // ← force early buffering
+        poster={imageSrc}        // ← show fallback until video loads
         onEnded={() => setShowImage(true)}
       />
 

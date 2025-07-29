@@ -32,8 +32,20 @@ export default function RootLayout({ children }) {
         />
         <link
           rel="preload"
+          href="/videos/slide1-welcome-mobile.mp4"
+          as="video"
+          media="(max-width: 767px)"
+        />
+        <link
+          rel="preload"
           href="/images/hero/slide1-desktop.png"
           as="image"
+        />
+        <link
+          rel="preload"
+          href="/images/hero/slide1-mobile.png"
+          as="image"
+          media="(max-width: 767px)"
         />
 
         {/* Fallback favicon */}
