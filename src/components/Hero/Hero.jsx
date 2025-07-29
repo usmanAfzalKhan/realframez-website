@@ -10,16 +10,16 @@ export default function Hero() {
   const [current, setCurrent] = useState(0)
   const [showImage, setShowImage] = useState(false)
   const timeoutRef = useRef(null)
-  const [hydrated, setHydrated] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
 
-  // trigger slideIn after first paint
+  // mark as mounted so we don’t read window during SSR
   useEffect(() => {
-    setHydrated(true)
+    setIsMounted(true)
   }, [])
 
-  // swap to image after video/play timeout
+  // advance to image after 5s (or when video ends)
   useEffect(() => {
     setShowImage(false)
     clearTimeout(timeoutRef.current)
@@ -27,7 +27,8 @@ export default function Hero() {
     return () => clearTimeout(timeoutRef.current)
   }, [current])
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  // only check viewport on client
+  const isMobile = isMounted && window.innerWidth < 768
   const slide = slides[current]
   const videoSrc = isMobile ? slide.mobileVideo : slide.desktopVideo
   const imageSrc = isMobile ? slide.mobileImage : slide.desktopImage
@@ -35,7 +36,9 @@ export default function Hero() {
   const prev = () => setCurrent((current - 1 + slides.length) % slides.length)
   const next = () => setCurrent((current + 1) % slides.length)
 
-  const onTouchStart = (e) => { touchStartX.current = e.changedTouches[0].screenX }
+  const onTouchStart = (e) => {
+    touchStartX.current = e.changedTouches[0].screenX
+  }
   const onTouchEnd = (e) => {
     touchEndX.current = e.changedTouches[0].screenX
     if (touchEndX.current - touchStartX.current > 50) prev()
@@ -44,33 +47,37 @@ export default function Hero() {
 
   return (
     <div
-      className={`${styles.hero} ${hydrated ? styles.slideIn : ''}`}
+      className={`${styles.hero} ${styles.slideIn}`}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
+      {/* video: suppress hydration warnings so swapping src post‑mount doesn’t error */}
       <video
+        suppressHydrationWarning
         key={videoSrc}
         className={`${styles.media} ${showImage ? styles.hidden : ''}`}
         src={videoSrc}
         muted
         playsInline
         autoPlay
-        preload="auto"               // ← ensure browser fetches immediately
-        poster={imageSrc}            // ← show fallback frame right away
         onEnded={() => setShowImage(true)}
       />
 
+      {/* image */}
       <img
+        suppressHydrationWarning
         key={imageSrc}
         className={`${styles.media} ${!showImage ? styles.hidden : styles.fadeIn}`}
         src={imageSrc}
         alt={slide.title}
       />
 
+      {/* logo overlay */}
       <div className={styles.logoSlide}>
         <Image src="/images/logo.png" alt="Logo" width={60} height={60} />
       </div>
 
+      {/* arrows */}
       <button className={styles.arrowLeft} onClick={prev} aria-label="Previous slide">
         ‹
       </button>
@@ -78,6 +85,7 @@ export default function Hero() {
         ›
       </button>
 
+      {/* overlay copy + CTA */}
       <div className={styles.overlay}>
         <h1 className={styles.title}>{slide.title}</h1>
         <p className={styles.desc}>{slide.description}</p>
