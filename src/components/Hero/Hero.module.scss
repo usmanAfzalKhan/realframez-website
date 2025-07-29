@@ -68,12 +68,12 @@
   }
 
   .logoSlide {
-    /* MOBILE ONLY: nudge down slightly, a bit bigger */
-    bottom: clamp(3rem, 10vw, 4rem);
-    right: clamp(2rem, 8vw, 4rem);
+    /* mobile-only tweak: move slightly lower, a bit more right, and enlarge */
+    bottom: clamp(0.5rem, 6vw, 0.5rem);
+    right: clamp(0.5rem, 7vw, 1rem);
 
     img {
-      width: clamp(4rem, 12vw, 6rem);
+      width: clamp(5rem, 12vw, 6rem);
     }
   }
 }
@@ -121,7 +121,6 @@
   cursor: pointer;
   transition: filter 0.2s;
 }
-
 .cta:hover {
   filter: brightness(0.9);
 }

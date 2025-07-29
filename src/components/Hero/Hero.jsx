@@ -10,24 +10,24 @@ export default function Hero() {
   const [current, setCurrent] = useState(0)
   const [showImage, setShowImage] = useState(false)
   const timeoutRef = useRef(null)
-  const [isMounted, setIsMounted] = useState(false)
+  const [hydrated, setHydrated] = useState(false)
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
 
-  // ensure window.innerWidth is available
+  // trigger slideIn after first paint
   useEffect(() => {
-    setIsMounted(true)
+    setHydrated(true)
   }, [])
 
+  // swap to image after video/play timeout
   useEffect(() => {
     setShowImage(false)
     clearTimeout(timeoutRef.current)
-    // after 5s, if video hasn't ended, show the image
     timeoutRef.current = setTimeout(() => setShowImage(true), 5000)
     return () => clearTimeout(timeoutRef.current)
   }, [current])
 
-  const isMobile = isMounted && window.innerWidth < 768
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const slide = slides[current]
   const videoSrc = isMobile ? slide.mobileVideo : slide.desktopVideo
   const imageSrc = isMobile ? slide.mobileImage : slide.desktopImage
@@ -35,10 +35,7 @@ export default function Hero() {
   const prev = () => setCurrent((current - 1 + slides.length) % slides.length)
   const next = () => setCurrent((current + 1) % slides.length)
 
-  // swipe handlers
-  const onTouchStart = (e) => {
-    touchStartX.current = e.changedTouches[0].screenX
-  }
+  const onTouchStart = (e) => { touchStartX.current = e.changedTouches[0].screenX }
   const onTouchEnd = (e) => {
     touchEndX.current = e.changedTouches[0].screenX
     if (touchEndX.current - touchStartX.current > 50) prev()
@@ -47,28 +44,25 @@ export default function Hero() {
 
   return (
     <div
-      className={`${styles.hero} ${styles.slideIn}`}
+      className={`${styles.hero} ${hydrated ? styles.slideIn : ''}`}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
       <video
         key={videoSrc}
-        className={`${styles.media} ${
-          showImage ? styles.hidden : ''
-        }`}
+        className={`${styles.media} ${showImage ? styles.hidden : ''}`}
         src={videoSrc}
         muted
         playsInline
         autoPlay
-        preload="auto"
+        preload="auto"               // ← ensure browser fetches immediately
+        poster={imageSrc}            // ← show fallback frame right away
         onEnded={() => setShowImage(true)}
       />
 
       <img
         key={imageSrc}
-        className={`${styles.media} ${
-          !showImage ? styles.hidden : styles.fadeIn
-        }`}
+        className={`${styles.media} ${!showImage ? styles.hidden : styles.fadeIn}`}
         src={imageSrc}
         alt={slide.title}
       />
@@ -77,18 +71,10 @@ export default function Hero() {
         <Image src="/images/logo.png" alt="Logo" width={60} height={60} />
       </div>
 
-      <button
-        className={styles.arrowLeft}
-        onClick={prev}
-        aria-label="Previous slide"
-      >
+      <button className={styles.arrowLeft} onClick={prev} aria-label="Previous slide">
         ‹
       </button>
-      <button
-        className={styles.arrowRight}
-        onClick={next}
-        aria-label="Next slide"
-      >
+      <button className={styles.arrowRight} onClick={next} aria-label="Next slide">
         ›
       </button>
 

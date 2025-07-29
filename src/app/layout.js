@@ -1,3 +1,4 @@
+// src/app/layout.js
 import '../../styles/globals.scss'
 import ScrollToTop from '../components/ScrollToTop'
 import Header from '../components/Header/Header'
@@ -10,7 +11,7 @@ export const metadata = {
     icon: '/images/logo.png',
     apple: '/images/logo.png',
   },
-}
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -21,46 +22,30 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
           rel="stylesheet"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#121624" />
+        {/* Fallback favicon */}
+        <link rel="icon" href="/images/logo.png" sizes="any" />
 
-        {/* Preload hero videos & images */}
+        {/* Preload first slide's video + poster */}
         <link
           rel="preload"
           href="/videos/slide1-welcome-desktop.mp4"
           as="video"
           type="video/mp4"
-          media="(min-width:768px)"
-        />
-        <link
-          rel="preload"
-          href="/videos/slide1-welcome-mobile.mp4"
-          as="video"
-          type="video/mp4"
-          media="(max-width:767px)"
         />
         <link
           rel="preload"
           href="/images/hero/slide1-desktop.png"
           as="image"
-          media="(min-width:768px)"
         />
-        <link
-          rel="preload"
-          href="/images/hero/slide1-mobile.png"
-          as="image"
-          media="(max-width:767px)"
-        />
-
-        {/* Repeat the four lines above for slide2, slide3, etc. */}
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#121624" />
-        {/* Fallback favicon */}
-        <link rel="icon" href="/images/logo.png" sizes="any" />
       </head>
       <body>
         <ScrollToTop />
         <Header />
-        <main className="main-content">{children}</main>
+        <main className="main-content">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
