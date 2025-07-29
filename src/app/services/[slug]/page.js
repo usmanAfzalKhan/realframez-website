@@ -1,13 +1,15 @@
+// src/app/services/[slug]/page.js
 'use client'
 
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { getServiceBySlug } from '../../../data/services'
 import styles from './ServiceDetail.module.scss'
 
-export default function ServiceDetailPage({ params }) {
-  const { slug } = params
+export default function ServiceDetailPage() {
+  const { slug } = useParams()
   const svc = getServiceBySlug(slug)
 
   const [isMobile, setIsMobile] = useState(false)
@@ -26,6 +28,12 @@ export default function ServiceDetailPage({ params }) {
 
   return (
     <div className={styles.main}>
+      <div className={styles.backWrap}>
+        <Link href="/services" className={styles.backBtn}>
+          &larr; Back to Services
+        </Link>
+      </div>
+
       <h1 className={styles.title}>{svc.title}</h1>
 
       <div className={styles.album}>
@@ -53,12 +61,6 @@ export default function ServiceDetailPage({ params }) {
 
       <p className={styles.desc}>{svc.description}</p>
       <p className={styles.desc}>{svc.why}</p>
-
-      <div className={styles.backWrap}>
-        <Link href="/services" className={styles.backBtn}>
-          &larr; Back to Services
-        </Link>
-      </div>
 
       <div className={styles.priceBox}>
         <div className={styles.starting}>

@@ -12,8 +12,9 @@
 }
 
 .main {
+  position: relative;
   background-color: #000;
-  color: #ffffff;
+  color: #fff;
   min-height: 100vh;
   padding: clamp(2rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem);
   font-family: 'Montserrat', sans-serif;
@@ -23,13 +24,13 @@
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #ffffff;
+  color: #fff;
   animation: fadeUp 0.6s ease-out 0.3s both;
 }
 
 .album {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16/9;
   margin-bottom: 2rem;
   position: relative;
   animation: fadeUp 0.6s ease-out 0.4s both;
@@ -76,7 +77,6 @@
   line-height: 1.6;
   color: #b5b8c6;
   margin-bottom: 1.8rem;
-  width: 100%;
   animation: fadeUp 0.6s ease-out 0.5s both;
 }
 
@@ -97,7 +97,7 @@
   span {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #ffffff;
+    color: #fff;
   }
 }
 
@@ -111,10 +111,11 @@
   border-radius: 0.33rem;
   padding: 0.65rem 1.8rem;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: background 0.2s ease, color 0.2s ease;
 
-  &:hover, &:focus-visible {
+  &:hover,
+  &:focus-visible {
     background: var(--color-accent);
     color: #000;
     outline: none;
@@ -151,17 +152,39 @@
   }
 }
 
-/* Mobile: push back button further down */
+/* Mobile: reposition elements */
 @media (max-width: 767px) {
+  /* Back to Services above title, clear of header */
   .backWrap {
-    margin-top: 4rem;
+    position: absolute;
+    top: 5.5rem;      /* push below header */
+    right: 1rem;
+    margin: 0;
+    animation: none;
   }
 
-  /* Push title down further on mobile */
+  /* Push title down to avoid overlap */
   .title {
-    margin-top: 5rem;
+    margin-top: 6rem;
   }
+
+  /* Stack price and book button, with button below price */
+  .priceBox {
+    flex-direction: column;
+    align-items: center;
+  }
+  .bookBtn {
+    order: 0;           /* ensure Book Now is below price */
+    margin: 1rem 0 0;
+  }
+}
+
+/* Desktop override: backWrap */
+@media (min-width: 768px) {
   .backWrap {
-    margin-top: 4rem;
+    position: absolute;
+    top: 7rem;
+    right: 1rem;
+    margin: 0;
   }
 }
