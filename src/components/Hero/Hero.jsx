@@ -14,12 +14,12 @@ export default function Hero() {
   const touchStartX = useRef(0)
   const touchEndX = useRef(0)
 
-  // mark as mounted so we don’t read window during SSR
+  // mark as mounted so we can read `window`
   useEffect(() => {
     setIsMounted(true)
   }, [])
 
-  // advance to image after 5s (or when video ends)
+  // every time slide changes, reset image/video toggle
   useEffect(() => {
     setShowImage(false)
     clearTimeout(timeoutRef.current)
@@ -27,19 +27,20 @@ export default function Hero() {
     return () => clearTimeout(timeoutRef.current)
   }, [current])
 
-  // only check viewport on client
+  // determine mobile vs desktop
   const isMobile = isMounted && window.innerWidth < 768
   const slide = slides[current]
   const videoSrc = isMobile ? slide.mobileVideo : slide.desktopVideo
+  const webmSrc = isMobile ? slide.mobileVideoWebM : slide.desktopVideoWebM
   const imageSrc = isMobile ? slide.mobileImage : slide.desktopImage
 
+  // navigation
   const prev = () => setCurrent((current - 1 + slides.length) % slides.length)
   const next = () => setCurrent((current + 1) % slides.length)
 
-  const onTouchStart = (e) => {
-    touchStartX.current = e.changedTouches[0].screenX
-  }
-  const onTouchEnd = (e) => {
+  // swipe handlers
+  const onTouchStart = e => (touchStartX.current = e.changedTouches[0].screenX)
+  const onTouchEnd = e => {
     touchEndX.current = e.changedTouches[0].screenX
     if (touchEndX.current - touchStartX.current > 50) prev()
     else if (touchStartX.current - touchEndX.current > 50) next()
@@ -47,25 +48,25 @@ export default function Hero() {
 
   return (
     <div
-      className={`${styles.hero} ${styles.slideIn}`}
+      className={styles.hero}
+      style={{ backgroundImage: `url(${imageSrc})` }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      {/* video: suppress hydration warnings so swapping src post‑mount doesn’t error */}
       <video
         suppressHydrationWarning
         key={videoSrc}
         className={`${styles.media} ${showImage ? styles.hidden : ''}`}
-        src={videoSrc}
         muted
         playsInline
         autoPlay
-        preload="auto"           // ← force early buffering
-        poster={imageSrc}        // ← show fallback until video loads
-        onEnded={() => setShowImage(true)}
-      />
+        preload="auto"
+        poster={imageSrc}
+      >
+        {webmSrc && <source src={webmSrc} type="video/webm" />}
+        <source src={videoSrc} type="video/mp4" />
+      </video>
 
-      {/* image */}
       <img
         suppressHydrationWarning
         key={imageSrc}
@@ -74,12 +75,10 @@ export default function Hero() {
         alt={slide.title}
       />
 
-      {/* logo overlay */}
       <div className={styles.logoSlide}>
         <Image src="/images/logo.png" alt="Logo" width={60} height={60} />
       </div>
 
-      {/* arrows */}
       <button className={styles.arrowLeft} onClick={prev} aria-label="Previous slide">
         ‹
       </button>
@@ -87,7 +86,6 @@ export default function Hero() {
         ›
       </button>
 
-      {/* overlay copy + CTA */}
       <div className={styles.overlay}>
         <h1 className={styles.title}>{slide.title}</h1>
         <p className={styles.desc}>{slide.description}</p>
