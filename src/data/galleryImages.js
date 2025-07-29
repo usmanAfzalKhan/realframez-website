@@ -1,5 +1,3 @@
-// src/data/galleryImages.js
-
 export const galleryImages = [
   '/images/gallery/1.jpeg',
   '/images/gallery/2.jpeg',
@@ -34,11 +32,13 @@ export const galleryImages = [
   '/images/gallery/42.jpeg',
   '/images/gallery/43.jpeg',
   '/images/gallery/44.jpeg',
+  '/images/gallery/45.jpeg',
   '/images/gallery/46.jpeg',
   '/images/gallery/47.jpeg',
   '/images/gallery/48.jpeg',
   '/images/gallery/50.jpeg',
   '/images/gallery/51.jpeg',
+  '/images/gallery/52.jpeg',
   '/images/gallery/53.jpeg',
   '/images/gallery/54.jpeg',
   '/images/gallery/55.jpeg',
@@ -46,5 +46,5 @@ export const galleryImages = [
   '/images/gallery/58.jpeg',
   '/images/gallery/59.jpeg',
   '/images/gallery/60.jpeg',
-  '/images/gallery/61.jpeg'
-]
+  '/images/gallery/61.jpeg',
+];

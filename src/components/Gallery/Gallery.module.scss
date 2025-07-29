@@ -1,0 +1,166 @@
+@use 'sass:color';
+
+$bg:     #000000;
+$fg:     #f6f6fa;
+$muted:  rgba($fg, 0.75);
+$accent: #ffcc57;
+$trans:  200ms ease-out;
+
+// shimmer placeholder
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.gallery {
+  padding: 2rem;
+  background: $bg;
+  color: $fg;
+  margin-top: 4rem; // move down below header
+}
+
+.heading {
+  text-align: center;
+  margin: 2rem 0 1rem;  // extra top margin
+  font-family: 'Montserrat', sans-serif;  // site font
+}
+
+.subtitle,
+.note {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-family: 'Montserrat', sans-serif;  // site font
+}
+
+.note {
+  font-style: italic; // click to enlarge in italics
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.thumbWrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: linear-gradient(90deg, #333 25%, #444 50%, #333 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.thumb {
+  object-fit: cover;
+  cursor: pointer;
+  animation: fadeIn 0.3s ease;
+}
+
+// modal overlay
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  position: relative;
+  background: $bg;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: $accent;
+  border: none;
+  color: $bg;
+  font-size: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background $trans;
+}
+.closeBtn:hover {
+  background: color.adjust($accent, $lightness: -10%);
+}
+
+.modalImg {
+  max-width: 100%;
+  max-height: 60vh;  // don't stretch on mobile
+  width: auto;
+  height: auto;
+  margin-bottom: 1rem;
+  animation: fadeIn 0.5s ease;
+}
+
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.prevBtn,
+.nextBtn {
+  background: $accent;
+  border: none;
+  color: $bg;
+  font-size: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background $trans;
+}
+.prevBtn:hover,
+.nextBtn:hover {
+  background: color.adjust($accent, $lightness: -10%);
+}
+
+.prevBtn {
+  align-self: flex-end; // move arrows down
+}
+.nextBtn {
+  align-self: flex-end;
+}
+
+// ensure buttons at bottom of modal
+.nav {
+  margin-top: auto;
+  margin-bottom: 0.5rem;
+}
+
+// responsive fixes
+@media (max-width: 600px) {
+  .modal {
+    padding: 0.5rem;
+  }
+  .modalImg {
+    max-height: 50vh;
+  }
+  .prevBtn,
+  .nextBtn {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+  }
+}
