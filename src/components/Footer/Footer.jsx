@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './Footer.module.scss'
-import { Instagram, Linkedin, Phone } from 'lucide-react'
+import { Instagram, Facebook, Phone } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -17,7 +17,7 @@ export default function Footer() {
 
         <div className={styles.links}>
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/realframes7/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#"
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
@@ -25,12 +25,12 @@ export default function Footer() {
             <Instagram size={22} strokeWidth={1.6} />
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://facebook.com"
             target="_blank"
             rel="noreferrer"
-            aria-label="LinkedIn"
+            aria-label="Facebook "
           >
-            <Linkedin size={22} strokeWidth={1.6} />
+            <Facebook size={22} strokeWidth={1.6} />
           </a>
           <a
             href="tel:+11234567890"
