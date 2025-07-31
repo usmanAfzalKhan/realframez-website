@@ -1,7 +1,8 @@
 'use client'
 
+import { FaTiktok } from 'react-icons/fa'
 import styles from './Footer.module.scss'
-import { Instagram, Facebook, Phone } from 'lucide-react'
+import { Instagram, Tiktok, Phone } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -25,12 +26,12 @@ export default function Footer() {
             <Instagram size={22} strokeWidth={1.6} />
           </a>
           <a
-            href="https://facebook.com"
+            href="https://tiktok.com"
             target="_blank"
             rel="noreferrer"
-            aria-label="Facebook "
+            aria-label="TikTok"
           >
-            <Facebook size={22} strokeWidth={1.6} />
+            <FaTiktok size={22} strokeWidth={1.6} />
           </a>
           <a
             href="tel:+16475332748"
