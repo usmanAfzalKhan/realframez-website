@@ -16,18 +16,57 @@ $accent:  #ffcc57;
   100% { opacity: 1; transform: scale(1.2); }
 }
 
+/* crossfade layering with zoom-on-incoming */
+.crossfadeLayer {
+  position: absolute;
+  inset: 0;
+  display: block;
+  will-change: opacity, transform;
+
+  &.fadeIn {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    z-index: 2;
+    animation: zoomFade 6s ease-out both;
+  }
+
+  &.fadeOut {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1;
+  }
+
+  &.instant {
+    opacity: 1;
+    transition: none;
+    z-index: 2;
+    animation: zoomFade 6s ease-out both;
+  }
+}
+
 .main {
   background: $bg;
   color: $text;
   font-family: 'Montserrat', sans-serif;
-  padding: 8rem 1rem 4rem;
+  padding: 4rem 1rem 4rem; /* moved title up by reducing top padding */
   margin: 0 auto;
   max-width: 1200px;
   text-align: center;
 
   .title {
     font-size: clamp(2.5rem,5vw,4rem);
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem; /* tighter under title */
+    animation: fadeIn 0.8s both;
+  }
+
+  .subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    margin: 0 0 2rem;
+    color: rgba($text, 0.85);
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
     animation: fadeIn 0.8s both;
   }
 }
@@ -68,11 +107,11 @@ $accent:  #ffcc57;
   position: relative;
   width: 100%;
   aspect-ratio: 16/9;
+  overflow: hidden;
 }
 
 .image {
   object-fit: cover;
-  animation: zoomFade 6s ease-out both;
 }
 
 .cardLogo {
@@ -81,6 +120,7 @@ $accent:  #ffcc57;
   right: 0.5rem;
   opacity: 0.7;
   pointer-events: none;
+  z-index: 5; /* stays on top */
 }
 
 .info {
