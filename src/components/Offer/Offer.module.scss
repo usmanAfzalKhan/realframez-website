@@ -1,0 +1,155 @@
+/* Offer.module.scss */
+
+.specialOffer {
+  background: linear-gradient(135deg, rgba(255, 204, 87, 0.08) 0%, rgba(0, 0, 0, 0.3) 70%);
+  color: var(--color-neutral-light);
+  margin: clamp(1rem, 4vw, 2rem) clamp(1.5rem, 5vw, 3rem);
+  padding: clamp(1rem, 2.5vw, 1.5rem) 1.25rem;
+  border: 1px solid rgba(255, 204, 87, 0.5);
+  border-radius: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  position: relative;
+  overflow: hidden;
+
+  .offerInner {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .titleGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.05;
+    }
+  }
+
+  .badge {
+    background: var(--color-accent);
+    color: #000;
+    font-weight: 700;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .mainContent {
+    display: flex;
+    margin-top: 4px;
+  }
+
+  .text {
+    flex: 1;
+    h3 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    p {
+      margin: 6px 0 0;
+      font-size: clamp(1rem, 2.2vw, 1.125rem);
+      line-height: 1.3;
+
+      .amount {
+        font-weight: 700;
+        font-size: 1.4rem;
+        color: #fff;
+      }
+    }
+  }
+
+  .ctaWrapper {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .cta {
+    background: #ffd43b;
+    color: #1f1f1f;
+    font-weight: 700;
+    padding: 0.8rem 1.6rem;
+    border-radius: 8px;
+    text-decoration: none;
+    white-space: nowrap;
+    flex: 0 0 auto;
+    transition: none;
+    &:hover {
+      filter: brightness(0.96);
+    }
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    padding: 1rem 1rem 1.25rem;
+    margin: 1rem clamp(1rem, 3vw, 2rem);
+    border-radius: 0.75rem;
+
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .titleGroup {
+      flex-direction: column;
+      align-items: flex-start;
+
+      h2 {
+        font-size: clamp(1.75rem, 5vw, 2.5rem);
+      }
+    }
+
+    .mainContent {
+      margin-top: 0;
+    }
+
+    .ctaWrapper {
+      justify-content: stretch; /* make wrapper span full width */
+      padding: 0; /* remove any internal offset */
+    }
+
+    .cta {
+      width: 100%; /* full width so it's even */
+      box-sizing: border-box; /* include padding in width */
+      text-align: center;
+      align-self: stretch;
+      padding: 0.85rem 1rem;
+      white-space: normal;
+      margin-top: 4px;
+    }
+
+    .text {
+      h3 {
+        font-size: clamp(1.4rem, 4vw, 1.75rem);
+      }
+      p {
+        margin-top: 4px;
+      }
+    }
+  }
+}
