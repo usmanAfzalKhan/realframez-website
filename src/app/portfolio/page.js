@@ -7,45 +7,62 @@ import Image from 'next/image';
 import { interiorImages, exteriorImages } from '../../data/galleryImages';
 import styles from './PortfolioLanding.module.scss';
 
-const PREVIEW_COUNT = 5; // increased to show more images per card
-const ROTATE_INTERVAL = 6000;
+const PREVIEW_COUNT = 5;
+const ROTATE_INTERVAL = 14000;
 const FADE_DURATION = 500;
+const SLOW_DOWNLINK_THRESHOLD = 2; // Mbps
+
+function isSlowConnection() {
+  if (typeof navigator === 'undefined') return false;
+  const nav = navigator.connection || {};
+  if (nav.saveData) return true;
+  const effective = (nav.effectiveType || '').toLowerCase();
+  if (effective.includes('2g') || effective === 'slow-2g') return true;
+  if (nav.downlink && nav.downlink < SLOW_DOWNLINK_THRESHOLD) return true;
+  return false;
+}
 
 function RotatingCard({ href, title, description, images }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState(null);
+  const [isFading, setIsFading] = useState(false);
   const timeoutRef = useRef(null);
+  const intervalRef = useRef(null);
+  const slow = useRef(isSlowConnection());
 
-  // stable interval for rotation
   useEffect(() => {
-    const id = setInterval(() => {
-      setPrevIdx(currentIdx);
-      setCurrentIdx(i => (i + 1) % images.length);
+    if (!slow.current) {
+      const next = (currentIdx + 1) % images.length;
+      const img = new window.Image();
+      img.src = images[next];
+    }
+  }, [currentIdx, images]);
 
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  useEffect(() => {
+    if (slow.current) return;
+
+    intervalRef.current = setInterval(() => {
+      setIsFading(true);
       timeoutRef.current = setTimeout(() => {
-        setPrevIdx(null);
+        setPrevIdx(currentIdx);
+        setCurrentIdx(i => (i + 1) % images.length);
+        setIsFading(false);
+        if (timeoutRef.current) clearTimeout(timeoutRef.current);
       }, FADE_DURATION);
     }, ROTATE_INTERVAL);
+
     return () => {
-      clearInterval(id);
+      clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [images.length]); // not depending on currentIdx to avoid recreation
-
-  // preload next image for smoother mobile experience
-  useEffect(() => {
-    const next = (currentIdx + 1) % images.length;
-    const img = new window.Image();
-    img.src = images[next];
-  }, [currentIdx, images]);
+  }, [images.length]);
 
   return (
     <Link href={href} className={styles.cardLink}>
       <article className={styles.card}>
         <div className={styles.imageWrapper}>
-          {prevIdx !== null && (
-            <div className={`${styles.crossfadeLayer} ${styles.fadeOut}`}>
+          {!slow.current && prevIdx !== null && (
+            <div className={`${styles.singleLayer} ${styles.fadeOut}`}>
               <Image
                 src={images[prevIdx]}
                 alt={`${title} preview ${prevIdx + 1}`}
@@ -58,10 +75,10 @@ function RotatingCard({ href, title, description, images }) {
             </div>
           )}
           <div
-            key={currentIdx}
-            className={`${styles.crossfadeLayer} ${
-              prevIdx === null ? styles.instant : styles.fadeIn
+            className={`${styles.singleLayer} ${
+              slow.current ? '' : isFading ? styles.fadeOut : styles.fadeIn
             }`}
+            key={slow.current ? 0 : currentIdx}
           >
             <Image
               src={images[currentIdx]}
@@ -93,11 +110,22 @@ function RotatingCard({ href, title, description, images }) {
 }
 
 export default function PortfolioLanding() {
+  const [slowMode, setSlowMode] = useState(false);
+
+  useEffect(() => {
+    if (isSlowConnection()) setSlowMode(true);
+  }, []);
+
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Portfolio</h1>
+      {slowMode && (
+        <div className={styles.hint}>
+          Explore interior and exterior galleries below.
+        </div>
+      )}
       <p className={styles.subtitle}>
-        Browse through the portfolio below to explore both the interior and exterior galleries. Each card previews multiple curated shots—click in to view the full collection and get inspired.
+        See how professional photography transforms spaces—select a gallery to dive into detailed interior and exterior shots.
       </p>
       <div className={styles.cards}>
         <RotatingCard
