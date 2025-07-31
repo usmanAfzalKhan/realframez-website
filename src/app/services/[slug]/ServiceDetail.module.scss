@@ -1,14 +1,6 @@
-// src/app/services/[slug]/ServiceDetail.module.scss
-
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(32px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .main {
@@ -16,47 +8,67 @@
   background-color: #000;
   color: #fff;
   min-height: 100vh;
-  padding: clamp(2rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+  /* bump top padding to clear header */
+  padding: clamp(6rem, 10vw, 7rem) clamp(1.5rem, 4vw, 3rem);
   font-family: 'Montserrat', sans-serif;
+}
+
+.backWrap {
+  margin-top: 2rem;
+  animation: fadeUp 0.6s ease-out 0.2s both;
+}
+
+.backBtn {
+  display: inline-block;
+  color: var(--color-accent);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid var(--color-accent);
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
+
+  &:hover {
+    background: var(--color-accent);
+    color: #000;
+  }
 }
 
 .title {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #fff;
   animation: fadeUp 0.6s ease-out 0.3s both;
 }
 
 .album {
   width: 100%;
-  aspect-ratio: 16/9;
-  margin-bottom: 2rem;
-  position: relative;
+  max-width: 800px;
+  margin: 0 auto 2rem;
   animation: fadeUp 0.6s ease-out 0.4s both;
 }
 
 .imgBox {
   position: relative;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16/9;
   border-radius: 0.75rem;
   overflow: hidden;
   background-color: #181a24;
 
   img {
+    object-fit: cover;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
   .logoOverlay {
     position: absolute;
     bottom: 0.75rem;
     right: 0.75rem;
-    width: 36px;
-    height: 36px;
-    background: rgba(0, 0, 0, 0.85);
+    width: 36px; height: 36px;
+    background: rgba(0,0,0,0.85);
     border-radius: 0.4rem;
     display: flex;
     align-items: center;
@@ -64,11 +76,26 @@
     z-index: 2;
 
     img {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
+      width: 28px; height: 28px;
       filter: brightness(1.4);
     }
+  }
+}
+
+.videoWrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  aspect-ratio: 16/9;
+  position: relative;
+  animation: fadeUp 0.6s ease-out 0.4s both;
+
+  video {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 0.75rem;
   }
 }
 
@@ -102,7 +129,6 @@
 }
 
 .bookBtn {
-  font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   font-size: 1rem;
   background: transparent;
@@ -110,7 +136,6 @@
   border: 1.5px solid var(--color-accent);
   border-radius: 0.33rem;
   padding: 0.65rem 1.8rem;
-  cursor: pointer;
   box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   transition: background 0.2s ease, color 0.2s ease;
 
@@ -118,73 +143,5 @@
   &:focus-visible {
     background: var(--color-accent);
     color: #000;
-    outline: none;
-  }
-}
-
-.backWrap {
-  margin-top: 2rem;
-  animation: fadeUp 0.6s ease-out 0.2s both;
-}
-
-.backBtn {
-  display: inline-block;
-  color: var(--color-accent);
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  border: 1px solid var(--color-accent);
-  padding: 0.5rem 1.2rem;
-  border-radius: 6px;
-  transition: background 0.3s, color 0.3s;
-
-  &:hover {
-    background: var(--color-accent);
-    color: #000;
-  }
-}
-
-/* Desktop: narrower image width */
-@media (min-width: 768px) {
-  .album {
-    max-width: 800px;
-    margin: 0 auto 2rem;
-  }
-}
-
-/* Mobile: reposition elements */
-@media (max-width: 767px) {
-  /* Back to Services above title, clear of header */
-  .backWrap {
-    position: absolute;
-    top: 5.5rem;      /* push below header */
-    right: 1rem;
-    margin: 0;
-    animation: none;
-  }
-
-  /* Push title down to avoid overlap */
-  .title {
-    margin-top: 6rem;
-  }
-
-  /* Stack price and book button, with button below price */
-  .priceBox {
-    flex-direction: column;
-    align-items: center;
-  }
-  .bookBtn {
-    order: 0;           /* ensure Book Now is below price */
-    margin: 1rem 0 0;
-  }
-}
-
-/* Desktop override: backWrap */
-@media (min-width: 768px) {
-  .backWrap {
-    position: absolute;
-    top: 7rem;
-    right: 1rem;
-    margin: 0;
   }
 }

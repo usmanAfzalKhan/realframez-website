@@ -1,7 +1,7 @@
 // src/app/services/[slug]/page.js
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -24,7 +24,8 @@ export default function ServiceDetailPage() {
     return <div className={styles.main}><p>Service Not Found</p></div>
   }
 
-  const imageName = `${slug}-${isMobile ? 'mobile' : 'desktop'}.png`
+  // On all non-video pages use interior image
+  const detailImage = svc.images[isMobile ? 1 : 0]
 
   return (
     <div className={styles.main}>
@@ -36,30 +37,46 @@ export default function ServiceDetailPage() {
 
       <h1 className={styles.title}>{svc.title}</h1>
 
-      <div className={styles.album}>
-        <div className={styles.imgBox}>
-          <Image
-            src={`/images/services/${imageName}`}
-            alt={svc.title}
-            fill
-            sizes="100vw"
-            style={{ objectFit: 'cover' }}
-            priority
-            draggable={false}
+      {slug === 'drone-aerial-video' ? (
+        <div className={styles.videoWrapper}>
+          <video
+            src="/videos/recyclevids/aerial.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={styles.video}
           />
-          <div className={styles.logoOverlay}>
+        </div>
+      ) : (
+        <div className={styles.album}>
+          <div className={styles.imgBox}>
             <Image
-              src="/images/logo.png"
-              alt="RealFramez Logo"
-              width={28}
-              height={28}
+              src={detailImage}
+              alt={svc.title}
+              fill
+              sizes="100vw"
+              style={{ objectFit: 'cover' }}
               priority
+              draggable={false}
             />
+            <div className={styles.logoOverlay}>
+              <Image
+                src="/images/logo.png"
+                alt="RealFramez Logo"
+                width={36}
+                height={36}
+                priority
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <p className={styles.desc}>{svc.description}</p>
+      {svc.description.split('\n\n').map((para, idx) => (
+        <p key={idx} className={styles.desc}>{para}</p>
+      ))}
+
       <p className={styles.desc}>{svc.why}</p>
 
       <div className={styles.priceBox}>

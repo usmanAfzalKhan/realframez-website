@@ -1,0 +1,130 @@
+@use 'sass:color';
+
+$bg:      #000;
+$text:    #f6f6fa;
+$accent:  #ffcc57;
+$trans:   0.8s ease-out both;
+
+/* fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.container {
+  background: $bg;
+  color: $text;
+  font-family: 'Montserrat', sans-serif;
+  padding: 8rem 1rem 4rem;
+  margin: 0 auto;
+  max-width: 1200px;
+  text-align: center;
+
+  .heading {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 0.5rem;
+    animation: fadeIn $trans;
+  }
+
+  .instruction {
+    font-size: clamp(1rem, 2.5vw, 1.125rem);
+    color: rgba($text, 0.7);
+    margin-bottom: 1.5rem;
+    animation: fadeIn $trans;
+  }
+
+  .grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    animation: fadeIn $trans;
+  }
+
+  .thumb {
+    position: relative;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    border: 2px solid $accent;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    animation: fadeIn $trans;
+
+    &:hover {
+      box-shadow: 0 0 15px rgba($accent, 0.5);
+    }
+  }
+
+  .image {
+    object-fit: cover;
+  }
+}
+
+/* Modal */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+.modalContent {
+  position: relative;
+  width: 90vw;
+  max-width: 800px;
+  max-height: 90vh;
+  margin: auto;
+}
+
+.modalImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 56.25%; /* 16:9 */
+}
+
+.modalImage {
+  object-fit: contain;
+}
+
+.prevButton,
+.nextButton,
+.closeButton {
+  position: absolute;
+  background: rgba($bg, 0.5);
+  border: none;
+  color: $text;
+  font-size: 2rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10001;
+  transition: background 200ms ease;
+}
+
+.prevButton {
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nextButton {
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Default “X” position */
+.closeButton {
+  top: 8rem;
+  right: 1rem;
+}
+
+/* Push the “X” down further on small screens */
+@media (max-width: 640px) {
+  .closeButton {
+    top: 20rem;
+  }
+}

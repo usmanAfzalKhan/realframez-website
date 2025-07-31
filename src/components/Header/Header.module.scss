@@ -2,9 +2,9 @@
 @use 'sass:color';
 
 // Design system variables (imported via :root CSS vars)
-$bg-color: var(--color-neutral-dark);
-$text-color: #ffffff;              // override to pure white
-$accent:    var(--color-accent);
+$bg-color:  var(--color-neutral-dark);
+$text-color:#ffffff;              // override to pure white
+$accent:     var(--color-accent);
 $transition: var(--transition-med);
 $radius-sm: var(--radius-sm);
 $gap-sm:    var(--gap-sm);
@@ -33,7 +33,8 @@ $max-width: var(--max-width);
 .inner {
   max-width: $max-width;
   margin: 0 auto;
-  padding: $gap-sm $gap-md;
+  /* tightened horizontal padding */
+  padding: $gap-sm $gap-sm;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -101,7 +102,7 @@ $max-width: var(--max-width);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: $gap-md;
+  gap: $gap-sm;               // mobile nav gap
   position: fixed;
   top: 0;
   right: 0;
@@ -150,8 +151,12 @@ $max-width: var(--max-width);
   }
 }
 
-@media (min-width: 768px) {
-  .toggle { display: none; }
+// Only switch to horizontal desktop nav at 1024px+
+@media (min-width: 1024px) {
+  .toggle {
+    display: none;
+  }
+
   .nav {
     position: static;
     flex-direction: row;
@@ -162,7 +167,10 @@ $max-width: var(--max-width);
     padding: 0;
     transform: none;
     box-shadow: none;
-    gap: $gap-sm;
+    gap: calc(#{$gap-sm} / 2);  // halved desktop gap
   }
-  .overlay { display: none; }
+
+  .overlay {
+    display: none;
+  }
 }

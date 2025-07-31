@@ -1,3 +1,4 @@
+// src/components/Hero/Hero.jsx
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -21,9 +22,31 @@ export default function Hero() {
 
   const isMobile = isMounted && window.innerWidth < 768
   const slide = slides[current]
-  const videoSrc = isMobile ? slide.mobileVideo : slide.desktopVideo
-  const webmSrc = isMobile ? slide.mobileVideoWebM : slide.desktopVideoWebM
-  const imageSrc = isMobile ? slide.mobileImage : slide.desktopImage
+
+  // special case: combined interior/exterior photography slide uses exterior video + interior image
+  const isPhotography = slide.slug === 'photography'
+  const exteriorSlide = slides.find((s) => s.slug === 'exterior-photography')
+  const interiorSlide = slides.find((s) => s.slug === 'interior-photography')
+
+  const videoSourceSlide = isPhotography
+    ? exteriorSlide ?? slide
+    : slide
+
+  const imageSourceSlide = isPhotography
+    ? interiorSlide ?? slide
+    : slide
+
+  const videoSrc = isMobile
+    ? videoSourceSlide.mobileVideo || videoSourceSlide.desktopVideo
+    : videoSourceSlide.desktopVideo || videoSourceSlide.mobileVideo
+
+  const webmSrc = isMobile
+    ? videoSourceSlide.mobileVideoWebM || videoSourceSlide.desktopVideoWebM
+    : videoSourceSlide.desktopVideoWebM || videoSourceSlide.mobileVideoWebM
+
+  const imageSrc = isMobile
+    ? imageSourceSlide.mobileImage || imageSourceSlide.desktopImage
+    : imageSourceSlide.desktopImage || imageSourceSlide.mobileImage
 
   // Reset image/video toggle & preload next video's src
   useEffect(() => {
@@ -31,17 +54,19 @@ export default function Hero() {
     clearTimeout(timeoutRef.current)
 
     const nextIdx = (current + 1) % slides.length
-    const nextHref = isMounted
+    const nextSlide = slides[nextIdx]
+    // For the "photography" slide, preload its video like normal
+    const nextVideoHref = isMounted
       ? (window.innerWidth < 768
-          ? slides[nextIdx].mobileVideo
-          : slides[nextIdx].desktopVideo)
+          ? nextSlide.mobileVideo
+          : nextSlide.desktopVideo)
       : null
 
-    if (nextHref) {
+    if (nextVideoHref) {
       const link = document.createElement('link')
       link.rel = 'preload'
       link.as = 'video'
-      link.href = nextHref
+      link.href = nextVideoHref
       document.head.appendChild(link)
       return () => {
         clearTimeout(timeoutRef.current)
@@ -92,6 +117,8 @@ export default function Hero() {
           setShowImage(true)
           videoRef.current?.pause()
         }}
+        autoPlay
+        loop
       >
         {webmSrc && <source src={webmSrc} type="video/webm" />}
         <source src={videoSrc} type="video/mp4" />

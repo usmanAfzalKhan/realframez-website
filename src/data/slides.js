@@ -1,4 +1,5 @@
 // src/data/slides.js
+
 export const slides = [
   {
     slug: 'welcome',
@@ -10,22 +11,14 @@ export const slides = [
     mobileImage:  '/images/hero/slide1-mobile.webp',
   },
   {
-    slug: 'interior-photography',
-    title: 'Interior Photography',
-    description: 'Showcase rooms with natural lighting and meticulous composition.',
-    desktopVideo: '/videos/slide2-interior-desktop.mp4',
-    mobileVideo:  '/videos/slide2-interior-mobile.mp4',
-    desktopImage: '/images/hero/slide2-desktop.webp',
-    mobileImage:  '/images/hero/slide2-mobile.webp',
-  },
-  {
-    slug: 'exterior-photography',
-    title: 'Exterior Photography',
-    description: 'Capture stunning exterior shots of properties in all lighting conditions.',
+    slug: 'photography',
+    title: 'Interior / Exterior Photography',
+    description: 'Showcase rooms with professional interior lighting and HDR editing, then boost curb appeal with crisp exterior shots.',
+    // use exterior video (desktop/mobile) and interior image (desktop/mobile)
     desktopVideo: '/videos/slide3-exterior-desktop.mp4',
     mobileVideo:  '/videos/slide3-exterior-mobile.mp4',
-    desktopImage: '/images/hero/slide3-desktop.webp',
-    mobileImage:  '/images/hero/slide3-mobile.webp',
+    desktopImage: '/images/hero/slide2-desktop.webp',
+    mobileImage:  '/images/hero/slide2-mobile.webp',
   },
   {
     slug: 'aerial-photography',
@@ -48,7 +41,7 @@ export const slides = [
   {
     slug: 'video-production',
     title: 'Video Production',
-    description: 'Cinematic property walk‑throughs for a compelling showcase.',
+    description: 'Cinematic property walk-throughs for a compelling showcase.',
     desktopVideo: '/videos/slide6-video-desktop.mp4',
     mobileVideo:  '/videos/slide6-video-mobile.mp4',
     desktopImage: '/images/hero/slide6-desktop.webp',
@@ -62,5 +55,32 @@ export const slides = [
     mobileVideo:  '/videos/slide7-360-mobile.mp4',
     desktopImage: '/images/hero/slide7-desktop.webp',
     mobileImage:  '/images/hero/slide7-mobile.webp',
+  },
+  {
+    slug: 'aerial-video',
+    title: 'Aerial Video',
+    description: 'Stunning bird’s-eye video with professional drone footage.',
+    desktopVideo: '/videos/slide8-aerial-video-desktop.mp4',
+    mobileVideo:  '/videos/slide8-aerial-video-mobile.mp4',
+    desktopImage: '/images/hero/slide8-aerial-video-desktop.webp',
+    mobileImage:  '/images/hero/slide8-aerial-video-mobile.webp',
+  },
+  {
+    slug: 'virtual-staging',
+    title: 'Virtual Staging',
+    description: 'Empty rooms brought to life with realistic virtual furniture and decor.',
+    desktopVideo: '/videos/slide9-virtual-staging-desktop.mp4',
+    mobileVideo:  '/videos/slide9-virtual-staging-mobile.mp4',
+    desktopImage: '/images/hero/slide9-virtual-staging-desktop.webp',
+    mobileImage:  '/images/hero/slide9-virtual-staging-mobile.webp',
+  },
+  {
+    slug: 'social-media-reel-with-realtor',
+    title: 'Social Media Reel with Realtor',
+    description: 'Dynamic, shareable reel featuring property highlights—hands and smartphone only.',
+    desktopVideo: '/videos/slide10-social-media-reel-desktop.mp4',
+    mobileVideo:  '/videos/slide10-social-media-reel-mobile.mp4',
+    desktopImage: '/images/hero/slide10-social-media-reel-desktop.webp',
+    mobileImage:  '/images/hero/slide10-social-media-reel-mobile.webp',
   },
 ];

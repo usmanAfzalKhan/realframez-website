@@ -1,57 +1,49 @@
-// src/components/ServiceCard/ServiceCard.jsx
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import styles from './ServiceCard.module.scss'
+import Link from 'next/link';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { getServiceBySlug } from '../../data/services';
+import styles from './ServiceCard.module.scss';
 
 export default function ServiceCard({ title, description, slug }) {
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 768)
-    onResize()
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-  }, [])
+  const svc = getServiceBySlug(slug);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const imgSrc = `/images/services/${slug}-${isMobile ? 'mobile' : 'desktop'}.png`
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  // pick exterior for card
+  const cardImgs = svc.cardImages ?? svc.images;
+  const src = isMobile ? cardImgs[1] : cardImgs[0];
 
   return (
-    <motion.div
-      className={styles.card}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className={styles.placeholder}>
+    <Link href={`/services/${slug}`} className={styles.svcCard}>
+      <div className={styles.svcImageWrap}>
         <Image
-          src={imgSrc}
-          alt={title}
+          src={src}
+          alt={svc.title}
           fill
-          style={{ objectFit: 'cover' }}
+          className={styles.image}
           priority
-          draggable={false}
         />
         <div className={styles.logoOverlay}>
           <Image
             src="/images/logo.png"
-            alt="RealFramez logo"
+            alt="RealFramez Logo"
             width={28}
             height={28}
-            draggable={false}
+            priority
           />
         </div>
       </div>
-
-      <h3 className={styles.title}>{title}</h3>
-      <p className={styles.desc}>{description}</p>
-
-      <Link href={`/services/${slug}`} className={styles.cta}>
-        View Details
-      </Link>
-    </motion.div>
-  )
+      <h2>{title}</h2>
+      <p>{description}</p>
+      <button className={styles.viewBtn}>View Details</button>
+    </Link>
+  );
 }
