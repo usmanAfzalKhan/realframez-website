@@ -9,6 +9,7 @@ const ITEMS = [
   { label: 'Portfolio',  href: '/portfolio'  },
   { label: 'FAQ',      href: '/faq'      },
   { label: 'Review',   href: '/review'   },
+  { label: 'About',    href: '/about'    },
   { label: 'Contact',  href: '/contact'  },
 ]
 
