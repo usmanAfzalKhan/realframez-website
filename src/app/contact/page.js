@@ -252,7 +252,7 @@ export default function ContactPage() {
         </p>
         <p className={styles.intro}>
           If you need immediate assistance, please call us at{" "}
-          <strong>647-123-4567</strong>.
+          <strong>647-533-2748</strong>.
         </p>
       </section>
     );
