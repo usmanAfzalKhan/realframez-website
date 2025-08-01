@@ -11,11 +11,13 @@ const packageDefinitions = [
     slug: "essential",
     title: "Essential",
     includes: ["photography", "aerial-photography"],
+    price: 199.99,
   },
   {
     slug: "silver",
     title: "Silver",
     includes: ["photography", "twilight-shoots", "aerial-photography"],
+    price: 279.99,
   },
   {
     slug: "platinum",
@@ -27,6 +29,7 @@ const packageDefinitions = [
       "video-production",
       "social-media-reel-with-realtor",
     ],
+    price: 479.99,
   },
 ];
 
@@ -458,6 +461,9 @@ export default function ContactPage() {
                   htmlFor={`pkg-${pkg.slug}`}
                 >
                   <div>{pkg.title}</div>
+                  {pkg.price && (
+                    <div className={styles.subtext}>${pkg.price}</div>
+                  )}
                   <div className={styles.subtext}>
                     Includes:{" "}
                     {pkg.includes
