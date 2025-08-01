@@ -74,7 +74,7 @@ $max-width: var(--max-width);
   border: none;
   cursor: pointer;
   z-index: 1100;
- margin-right: 1rem;
+  margin-right: 1rem;
   transform: translateX(-4px);
 
   .bar {
@@ -94,6 +94,21 @@ $max-width: var(--max-width);
     .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
     .bar:nth-child(2) { opacity: 0; }
     .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  }
+}
+
+/* subtle platform-specific boost on WebKit (helps iOS rendering without altering desktop) */
+@supports (-webkit-touch-callout: none) {
+  .toggle {
+    width: 2.25rem;
+    height: 2.25rem;
+    /* keep left nudge */
+    margin-right: 1rem;
+    transform: translateX(-4px);
+
+    .bar {
+      height: 2.5px; /* slightly thicker for Retina clarity */
+    }
   }
 }
 
