@@ -1,12 +1,12 @@
+// src/app/api/contact/route.js
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 
-// configure transporter once
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.GMAIL_USER, 
-    pass: process.env.GMAIL_PASS, 
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_PASS,
   },
 })
 
@@ -16,36 +16,36 @@ export async function POST(request) {
     const {
       name,
       phone,
+      packages,
       services,
+      address = {},
       date,
-      referred,
-      referredBy,
       message,
     } = data
 
-    // build human‑readable list of services
-    const servicesList = Array.isArray(services) ? services.join(', ') : services
+    const packagesList = Array.isArray(packages) ? packages.join(', ') : packages || 'None'
+    const servicesList = Array.isArray(services) ? services.join(', ') : services || 'None'
 
-    // craft email HTML
+    const addressParts = []
+    if (address.street) addressParts.push(address.street)
+    if (address.city) addressParts.push(address.city)
+    if (address.province) addressParts.push(address.province)
+    const addressStr = addressParts.length ? addressParts.join(', ') : 'Not provided'
+
     const html = `
       <h2>📅 New Appointment Request</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Phone:</strong> ${phone}</p>
+      <p><strong>Packages:</strong> ${packagesList}</p>
       <p><strong>Services:</strong> ${servicesList}</p>
+      <p><strong>Address:</strong> ${addressStr}</p>
       <p><strong>Date:</strong> ${date}</p>
-      <p><strong>Referred?</strong> ${referred}</p>
-      ${
-        referred === 'Yes'
-          ? `<p><strong>Referred by:</strong> ${referredBy}</p>`
-          : ''
-      }
       <p><strong>Message:</strong><br/>${message}</p>
     `
 
-    // send mail
     await transporter.sendMail({
       from: `"Website Contact" <${process.env.GMAIL_USER}>`,
-      to: process.env.GMAIL_USER, // you’ll receive it back
+      to: process.env.GMAIL_USER,
       subject: `Appointment from ${name}`,
       html,
     })
