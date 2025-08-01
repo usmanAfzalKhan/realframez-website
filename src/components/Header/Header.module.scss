@@ -1,9 +1,8 @@
-// src/components/Header/Header.module.scss
 @use 'sass:color';
 
 // Design system variables (imported via :root CSS vars)
 $bg-color:  var(--color-neutral-dark);
-$text-color:#ffffff;              // override to pure white
+$text-color:#ffffff;
 $accent:     var(--color-accent);
 $transition: var(--transition-med);
 $radius-sm: var(--radius-sm);
@@ -25,7 +24,7 @@ $max-width: var(--max-width);
   background: $bg-color;
   z-index: 1000;
   box-shadow: var(--shadow-md);
-  border-bottom: 2px solid #fff;     // white border below header
+  border-bottom: 2px solid #fff;
   transform: translateY(-100%);
   animation: slideDown 500ms ease-out forwards;
 }
@@ -33,7 +32,6 @@ $max-width: var(--max-width);
 .inner {
   max-width: $max-width;
   margin: 0 auto;
-  /* tightened horizontal padding */
   padding: $gap-sm $gap-sm;
   display: flex;
   align-items: center;
@@ -76,9 +74,10 @@ $max-width: var(--max-width);
   border: none;
   cursor: pointer;
   z-index: 1100;
+ margin-right: 1rem;
+  transform: translateX(-4px);
 
   .bar {
-    /* lengthened from 100% to 200% */
     width: 200%;
     height: 2px;
     background: $text-color;
@@ -102,18 +101,19 @@ $max-width: var(--max-width);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: $gap-sm;               // mobile nav gap
+  gap: $gap-sm;
   position: fixed;
   top: 0;
   right: 0;
-  height: 100vh;
-  width: 80%;
-  max-width: 300px;
+  width: 50%;
+  max-width: 220px;
   background: $bg-color;
-  padding-top: $gap-lg;
+  padding-top: 3rem; /* moved options further down */
+  padding-bottom: $gap-lg;
   transform: translateX(100%);
   transition: transform $transition ease-in-out;
   z-index: 1050;
+  border-radius: 0 0 0 12px;
 
   a {
     text-decoration: none;
@@ -123,6 +123,9 @@ $max-width: var(--max-width);
     color: $text-color;
     padding: $gap-sm;
     transition: color $transition;
+    width: 100%;
+    text-align: center;
+    display: block;
 
     &:hover,
     &:focus-visible {
@@ -151,7 +154,6 @@ $max-width: var(--max-width);
   }
 }
 
-// Only switch to horizontal desktop nav at 1024px+
 @media (min-width: 1024px) {
   .toggle {
     display: none;
@@ -167,7 +169,9 @@ $max-width: var(--max-width);
     padding: 0;
     transform: none;
     box-shadow: none;
-    gap: calc(#{$gap-sm} / 2);  // halved desktop gap
+    gap: calc(#{$gap-sm} / 2);
+    max-width: none;
+    border-radius: 0;
   }
 
   .overlay {

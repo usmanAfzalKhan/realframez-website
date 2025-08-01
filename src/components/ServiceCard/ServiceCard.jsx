@@ -32,13 +32,13 @@ export default function ServiceCard({ title, description, slug }) {
           priority
         />
         <div className={styles.logoOverlay}>
-          <Image
+          {/* <Image
             src="/images/logo.png"
             alt="RealFramez Logo"
             width={28}
             height={28}
             priority
-          />
+          /> */}  
         </div>
       </div>
       <h2>{title}</h2>

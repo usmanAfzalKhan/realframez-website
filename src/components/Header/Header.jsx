@@ -63,5 +63,5 @@ export default function Header() {
         aria-hidden={!navOpen}
       />
     </header>
-);
+  );
 }

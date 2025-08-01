@@ -17,8 +17,8 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
   ],
   // used on the detail page (interior shots)
   images: [
-    '/images/services/interior-photography-desktop.png',
-    '/images/services/interior-photography-mobile.png',
+    '/images/services/exterior-photography-desktop.png',
+    '/images/services/exterior-photography-mobile.png',
   ],
 },
 
