@@ -22,7 +22,7 @@ export default function SpecialOffer() {
         </div>
 
         <div className={styles.ctaWrapper}>
-          <a href="/contact" className={styles.cta}>
+          <a href="/contact?special=first-time-client" className={styles.cta}>
             Book Now
           </a>
         </div>

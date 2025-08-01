@@ -41,7 +41,7 @@ export default function PackagesPage() {
             <p className={styles.tagline}>{pkg.tagline}</p>
 
             {/* call to action */}
-            <Link href="/contact" className={styles.button}>
+            <Link href={`/contact?package=${pkg.title.toLowerCase()}`} className={styles.button}>
               Book Now
             </Link>
           </div>

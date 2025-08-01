@@ -51,10 +51,29 @@ export default function ContactPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const pre = params.get('service')
-    if (pre) {
-      setForm(f => ({ ...f, services: [pre] }))
-    }
+    const preService = params.get('service')
+    const prePackage = params.get('package')
+    const special = params.get('special')
+    setForm(f => {
+      const updated = { ...f }
+      if (preService) {
+        updated.services = [preService]
+      }
+      if (prePackage) {
+        updated.packages = [prePackage]
+      }
+      if (special === 'first-time-client') {
+        const tag = 'First-time client'
+        if (updated.message) {
+          if (!updated.message.includes(tag)) {
+            updated.message = `${tag} - ${updated.message}`
+          }
+        } else {
+          updated.message = tag
+        }
+      }
+      return updated
+    })
   }, [])
 
   const normalizePhoneDigits = (val) => {
