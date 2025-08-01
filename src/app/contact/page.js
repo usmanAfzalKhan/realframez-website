@@ -1,184 +1,188 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
-import styles from './Contact.module.scss'
-import { services } from '../../data/services'
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import styles from "./Contact.module.scss";
+import { services } from "../../data/services";
 
 // Package definitions and their included service slugs
 const packageDefinitions = [
   {
-    slug: 'essential',
-    title: 'Essential',
-    includes: ['photography', 'aerial-photography'],
+    slug: "essential",
+    title: "Essential",
+    includes: ["photography", "aerial-photography"],
   },
   {
-    slug: 'silver',
-    title: 'Silver',
-    includes: ['photography', 'twilight-shoots', 'aerial-photography'],
+    slug: "silver",
+    title: "Silver",
+    includes: ["photography", "twilight-shoots", "aerial-photography"],
   },
   {
-    slug: 'platinum',
-    title: 'Platinum',
+    slug: "platinum",
+    title: "Platinum",
     includes: [
-      'photography',
-      'twilight-shoots',
-      'aerial-photography',
-      'video-production',
-      'social-media-reel-with-realtor',
+      "photography",
+      "twilight-shoots",
+      "aerial-photography",
+      "video-production",
+      "social-media-reel-with-realtor",
     ],
   },
-]
+];
 
-const today = new Date().toISOString().split('T')[0]
+const today = new Date().toISOString().split("T")[0];
 
 export default function ContactPage() {
   const [form, setForm] = useState({
-    name: '',
-    phone: '',
+    name: "",
+    phone: "",
     packages: [],
     services: [],
-    street: '',
-    city: '',
-    province: '',
+    street: "",
+    city: "",
+    province: "",
     date: today,
-    message: '',
-  })
-  const [errors, setErrors] = useState({})
-  const [status, setStatus] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [submittedPhone, setSubmittedPhone] = useState('')
+    message: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [submittedPhone, setSubmittedPhone] = useState("");
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const preService = params.get('service')
-    const prePackage = params.get('package')
-    const special = params.get('special')
-    setForm(f => {
-      const updated = { ...f }
+    const params = new URLSearchParams(window.location.search);
+    const preService = params.get("service");
+    const prePackage = params.get("package");
+    const special = params.get("special");
+    setForm((f) => {
+      const updated = { ...f };
       if (preService) {
-        updated.services = [preService]
+        updated.services = [preService];
       }
       if (prePackage) {
-        updated.packages = [prePackage]
+        updated.packages = [prePackage];
       }
-      if (special === 'first-time-client') {
-        const tag = 'First-time client'
+      if (special === "first-time-client") {
+        const tag = "First-time client";
         if (updated.message) {
           if (!updated.message.includes(tag)) {
-            updated.message = `${tag} - ${updated.message}`
+            updated.message = `${tag} - ${updated.message}`;
           }
         } else {
-          updated.message = tag
+          updated.message = tag;
         }
       }
-      return updated
-    })
-  }, [])
+      return updated;
+    });
+  }, []);
 
   const normalizePhoneDigits = (val) => {
-    const digitsOnly = val.replace(/\D/g, '')
-    return digitsOnly.slice(0, 10)
-  }
+    const digitsOnly = val.replace(/\D/g, "");
+    return digitsOnly.slice(0, 10);
+  };
 
   const formatPhoneNumber = (value) => {
-    const digits = normalizePhoneDigits(value)
+    const digits = normalizePhoneDigits(value);
     if (digits.length === 10) {
-      return digits.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')
+      return digits.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
     }
-    return digits
-  }
+    return digits;
+  };
 
   const validate = () => {
-    const errs = {}
-    if (!form.name.trim()) errs.name = 'Name is required.'
-    if (!/^([0-9]{3}-[0-9]{3}-[0-9]{4})$/.test(form.phone)) errs.phone = 'Enter a valid 10-digit phone number.'
-    if (!form.street.trim()) errs.street = 'Street address is required.'
+    const errs = {};
+    if (!form.name.trim()) errs.name = "Name is required.";
+    if (!/^([0-9]{3}-[0-9]{3}-[0-9]{4})$/.test(form.phone))
+      errs.phone = "Enter a valid 10-digit phone number.";
+    if (!form.street.trim()) errs.street = "Street address is required.";
     if (form.packages.length === 0 && form.services.length === 0)
-      errs.services = 'Select at least one service or package.'
-    if (!form.province.trim()) errs.province = 'Province is required.'
-    if (!form.city.trim()) errs.city = 'City is required.'
-    if (!form.date) errs.date = 'Please choose a date.'
-    if (new Date(form.date) < new Date(today)) errs.date = 'Date cannot be in the past.'
-    setErrors(errs)
-    return Object.keys(errs).length === 0
-  }
+      errs.services = "Select at least one service or package.";
+    if (!form.province.trim()) errs.province = "Province is required.";
+    if (!form.city.trim()) errs.city = "City is required.";
+    if (!form.date) errs.date = "Please choose a date.";
+    if (new Date(form.date) < new Date(today))
+      errs.date = "Date cannot be in the past.";
+    setErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    if (name === 'phone') {
-      const digits = normalizePhoneDigits(value)
-      setForm(f => ({ ...f, phone: digits }))
+    const { name, value } = e.target;
+    if (name === "phone") {
+      const digits = normalizePhoneDigits(value);
+      setForm((f) => ({ ...f, phone: digits }));
     } else {
-      setForm(f => ({ ...f, [name]: value }))
+      setForm((f) => ({ ...f, [name]: value }));
     }
-    if (errors[name]) setErrors(e => ({ ...e, [name]: '' }))
-  }
+    if (errors[name]) setErrors((e) => ({ ...e, [name]: "" }));
+  };
 
   const handlePhoneBlur = (e) => {
-    const formatted = formatPhoneNumber(e.target.value)
-    setForm(f => ({ ...f, phone: formatted }))
-  }
+    const formatted = formatPhoneNumber(e.target.value);
+    setForm((f) => ({ ...f, phone: formatted }));
+  };
 
   const handleServiceChange = (e) => {
-    const { value, checked } = e.target
-    setForm(f => {
-      let updatedPackages = [...f.packages]
+    const { value, checked } = e.target;
+    setForm((f) => {
+      let updatedPackages = [...f.packages];
       packageDefinitions.forEach((pkg) => {
         if (pkg.includes.includes(value) && f.packages.includes(pkg.slug)) {
-          updatedPackages = updatedPackages.filter(p => p !== pkg.slug)
+          updatedPackages = updatedPackages.filter((p) => p !== pkg.slug);
         }
-      })
+      });
       return {
         ...f,
-        services: checked ? [...f.services, value] : f.services.filter(s => s !== value),
+        services: checked
+          ? [...f.services, value]
+          : f.services.filter((s) => s !== value),
         packages: updatedPackages,
-      }
-    })
-    if (errors.services) setErrors(e => ({ ...e, services: '' }))
-  }
+      };
+    });
+    if (errors.services) setErrors((e) => ({ ...e, services: "" }));
+  };
 
   const handlePackageChange = (e) => {
-    const { value, checked } = e.target
-    setForm(f => {
-      let newServices = [...f.services]
+    const { value, checked } = e.target;
+    setForm((f) => {
+      let newServices = [...f.services];
       if (checked) {
-        const pkg = packageDefinitions.find(p => p.slug === value)
+        const pkg = packageDefinitions.find((p) => p.slug === value);
         if (pkg) {
-          newServices = newServices.filter(s => !pkg.includes.includes(s))
+          newServices = newServices.filter((s) => !pkg.includes.includes(s));
         }
         return {
           ...f,
           packages: [...f.packages, value],
           services: newServices,
-        }
+        };
       } else {
         return {
           ...f,
-          packages: f.packages.filter(p => p !== value),
-        }
+          packages: f.packages.filter((p) => p !== value),
+        };
       }
-    })
-    if (errors.services) setErrors(e => ({ ...e, services: '' }))
-  }
+    });
+    if (errors.services) setErrors((e) => ({ ...e, services: "" }));
+  };
 
   const handleSelectAllServices = (e) => {
-    const checked = e.target.checked
-    setForm(f => ({
+    const checked = e.target.checked;
+    setForm((f) => ({
       ...f,
-      services: checked ? services.map(s => s.slug) : [],
+      services: checked ? services.map((s) => s.slug) : [],
       packages: [],
-    }))
-    if (errors.services) setErrors(e => ({ ...e, services: '' }))
-  }
+    }));
+    if (errors.services) setErrors((e) => ({ ...e, services: "" }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    if (loading) return
-    setStatus('')
-    if (!validate()) return
+    e.preventDefault();
+    if (loading) return;
+    setStatus("");
+    if (!validate()) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
       const payload = {
         name: form.name,
@@ -192,39 +196,42 @@ export default function ContactPage() {
         },
         date: form.date,
         message: form.message,
-      }
+      };
 
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      })
-      if (!res.ok) throw new Error()
-      setSubmittedPhone(form.phone)
-      setStatus('SENT')
+      });
+      if (!res.ok) throw new Error();
+      setSubmittedPhone(form.phone);
+      setStatus("SENT");
       setForm({
-        name: '',
-        phone: '',
+        name: "",
+        phone: "",
         packages: [],
         services: [],
-        street: '',
-        city: '',
-        province: '',
+        street: "",
+        city: "",
+        province: "",
         date: today,
-        message: '',
-      })
+        message: "",
+      });
     } catch {
-      setStatus('ERROR')
+      setStatus("ERROR");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  if (status === 'SENT') {
+  if (status === "SENT") {
     return (
       <section
         className={styles.main}
-        style={{ paddingTop: 'var(--header-offset, 100px)', textAlign: 'center' }}
+        style={{
+          paddingTop: "var(--header-offset, 100px)",
+          textAlign: "center",
+        }}
       >
         <Image
           src="/images/Logo.png"
@@ -232,42 +239,59 @@ export default function ContactPage() {
           width={120}
           height={120}
           className={styles.thankLogo}
-          style={{ margin: '0 auto', display: 'block' }}
+          style={{ margin: "0 auto", display: "block" }}
         />
         <h1 className={styles.title}>Thank You!</h1>
         <p className={styles.intro}>
-          We appreciate you reaching out. A member of our team will contact you at{' '}
-          <strong>{submittedPhone}</strong> within the next 2–3 business days.
+          We appreciate you reaching out. A member of our team will contact you
+          at <strong>{submittedPhone}</strong> within the next 2–3 business
+          days.
         </p>
         <p className={styles.intro}>
-          If you need immediate assistance, please call us at <strong>647-123-4567</strong>.
+          If you need immediate assistance, please call us at{" "}
+          <strong>647-123-4567</strong>.
         </p>
       </section>
-    )
+    );
   }
 
   return (
     <section
       className={styles.main}
-      style={{ paddingTop: 'var(--header-offset, 100px)', maxWidth: 1000, margin: '0 auto' }}
+      style={{
+        paddingTop: "var(--header-offset, 100px)",
+        maxWidth: 1000,
+        margin: "0 auto",
+      }}
     >
-      <h1 className={styles.title} style={{ textAlign: 'center' }}>
+      <h1 className={styles.title} style={{ textAlign: "center" }}>
         Contact Us
       </h1>
       <p className={styles.intro}>
-        You can reach us via{' '}
-        <a href="tel:6475332748">phone</a>,{' '}
-        <a href="https://www.instagram.com/realframes7/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#">Instagram</a>{' '}
-        or TikTok. If you’d rather not use those, fill out the form below and we’ll be in touch soon.
+        You can reach us via <a href="tel:6475332748">phone</a>,{" "}
+        <a href="https://www.instagram.com/realframes7/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#">
+          Instagram
+        </a>{" "}
+        or{" "}
+        <a href="https://www.tiktok.com/@realframes7?_t=ZS-8yVAStzmNwm&_r=1">
+          TikTok
+        </a>
+        . If you’d rather not use those, fill out the form below and we’ll be in
+        touch soon.
       </p>
 
-      <form className={styles.form} onSubmit={handleSubmit} noValidate aria-describedby="form-errors">
+      <form
+        className={styles.form}
+        onSubmit={handleSubmit}
+        noValidate
+        aria-describedby="form-errors"
+      >
         {/* Name */}
         <div className={styles.fieldGroup}>
           <label className={styles.label} htmlFor="name">
             <span aria-hidden="true" className={styles.req}>
               *
-            </span>{' '}
+            </span>{" "}
             Name
           </label>
           <input
@@ -279,7 +303,7 @@ export default function ContactPage() {
             onChange={handleChange}
             required
             aria-invalid={!!errors.name}
-            aria-describedby={errors.name ? 'error-name' : undefined}
+            aria-describedby={errors.name ? "error-name" : undefined}
           />
           {errors.name && (
             <p className={styles.error} id="error-name" role="alert">
@@ -293,7 +317,7 @@ export default function ContactPage() {
           <label className={styles.label} htmlFor="phone">
             <span aria-hidden="true" className={styles.req}>
               *
-            </span>{' '}
+            </span>{" "}
             Phone
           </label>
           <div className={styles.phoneRow}>
@@ -311,7 +335,7 @@ export default function ContactPage() {
               placeholder="123-456-7890"
               required
               aria-invalid={!!errors.phone}
-              aria-describedby={errors.phone ? 'error-phone' : undefined}
+              aria-describedby={errors.phone ? "error-phone" : undefined}
             />
           </div>
           {errors.phone && (
@@ -322,8 +346,14 @@ export default function ContactPage() {
         </div>
 
         {/* Address */}
-        <div className={styles.addressWrapper} style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
-          <div className={styles.fieldGroup} style={{ flex: '1 1 100%', minWidth: 0 }}>
+        <div
+          className={styles.addressWrapper}
+          style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
+        >
+          <div
+            className={styles.fieldGroup}
+            style={{ flex: "1 1 100%", minWidth: 0 }}
+          >
             <label className={styles.label} htmlFor="street">
               Street Address
             </label>
@@ -336,7 +366,7 @@ export default function ContactPage() {
               onChange={handleChange}
               required
               aria-invalid={!!errors.street}
-              aria-describedby={errors.street ? 'error-street' : undefined}
+              aria-describedby={errors.street ? "error-street" : undefined}
             />
             {errors.street && (
               <p className={styles.error} id="error-street" role="alert">
@@ -344,11 +374,14 @@ export default function ContactPage() {
               </p>
             )}
           </div>
-          <div className={styles.fieldGroup} style={{ flex: '1 1 50%', minWidth: 0 }}>
+          <div
+            className={styles.fieldGroup}
+            style={{ flex: "1 1 50%", minWidth: 0 }}
+          >
             <label className={styles.label} htmlFor="city">
               <span aria-hidden="true" className={styles.req}>
                 *
-              </span>{' '}
+              </span>{" "}
               City
             </label>
             <input
@@ -360,7 +393,7 @@ export default function ContactPage() {
               onChange={handleChange}
               required
               aria-invalid={!!errors.city}
-              aria-describedby={errors.city ? 'error-city' : undefined}
+              aria-describedby={errors.city ? "error-city" : undefined}
             />
             {errors.city && (
               <p className={styles.error} id="error-city" role="alert">
@@ -368,11 +401,14 @@ export default function ContactPage() {
               </p>
             )}
           </div>
-          <div className={styles.fieldGroup} style={{ flex: '1 1 50%', minWidth: 0 }}>
+          <div
+            className={styles.fieldGroup}
+            style={{ flex: "1 1 50%", minWidth: 0 }}
+          >
             <label className={styles.label} htmlFor="province">
               <span aria-hidden="true" className={styles.req}>
                 *
-              </span>{' '}
+              </span>{" "}
               Province
             </label>
             <input
@@ -384,7 +420,7 @@ export default function ContactPage() {
               onChange={handleChange}
               required
               aria-invalid={!!errors.province}
-              aria-describedby={errors.province ? 'error-province' : undefined}
+              aria-describedby={errors.province ? "error-province" : undefined}
             />
             {errors.province && (
               <p className={styles.error} id="error-province" role="alert">
@@ -399,11 +435,14 @@ export default function ContactPage() {
           <p className={styles.label}>
             <span aria-hidden="true" className={styles.req}>
               *
-            </span>{' '}
+            </span>{" "}
             Package or Services
           </p>
-          <div className={styles.inlineOptions} aria-label="Package and service selection">
-            {packageDefinitions.map(pkg => (
+          <div
+            className={styles.inlineOptions}
+            aria-label="Package and service selection"
+          >
+            {packageDefinitions.map((pkg) => (
               <div key={pkg.slug} className={styles.optionItem}>
                 <input
                   type="checkbox"
@@ -414,27 +453,30 @@ export default function ContactPage() {
                   onChange={handlePackageChange}
                   aria-checked={form.packages.includes(pkg.slug)}
                 />
-                <label className={styles.checkboxLabel} htmlFor={`pkg-${pkg.slug}`}>
+                <label
+                  className={styles.checkboxLabel}
+                  htmlFor={`pkg-${pkg.slug}`}
+                >
                   <div>{pkg.title}</div>
                   <div className={styles.subtext}>
-                    Includes:{' '}
+                    Includes:{" "}
                     {pkg.includes
-                      .map(slug => {
-                        const svc = services.find(s => s.slug === slug)
-                        return svc ? svc.title : slug
+                      .map((slug) => {
+                        const svc = services.find((s) => s.slug === slug);
+                        return svc ? svc.title : slug;
                       })
-                      .join(', ')}
+                      .join(", ")}
                   </div>
                 </label>
               </div>
             ))}
 
-            {services.map(svc => {
-              const id = `service-${svc.slug}`
-              const disabled = form.packages.some(pkgSlug => {
-                const pkg = packageDefinitions.find(p => p.slug === pkgSlug)
-                return pkg?.includes.includes(svc.slug)
-              })
+            {services.map((svc) => {
+              const id = `service-${svc.slug}`;
+              const disabled = form.packages.some((pkgSlug) => {
+                const pkg = packageDefinitions.find((p) => p.slug === pkgSlug);
+                return pkg?.includes.includes(svc.slug);
+              });
               return (
                 <div key={id} className={styles.optionItem}>
                   <input
@@ -450,14 +492,22 @@ export default function ContactPage() {
                   <label
                     className={styles.checkboxLabel}
                     htmlFor={id}
-                    style={disabled ? { opacity: 0.6, cursor: 'not-allowed' } : {}}
+                    style={
+                      disabled ? { opacity: 0.6, cursor: "not-allowed" } : {}
+                    }
                   >
                     <div>{svc.title}</div>
-                    {svc.price && <div className={styles.subtext}>{svc.price}</div>}
-                    {disabled && <div className={styles.subtext}>Included in selected package</div>}
+                    {svc.price && (
+                      <div className={styles.subtext}>{svc.price}</div>
+                    )}
+                    {disabled && (
+                      <div className={styles.subtext}>
+                        Included in selected package
+                      </div>
+                    )}
                   </label>
                 </div>
-              )
+              );
             })}
           </div>
           {errors.services && (
@@ -472,7 +522,7 @@ export default function ContactPage() {
           <label className={styles.label} htmlFor="date">
             <span aria-hidden="true" className={styles.req}>
               *
-            </span>{' '}
+            </span>{" "}
             Appointment Date
           </label>
           <input
@@ -485,7 +535,7 @@ export default function ContactPage() {
             min={today}
             required
             aria-invalid={!!errors.date}
-            aria-describedby={errors.date ? 'error-date' : undefined}
+            aria-describedby={errors.date ? "error-date" : undefined}
           />
           {errors.date && (
             <p className={styles.error} id="error-date" role="alert">
@@ -517,16 +567,16 @@ export default function ContactPage() {
             disabled={loading}
             aria-busy={loading}
           >
-            {loading ? 'Sending…' : 'Send Message'}
+            {loading ? "Sending…" : "Send Message"}
           </button>
         </div>
 
-        {status === 'ERROR' && (
+        {status === "ERROR" && (
           <p className={styles.error} role="alert">
             ❌ Something went wrong. Please try again.
           </p>
         )}
       </form>
     </section>
-  )
+  );
 }

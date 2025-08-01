@@ -26,7 +26,7 @@ export default function Footer() {
             <Instagram size={22} strokeWidth={1.6} />
           </a>
           <a
-            href="https://tiktok.com"
+            href="https://www.tiktok.com/@realframes7?_t=ZS-8yVAStzmNwm&_r=1"
             target="_blank"
             rel="noreferrer"
             aria-label="TikTok"
