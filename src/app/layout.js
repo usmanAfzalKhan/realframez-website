@@ -5,7 +5,7 @@ import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 
 export const metadata = {
-  title: 'RealFramez | Real Estate Photography',
+  title: 'RealFrames | Real Estate Media',
   description: 'Premium Real Estate Photography and Media Services',
   icons: {
     icon: '/images/logo.png',
