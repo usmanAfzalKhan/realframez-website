@@ -17,7 +17,7 @@ const packagesContent = {
       title: "Silver",
       price: "$249.99",
       value: "$310",
-      tagline: "Most Popular Saving $60",
+      tagline: "Saving $60",
       features: [
         "Interior/Exterior HDR",
         "Aerial Photography (Top Down Lot View + Property Exterior Images)",
@@ -28,7 +28,7 @@ const packagesContent = {
       title: "Platinum",
       price: "$479.99",
       value: "$690",
-      tagline: "Best Value Saving $210",
+      tagline: "Saving $210",
       features: [
         "Interior/Exterior HDR",
         "Aerial Package (Top Down Lot View + Property Exterior Images + Video + Neighbourhood View)",
