@@ -9,20 +9,19 @@ const packagesContent = {
       value: "$230",
       tagline: "Saving $30",
       features: [
-        "Interior/Exterior HDR photography",
-        "Drone photography"
-      ],
-      note: "(Add drone video, and get Silver package for $80)"
+        "Interior/Exterior HDR",
+        "Aerial Photography (Top down lot view, property exterior images)"
+      ]
     },
     {
       title: "Silver",
-      price: "$279.99",
-      value: "$410",
-      tagline: "Saving $130",
+      price: "$249.99",
+      value: "$310",
+      tagline: "Saving $60",
       features: [
-        "Interior/Exterior HDR photography",
-        "Twilight photography",
-        "Aerial package (Drone photo + video)"
+        "Interior/Exterior HDR",
+        "Aerial Photography (Top down lot view, property exterior images)",
+        "Twilight Photography (hero images for the most appealing listing and quick sale)"
       ]
     },
     {
@@ -31,11 +30,11 @@ const packagesContent = {
       value: "$690",
       tagline: "Saving $210",
       features: [
-        "Interior/Exterior HDR photography",
-        "Twilight photography",
-        "Aerial package (Drone photo + video + neighborhood view)",
-        "Cinematic video (Interior/Exterior)",
-        "Social media reel with realtor"
+        "Interior/Exterior HDR",
+        "Aerial Package (Top down lot view + property exterior images + Video + Neighbourhood view)",
+        "Twilight Photography (hero images for the most appealing listing and quick sale)",
+        "Cinematic Video (Interior/Exterior)",
+        "Social Media Reel with Realtor"
       ]
     }
   ]

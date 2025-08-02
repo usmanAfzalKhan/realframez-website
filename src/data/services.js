@@ -88,7 +88,7 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
     short: 'Enhance empty rooms with realistic virtual furniture.',
     description: `Transform vacant spaces with our virtual staging service, adding realistic furniture and decor to help buyers visualize the potential of each room.`,
     why: `Virtual staging helps buyers see the possibilities—empty rooms become inviting spaces that sell faster.`,
-    price: 19.99,
+    price: 19.99 + '/ image',
     images: [
       '/images/services/virtual-staging-desktop.png',
       '/images/services/virtual-staging-mobile.png',
