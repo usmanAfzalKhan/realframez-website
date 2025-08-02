@@ -32,7 +32,7 @@ const packagesContent = {
       features: [
         "Interior/Exterior HDR",
         "Aerial Package (Top Down Lot View + Property Exterior Images + Video + Neighbourhood View)",
-        "Twilight Photography (Hero Images For The Most Appealing Listing + Quick Sale)",
+        "Twilight Photography (Hero Images For The Most Appealing Listing Quick Sale)",
         "Cinematic Video (Interior/Exterior)",
         "Social Media Reel With Realtor"
       ]
