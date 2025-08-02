@@ -173,9 +173,9 @@ $fade-dur:        0.8s ease-out both;
   }
 }
 .section.silver {
-  border-color: $color-silver;
+  border-color: $accent;
   .header, .price .amount {
-    color: $color-silver;
+    color: $accent;
   }
 }
 .section.platinum {

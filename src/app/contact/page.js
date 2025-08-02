@@ -17,7 +17,7 @@ const packageDefinitions = [
     slug: "silver",
     title: "Silver",
     includes: ["photography", "twilight-shoots", "aerial-photography"],
-    price: 279.99,
+    price: 249.99,
   },
   {
     slug: "platinum",
@@ -26,6 +26,7 @@ const packageDefinitions = [
       "photography",
       "twilight-shoots",
       "aerial-photography",
+      "drone-aerial-video",
       "video-production",
       "social-media-reel-with-realtor",
     ],
@@ -148,21 +149,32 @@ export default function ContactPage() {
   const handlePackageChange = (e) => {
     const { value, checked } = e.target;
     setForm((f) => {
-      let newServices = [...f.services];
       if (checked) {
         const pkg = packageDefinitions.find((p) => p.slug === value);
-        if (pkg) {
-          newServices = newServices.filter((s) => !pkg.includes.includes(s));
-        }
+        const addedServices = pkg ? pkg.includes : [];
         return {
           ...f,
           packages: [...f.packages, value],
-          services: newServices,
+          services: Array.from(new Set([...f.services, ...addedServices])),
         };
       } else {
+        const remainingPackages = f.packages.filter((p) => p !== value);
+        const remainingIncludes = remainingPackages.flatMap((slug) => {
+          const p = packageDefinitions.find((pp) => pp.slug === slug);
+          return p ? p.includes : [];
+        });
+        const toRemove = packageDefinitions.find((p) => p.slug === value)
+          ?.includes || [];
+        const newServices = f.services.filter((s) => {
+          if (toRemove.includes(s) && !remainingIncludes.includes(s)) {
+            return false;
+          }
+          return true;
+        });
         return {
           ...f,
-          packages: f.packages.filter((p) => p !== value),
+          packages: remainingPackages,
+          services: newServices,
         };
       }
     });

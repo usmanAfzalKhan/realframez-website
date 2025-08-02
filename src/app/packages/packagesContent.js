@@ -10,31 +10,31 @@ const packagesContent = {
       tagline: "Saving $30",
       features: [
         "Interior/Exterior HDR",
-        "Aerial Photography (Top down lot view, property exterior images)"
+        "Aerial Photography (Top Down Lot View + Property Exterior Images)"
       ]
     },
     {
       title: "Silver",
       price: "$249.99",
       value: "$310",
-      tagline: "Saving $60",
+      tagline: "Most Popular Saving $60",
       features: [
         "Interior/Exterior HDR",
-        "Aerial Photography (Top down lot view, property exterior images)",
-        "Twilight Photography (hero images for the most appealing listing and quick sale)"
+        "Aerial Photography (Top Down Lot View + Property Exterior Images)",
+        "Twilight Photography (Hero Images For The Most Appealing Listing + Quick Sale)"
       ]
     },
     {
       title: "Platinum",
       price: "$479.99",
       value: "$690",
-      tagline: "Saving $210",
+      tagline: "Best Value Saving $210",
       features: [
         "Interior/Exterior HDR",
-        "Aerial Package (Top down lot view + property exterior images + Video + Neighbourhood view)",
-        "Twilight Photography (hero images for the most appealing listing and quick sale)",
+        "Aerial Package (Top Down Lot View + Property Exterior Images + Video + Neighbourhood View)",
+        "Twilight Photography (Hero Images For The Most Appealing Listing + Quick Sale)",
         "Cinematic Video (Interior/Exterior)",
-        "Social Media Reel with Realtor"
+        "Social Media Reel With Realtor"
       ]
     }
   ]
