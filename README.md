@@ -149,7 +149,3 @@ For questions, collaborations, or business inquiries, please visit the website:
 > **Credits:**
 > Made with ❤️ using Next.js, SCSS, Firebase, and Netlify.
 
-```
-
-Let me know if you want any more tweaks, badges, or even deployment/usage screenshots included!
-```
