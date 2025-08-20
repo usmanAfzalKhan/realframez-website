@@ -3,7 +3,7 @@
 export const slides = [
   {
     slug: 'welcome',
-    title: 'Welcome to RealFramez',
+    title: 'Welcome to RealFrames',
     description: 'Premium real estate media solutions.',
     desktopVideo: '/videos/slide1-welcome-desktop.mp4',
     mobileVideo:  '/videos/slide1-welcome-mobile.mp4',
