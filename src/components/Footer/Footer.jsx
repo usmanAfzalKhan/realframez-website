@@ -18,7 +18,7 @@ export default function Footer() {
 
         <div className={styles.links}>
           <a
-            href="https://www.instagram.com/realframes7/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#"
+            href="https://www.instagram.com/realframes.ca/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#"
             target="_blank"
             rel="noreferrer"
             aria-label="Instagram"
