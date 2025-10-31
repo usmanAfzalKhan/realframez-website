@@ -112,6 +112,7 @@ export default function HomePage() {
           {/* SERVICES */}
           <h3 className={styles.servicesHeading}>Our Services</h3>
           <ul className={styles.servicesGrid} role="list" aria-label="Popular services">
+            {/* 1. Interior / Exterior Photography */}
             <li className={`${styles.serviceCard} ${styles.photography}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
@@ -123,6 +124,7 @@ export default function HomePage() {
               </Link>
             </li>
 
+            {/* 2. Aerial Photography */}
             <li className={`${styles.serviceCard} ${styles.aerial}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
@@ -134,6 +136,7 @@ export default function HomePage() {
               </Link>
             </li>
 
+            {/* 3. Twilight Shoots */}
             <li className={`${styles.serviceCard} ${styles.twilight}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
@@ -145,6 +148,7 @@ export default function HomePage() {
               </Link>
             </li>
 
+            {/* 4. Video Production */}
             <li className={`${styles.serviceCard} ${styles.video}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
@@ -156,6 +160,31 @@ export default function HomePage() {
               </Link>
             </li>
 
+            {/* 5. 360° Virtual Tours */}
+            <li className={`${styles.serviceCard} ${styles.virtualTour}`}>
+              <div className={styles.serviceMedia} aria-hidden="true" />
+              <div className={styles.serviceBody}>
+                <h3 className={styles.serviceTitle}>360° Virtual Tours</h3>
+                <p className={styles.serviceDesc}>Immersive Matterport-style walkthroughs.</p>
+              </div>
+              <Link href="/services/matterport-360-tour" className={styles.serviceLink}>
+                View Details
+              </Link>
+            </li>
+
+            {/* 6. Aerial Video */}
+            <li className={`${styles.serviceCard} ${styles.aerialVideo}`}>
+              <div className={styles.serviceMedia} aria-hidden="true" />
+              <div className={styles.serviceBody}>
+                <h3 className={styles.serviceTitle}>Aerial Video</h3>
+                <p className={styles.serviceDesc}>Bird’s-eye views in motion.</p>
+              </div>
+              <Link href="/services/drone-aerial-video" className={styles.serviceLink}>
+                View Details
+              </Link>
+            </li>
+
+            {/* 7. Virtual Staging */}
             <li className={`${styles.serviceCard} ${styles.virtualStaging}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
@@ -167,13 +196,14 @@ export default function HomePage() {
               </Link>
             </li>
 
-            <li className={`${styles.serviceCard} ${styles.aerialVideo}`}>
+            {/* 8. Social Media Reel with Realtor */}
+            <li className={`${styles.serviceCard} ${styles.socialReel}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
-                <h3 className={styles.serviceTitle}>Aerial Video</h3>
-                <p className={styles.serviceDesc}>Bird’s-eye views in motion.</p>
+                <h3 className={styles.serviceTitle}>Social Media Reel w/ Realtor</h3>
+                <p className={styles.serviceDesc}>Platform-ready promo reel.</p>
               </div>
-              <Link href="/services/drone-aerial-video" className={styles.serviceLink}>
+              <Link href="/services/social-media-reel-with-realtor" className={styles.serviceLink}>
                 View Details
               </Link>
             </li>

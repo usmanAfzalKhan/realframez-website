@@ -185,6 +185,8 @@
 .serviceCard:nth-child(4) { animation-duration: 13s; }
 .serviceCard:nth-child(5) { animation-duration: 14s; }
 .serviceCard:nth-child(6) { animation-duration: 15s; }
+.serviceCard:nth-child(7) { animation-duration: 16s; }
+.serviceCard:nth-child(8) { animation-duration: 17s; }
 
 .serviceCard:hover {
   transform: translateY(-2px);
@@ -202,13 +204,26 @@
   border: 1px solid rgba(255,255,255,.02);
 }
 
-/* ✅ your 6 service images */
-.photography .serviceMedia      { background-image: url('/images/home/exterior-photography-desktop.webp'); }
-.aerial .serviceMedia           { background-image: url('/images/home/aerial-photography-desktop.webp'); }
-.twilight .serviceMedia         { background-image: url('/images/home/twilight-shoots-desktop.webp'); }
-.video .serviceMedia            { background-image: url('/images/home/video-production-desktop.webp'); }
-.virtualStaging .serviceMedia   { background-image: url('/images/home/virtual-staging-desktop.webp'); }
-.aerialVideo .serviceMedia      { background-image: url('/images/home/aerial-video-desktop.webp'); }
+/* ✅ your 6 service images + the 2 new ones */
+.photography .serviceMedia        { background-image: url('/images/home/exterior-photography-desktop.webp'); }
+.aerial .serviceMedia             { background-image: url('/images/home/aerial-photography-desktop.webp'); }
+.twilight .serviceMedia           { background-image: url('/images/home/twilight-shoots-desktop.webp'); }
+.video .serviceMedia              { background-image: url('/images/home/video-production-desktop.webp'); }
+.virtualStaging .serviceMedia     { background-image: url('/images/home/virtual-staging-desktop.webp'); }
+.aerialVideo .serviceMedia        { background-image: url('/images/home/aerial-video-desktop.webp'); }
+.virtualTour .serviceMedia        { background-image: url('/images/home/matterport-360-tour-desktop.webp'); }
+.socialReel .serviceMedia         { background-image: url('/images/home/social-media-reel-desktop.webp'); }
+
+/* ✅ center the last 2 services on desktop only */
+@media (min-width: 900px) {
+  .servicesGrid > .serviceCard:nth-child(7) {
+    grid-column: 3 / span 4;
+  }
+
+  .servicesGrid > .serviceCard:nth-child(8) {
+    grid-column: 7 / span 4;
+  }
+}
 
 .serviceBody {
   display: flex;
