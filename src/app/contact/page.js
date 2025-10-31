@@ -284,11 +284,11 @@ export default function ContactPage() {
       </h1>
       <p className={styles.intro}>
         You can reach us via <a href="tel:6475332748">phone</a>,{" "}
-        <a href="https://www.instagram.com/realframes7/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#">
+        <a href="https://www.instagram.com/realframes.ca/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#">
           Instagram
         </a>{" "}
         or{" "}
-        <a href="https://www.tiktok.com/@realframes7?_t=ZS-8yVAStzmNwm&_r=1">
+        <a href="https://www.tiktok.com/@realframes.ca?_t=ZS-8yVAStzmNwm&_r=1">
           TikTok
         </a>
         . If you’d rather not use those, fill out the form below and we’ll be in

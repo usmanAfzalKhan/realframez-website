@@ -111,9 +111,9 @@ export default function ReviewPage() {
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h1>What Our Clients Say</h1>
+        <h1>Testimonials</h1>
         <p className={styles.intro}>
-          See how RealFramez has helped real clients get results.
+          See how RealFrames has helped real clients get results.
         </p>
       </div>
 

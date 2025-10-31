@@ -23,7 +23,7 @@ const aboutContent = {
       title: "Meet Hussain",
       text:
         "Hussain is our founder with over 8 years of real estate photography experience—his attention to detail ensures every shot makes a lasting impression.",
-      image: "/images/founder.png"
+      image: "/images/founder.webp"
     }
   ]
 }
