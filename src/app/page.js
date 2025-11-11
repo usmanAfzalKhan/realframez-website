@@ -13,56 +13,16 @@ import styles from './page.module.scss'
 
 // ✅ reviews (just seeded more, same structure)
 const reviews = [
-  {
-    name: 'Sarah',
-    text: 'RealFramez delivered stunning photos that sold my listing in days!',
-    rating: 5,
-  },
-  {
-    name: 'Mike',
-    text: 'Very professional, friendly, and the twilight shots were 🔥.',
-    rating: 5,
-  },
-  {
-    name: 'Ayesha Khan',
-    text: 'Turnaround was same-day and the edits were super clean. I booked again.',
-    rating: 5,
-  },
-  {
-    name: 'Arjun Mehta',
-    text: 'They understood the space and shot it wide without making it look fake.',
-    rating: 5,
-  },
-  {
-    name: 'Gurpreet Singh',
-    text: 'On time, polite, and the drone shots helped me win the listing.',
-    rating: 5,
-  },
-  {
-    name: 'Hamza Siddiqui',
-    text: 'Booked for a MLS condo — photos came out crisp, lighting was on point.',
-    rating: 4,
-  },
-  {
-    name: 'Priya Sharma',
-    text: 'Client loved the virtual staging. Makes empty units look premium.',
-    rating: 5,
-  },
-  {
-    name: 'Jordan Williams',
-    text: 'They made my listing look like a showhome. Worth it.',
-    rating: 5,
-  },
-  {
-    name: 'Danielle Brown',
-    text: 'Easy to work with, sent everything in the right formats.',
-    rating: 5,
-  },
-  {
-    name: 'Jason Miller',
-    text: 'Clean, consistent, and exactly what I needed for my rental portfolio.',
-    rating: 5,
-  },
+  { name: 'Sarah', text: 'RealFramez delivered stunning photos that sold my listing in days!', rating: 5 },
+  { name: 'Mike', text: 'Very professional, friendly, and the twilight shots were 🔥.', rating: 5 },
+  { name: 'Ayesha Khan', text: 'Turnaround was same-day and the edits were super clean. I booked again.', rating: 5 },
+  { name: 'Arjun Mehta', text: 'They understood the space and shot it wide without making it look fake.', rating: 5 },
+  { name: 'Gurpreet Singh', text: 'On time, polite, and the drone shots helped me win the listing.', rating: 5 },
+  { name: 'Hamza Siddiqui', text: 'Booked for a MLS condo — photos came out crisp, lighting was on point.', rating: 4 },
+  { name: 'Priya Sharma', text: 'Client loved the virtual staging. Makes empty units look premium.', rating: 5 },
+  { name: 'Jordan Williams', text: 'They made my listing look like a showhome. Worth it.', rating: 5 },
+  { name: 'Danielle Brown', text: 'Easy to work with, sent everything in the right formats.', rating: 5 },
+  { name: 'Jason Miller', text: 'Clean, consistent, and exactly what I needed for my rental portfolio.', rating: 5 },
 ]
 
 export default function HomePage() {
@@ -112,100 +72,76 @@ export default function HomePage() {
           {/* SERVICES */}
           <h3 className={styles.servicesHeading}>Our Services</h3>
           <ul className={styles.servicesGrid} role="list" aria-label="Popular services">
-            {/* 1. Interior / Exterior Photography */}
             <li className={`${styles.serviceCard} ${styles.photography}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>Interior / Exterior</h3>
                 <p className={styles.serviceDesc}>Clean angles, bright edits, curb appeal.</p>
               </div>
-              <Link href="/services/photography" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/photography" className={styles.serviceLink}>View Details</Link>
             </li>
 
-            {/* 2. Aerial Photography */}
             <li className={`${styles.serviceCard} ${styles.aerial}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>Aerial Photography</h3>
                 <p className={styles.serviceDesc}>Lot, surroundings, neighbourhood context.</p>
               </div>
-              <Link href="/services/aerial-photography" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/aerial-photography" className={styles.serviceLink}>View Details</Link>
             </li>
 
-            {/* 3. Twilight Shoots */}
             <li className={`${styles.serviceCard} ${styles.twilight}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>Twilight Shoots</h3>
                 <p className={styles.serviceDesc}>Warm, premium, scroll-stopping dusk.</p>
               </div>
-              <Link href="/services/twilight-shoots" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/twilight-shoots" className={styles.serviceLink}>View Details</Link>
             </li>
 
-            {/* 4. Video Production */}
             <li className={`${styles.serviceCard} ${styles.video}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>Video Production</h3>
                 <p className={styles.serviceDesc}>Cinematic walk-throughs + drone.</p>
               </div>
-              <Link href="/services/video-production" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/video-production" className={styles.serviceLink}>View Details</Link>
             </li>
 
-            {/* 5. 360° Virtual Tours */}
             <li className={`${styles.serviceCard} ${styles.virtualTour}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>360° Virtual Tours</h3>
                 <p className={styles.serviceDesc}>Immersive Matterport-style walkthroughs.</p>
               </div>
-              <Link href="/services/matterport-360-tour" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/matterport-360-tour" className={styles.serviceLink}>View Details</Link>
             </li>
 
-            {/* 6. Aerial Video */}
             <li className={`${styles.serviceCard} ${styles.aerialVideo}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>Aerial Video</h3>
                 <p className={styles.serviceDesc}>Bird’s-eye views in motion.</p>
               </div>
-              <Link href="/services/drone-aerial-video" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/drone-aerial-video" className={styles.serviceLink}>View Details</Link>
             </li>
 
-            {/* 7. Virtual Staging */}
             <li className={`${styles.serviceCard} ${styles.virtualStaging}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>Virtual Staging</h3>
                 <p className={styles.serviceDesc}>Empty rooms → lived-in spaces.</p>
               </div>
-              <Link href="/services/virtual-staging" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/virtual-staging" className={styles.serviceLink}>View Details</Link>
             </li>
 
-            {/* 8. Social Media Reel with Realtor */}
             <li className={`${styles.serviceCard} ${styles.socialReel}`}>
               <div className={styles.serviceMedia} aria-hidden="true" />
               <div className={styles.serviceBody}>
                 <h3 className={styles.serviceTitle}>Social Media Reel w/ Realtor</h3>
                 <p className={styles.serviceDesc}>Platform-ready promo reel.</p>
               </div>
-              <Link href="/services/social-media-reel-with-realtor" className={styles.serviceLink}>
-                View Details
-              </Link>
+              <Link href="/services/social-media-reel-with-realtor" className={styles.serviceLink}>View Details</Link>
             </li>
           </ul>
 
@@ -221,9 +157,7 @@ export default function HomePage() {
               return (
                 <li
                   key={pkg.id}
-                  className={`${styles.packageCard} ${styles[`package-${pkg.id}`]} ${
-                    isOpen ? styles.packageOpen : ''
-                  }`}
+                  className={`${styles.packageCard} ${styles[`package-${pkg.id}`]} ${isOpen ? styles.packageOpen : ''}`}
                 >
                   <div className={styles.packageTop}>
                     <p className={styles.packageTitle}>{pkg.title}</p>
@@ -235,10 +169,8 @@ export default function HomePage() {
                   </div>
 
                   <div className={`${styles.packageBody} ${isOpen ? styles.packageBodyOpen : ''}`}>
-                    {/* first line always visible with ✔ */}
                     <p className={styles.packageText}>{pkg.features[0]}</p>
 
-                    {/* extra lines only when open */}
                     {isOpen && (
                       <ul className={styles.packageList}>
                         {pkg.features.slice(1).map((feat) => (
@@ -247,7 +179,6 @@ export default function HomePage() {
                       </ul>
                     )}
 
-                    {/* saving + book now block */}
                     {isOpen && (
                       <div className={styles.packageActions}>
                         <p className={styles.packageTagline}>{pkg.tagline}</p>
@@ -260,11 +191,7 @@ export default function HomePage() {
 
                   {!isOpen && <div className={styles.packageFade} aria-hidden="true" />}
 
-                  <button
-                    type="button"
-                    className={styles.packageSeeMore}
-                    onClick={() => togglePackage(pkg.id)}
-                  >
+                  <button type="button" className={styles.packageSeeMore} onClick={() => togglePackage(pkg.id)}>
                     {isOpen ? 'Hide details' : 'See more'}
                     <span className={styles.packageSeeMoreArrow}>{isOpen ? '▲' : '▼'}</span>
                   </button>
@@ -295,9 +222,7 @@ export default function HomePage() {
                 </div>
                 <div className={styles.portfolioBody}>
                   <h4 className={styles.portfolioTitle}>Interior Spaces</h4>
-                  <p className={styles.portfolioDesc}>
-                    Kitchens, living rooms, bedrooms — shot bright and MLS-ready.
-                  </p>
+                  <p className={styles.portfolioDesc}>Kitchens, living rooms, bedrooms — shot bright and MLS-ready.</p>
                   <span className={styles.portfolioCta}>View interior gallery →</span>
                 </div>
               </Link>
@@ -317,27 +242,44 @@ export default function HomePage() {
                 </div>
                 <div className={styles.portfolioBody}>
                   <h4 className={styles.portfolioTitle}>Exteriors & Aerials</h4>
-                  <p className={styles.portfolioDesc}>
-                    Curb appeal, drone angles, and neighbourhood context.
-                  </p>
+                  <p className={styles.portfolioDesc}>Curb appeal, drone angles, and neighbourhood context.</p>
                   <span className={styles.portfolioCta}>View exterior gallery →</span>
+                </div>
+              </Link>
+            </article>
+
+            {/* NEW: East Mall video card */}
+            <article className={styles.portfolioCard}>
+              <Link href="/portfolio/eastmall" className={styles.portfolioLink}>
+                <div className={styles.portfolioThumb}>
+                  <Image
+                    src="/images/gallery/eastmall/thumbnail.jpg"
+                    alt="137-366 The East Mall video thumbnail"
+                    fill
+                    sizes="(min-width: 900px) 45vw, 90vw"
+                    className={styles.portfolioImg}
+                  />
+                  <span className={styles.portfolioBadge}>Video</span>
+                </div>
+                <div className={styles.portfolioBody}>
+                  <h4 className={styles.portfolioTitle}>137-366 The East Mall</h4>
+                  <p className={styles.portfolioDesc}>Cinematic walkthrough. Tap to play.</p>
+                  <span className={styles.portfolioCta}>View the video →</span>
                 </div>
               </Link>
             </article>
           </div>
 
-          {/* FAQ STRIP (advertise only) */}
+          {/* FAQ STRIP */}
           <div className={styles.faqTeaser}>
             <h3 className={styles.faqHeading}>Got questions about our services?</h3>
             <p className={styles.faqCopy}>
               Turnaround times, travel zones, video add-ons — it’s all answered on our FAQ page.
             </p>
-            <Link href="/faq" className={styles.faqLink}>
-              Visit our FAQ →
-            </Link>
+            <Link href="/faq" className={styles.faqLink}>Visit our FAQ →</Link>
           </div>
 
-          {/* 👇 NEW: Our Story (links to /about) */}
+          {/* Our Story */}
           <div className={styles.storySection}>
             <h3 className={styles.storyHeading}>Our Story</h3>
             <p className={styles.storyCopy}>
@@ -345,12 +287,10 @@ export default function HomePage() {
               a full real estate media partner — interiors, exteriors, aerials, video, and virtual staging — so agents
               don’t have to juggle 5 vendors.
             </p>
-            <Link href="/about" className={styles.storyBtn}>
-              Continue getting to know us →
-            </Link>
+            <Link href="/about" className={styles.storyBtn}>Continue getting to know us →</Link>
           </div>
 
-          {/* 👇 NEW: Contact strip (home) */}
+          {/* Contact strip */}
           <div className={styles.contactStrip}>
             <div className={styles.contactText}>
               <h3 className={styles.contactHeading}>Need to book a shoot or ask a quick question?</h3>
@@ -359,27 +299,19 @@ export default function HomePage() {
               </p>
             </div>
             <div className={styles.contactActions}>
-              <Link href="/contact" className={styles.contactBtnPrimary}>
-                Book / Contact →
-              </Link>
+              <Link href="/contact" className={styles.contactBtnPrimary}>Book / Contact →</Link>
             </div>
           </div>
 
-          {/* ✅ TESTIMONIALS / REVIEWS */}
+          {/* Testimonials */}
           <h3 className={styles.reviewsHeading}>Testimonials</h3>
-          <p className={styles.reviewsCopy}>
-            What GTA agents and homeowners say after working with RealFrames.
-          </p>
+          <p className={styles.reviewsCopy}>What GTA agents and homeowners say after working with RealFrames.</p>
           <div className={styles.reviewsMarquee} aria-label="Client testimonials">
             <div className={styles.reviewsTrack}>
               {[...reviews, ...reviews].map((review, idx) => (
                 <figure key={idx} className={styles.reviewCard}>
-                  <blockquote className={styles.reviewText}>
-                    “{review.text}”
-                  </blockquote>
-                  <figcaption className={styles.reviewAuthor}>
-                    — {review.name}
-                  </figcaption>
+                  <blockquote className={styles.reviewText}>“{review.text}”</blockquote>
+                  <figcaption className={styles.reviewAuthor}>— {review.name}</figcaption>
                   <p className={styles.reviewRating} aria-label={`${review.rating} out of 5 stars`}>
                     {'★'.repeat(review.rating)}
                   </p>
@@ -388,23 +320,14 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* ✅ this still goes straight to form (query) AND tries to land near the button (hash) */}
           <div className={styles.reviewCtaWrap}>
-            <Link href="/review?showForm=1#add-review" className={styles.reviewCtaBtn}>
-              View More Reviews
-            </Link>
+            <Link href="/review?showForm=1#add-review" className={styles.reviewCtaBtn}>View More Reviews</Link>
           </div>
 
-          {/* 👇 UPDATED: Social strip (IG + TikTok only, realframes.ca) */}
+          {/* Social strip */}
           <div className={styles.socialStrip} aria-label="Follow RealFrames on social">
             <div className={styles.socialBrand}>
-              <Image
-                src="/images/logo.png"
-                alt="RealFrames"
-                width={44}
-                height={44}
-                className={styles.socialLogo}
-              />
+              <Image src="/images/logo.png" alt="RealFrames" width={44} height={44} className={styles.socialLogo} />
               <div className={styles.socialMeta}>
                 <span className={styles.socialLabel}>Follow RealFrames</span>
                 <h3 className={styles.socialHeading}>BTS, edits & new shoots</h3>
