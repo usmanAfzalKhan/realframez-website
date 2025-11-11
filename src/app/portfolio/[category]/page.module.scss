@@ -56,3 +56,22 @@ $trans:   0.8s ease-out both;
     }
   }
 }
+
+/* Video layout for /portfolio/eastmall */
+.videoWrap {
+  margin: 2rem auto 0;
+  max-width: 1000px;
+  aspect-ratio: 16/9;
+  border: 2px solid $accent;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: color.scale($bg, $lightness: 8%);
+  animation: fadeUp $trans;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

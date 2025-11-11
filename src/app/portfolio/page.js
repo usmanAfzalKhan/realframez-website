@@ -1,10 +1,10 @@
-// src/app/page.js
+// src/app/portfolio/page.js
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { interiorImages, exteriorImages } from '../../data/galleryImages';
+import { interiorImages, exteriorImages, eastMallPoster } from '../../data/galleryImages';
 import styles from './PortfolioLanding.module.scss';
 
 const PREVIEW_COUNT = 5;
@@ -26,42 +26,55 @@ function RotatingCard({ href, title, description, images }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState(null);
   const [isFading, setIsFading] = useState(false);
+
+  // NEW: keep first render identical on server and client
+  const [mounted, setMounted] = useState(false);
+  const [slowMode, setSlowMode] = useState(true); // start true => no fade classes on initial SSR/CSR
+
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
-  const slow = useRef(isSlowConnection());
 
   useEffect(() => {
-    if (!slow.current) {
-      const next = (currentIdx + 1) % images.length;
-      const img = new window.Image();
-      img.src = images[next];
-    }
-  }, [currentIdx, images]);
+    setMounted(true);
+    setSlowMode(isSlowConnection());
+  }, []);
 
+  // Preload next image only after mount and when not slow
   useEffect(() => {
-    if (slow.current) return;
+    if (!mounted || slowMode || images.length < 2) return;
+    const next = (currentIdx + 1) % images.length;
+    const img = new window.Image();
+    img.src = images[next];
+  }, [mounted, slowMode, currentIdx, images]);
+
+  // Rotate only after mount and when not slow
+  useEffect(() => {
+    if (!mounted || slowMode || images.length < 2) return;
 
     intervalRef.current = setInterval(() => {
       setIsFading(true);
       timeoutRef.current = setTimeout(() => {
         setPrevIdx(currentIdx);
-        setCurrentIdx(i => (i + 1) % images.length);
+        setCurrentIdx((i) => (i + 1) % images.length);
         setIsFading(false);
         if (timeoutRef.current) clearTimeout(timeoutRef.current);
       }, FADE_DURATION);
     }, ROTATE_INTERVAL);
 
     return () => {
-      clearInterval(intervalRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [images.length]);
+  }, [mounted, slowMode, images.length, currentIdx]);
+
+  const layerClass =
+    !slowMode && mounted ? (isFading ? styles.fadeOut : styles.fadeIn) : '';
 
   return (
     <Link href={href} className={styles.cardLink}>
       <article className={styles.card}>
         <div className={styles.imageWrapper}>
-          {!slow.current && prevIdx !== null && (
+          {!slowMode && mounted && prevIdx !== null && (
             <div className={`${styles.singleLayer} ${styles.fadeOut}`}>
               <Image
                 src={images[prevIdx]}
@@ -74,12 +87,7 @@ function RotatingCard({ href, title, description, images }) {
               />
             </div>
           )}
-          <div
-            className={`${styles.singleLayer} ${
-              slow.current ? '' : isFading ? styles.fadeOut : styles.fadeIn
-            }`}
-            key={slow.current ? 0 : currentIdx}
-          >
+          <div className={`${styles.singleLayer} ${layerClass}`} key={currentIdx}>
             <Image
               src={images[currentIdx]}
               alt={`${title} preview ${currentIdx + 1}`}
@@ -102,7 +110,7 @@ function RotatingCard({ href, title, description, images }) {
         </div>
         <div className={styles.info}>
           <h2 className={styles.cardTitle}>{title}</h2>
-          <p className={styles.cardSubtitle}>{description}</p>
+        <p className={styles.cardSubtitle}>{description}</p>
         </div>
       </article>
     </Link>
@@ -111,7 +119,6 @@ function RotatingCard({ href, title, description, images }) {
 
 export default function PortfolioLanding() {
   const [slowMode, setSlowMode] = useState(false);
-
   useEffect(() => {
     if (isSlowConnection()) setSlowMode(true);
   }, []);
@@ -119,11 +126,7 @@ export default function PortfolioLanding() {
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Portfolio</h1>
-      {slowMode && (
-        <div className={styles.hint}>
-          Explore interior and exterior galleries below.
-        </div>
-      )}
+      {slowMode && <div className={styles.hint}>Explore interior and exterior galleries below.</div>}
       <p className={styles.subtitle}>
         See how professional photography transforms spaces—select a gallery to dive into detailed interior and exterior shots.
       </p>
@@ -139,6 +142,13 @@ export default function PortfolioLanding() {
           title="Exterior Gallery"
           description="Capture the curb appeal and landscape of the property."
           images={exteriorImages.slice(0, PREVIEW_COUNT)}
+        />
+        {/* East Mall card using thumbnail as the image */}
+        <RotatingCard
+          href="/portfolio/eastmall"
+          title="137-366 The East Mall"
+          description="Walkthrough video tour."
+          images={[eastMallPoster]}
         />
       </div>
     </main>

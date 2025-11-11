@@ -44,3 +44,7 @@ export const exteriorImages = [
   '/images/gallery/exterior/10.jpeg',
   '/images/gallery/exterior/11.jpeg',
 ];
+
+/** East Mall assets (exact lowercase filename) */
+export const eastMallVideo  = '/images/gallery/eastmall/TheEastMall.mp4';
+export const eastMallPoster = '/images/gallery/eastmall/thumbnail.jpg';
