@@ -18,8 +18,8 @@ $trans:   300ms ease-out;
 .about {
   background: $bg;
   color: $text;
-  padding-top: 5rem;
   padding: 4rem 1rem;
+  padding-top: 5rem;
   max-width: 900px;
   margin: 0 auto;
   display: flex;
@@ -31,8 +31,14 @@ $trans:   300ms ease-out;
     text-align: center;
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    margin: clamp(1rem, 3vw, 1.5rem) 0;
+    margin: clamp(1rem, 3vw, 1.5rem) 0 0.75rem;
+    position: relative;
     animation: fadeIn 0.5s ease-out both;
+
+    /* no yellow underline on heading */
+    &::after {
+      content: none;
+    }
   }
 
   .mission {
@@ -40,30 +46,113 @@ $trans:   300ms ease-out;
     font-size: clamp(1rem, 2.5vw, 1.125rem);
     color: rgba($text, 0.8);
     line-height: 1.6;
+    max-width: 640px;
+    margin: 0.5rem auto 1.1rem; /* closer to heading + brokerages */
     animation: fadeIn 0.6s ease-out both;
   }
 
+  /* Partner logos section (static grid) */
+  .partnersSection {
+    margin-top: 0.9rem; /* bring brokerages closer to mission */
+    text-align: center;
+    padding: 1.6rem 1.4rem 1.8rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 204, 87, 0.22);
+    background:
+      radial-gradient(circle at top, rgba(255, 204, 87, 0.14), rgba(0, 0, 0, 0) 55%),
+      rgba(0, 0, 0, 0.65);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    animation: fadeIn 0.6s ease-out both;
+    scroll-margin-top: 110px; // anchor scroll lands clean
+  }
+
+  .partnersHeading {
+    font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+  }
+
+  .partnersCopy {
+    font-size: 0.95rem;
+    color: rgba($text, 0.78);
+    max-width: 540px;
+    margin: 0 auto 1.1rem;
+    line-height: 1.5;
+  }
+
+  .partnersGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; // centers last row if not full on desktop
+    gap: 0.9rem;
+    margin-top: 0.4rem;
+  }
+
+  .partnerCard {
+    flex: 0 1 170px;
+    max-width: 190px;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 0.45rem 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .partnerLogo {
+    width: 100%;
+    height: 52px;
+    object-fit: contain;
+  }
+
+  /* Generic info sections (“Why Choose Us”, “Our Values”, etc.) */
   .section {
     animation: fadeIn 0.5s ease-out both;
+    margin-top: 1.8rem;
+    padding: 1.6rem 1.4rem 1.5rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 204, 87, 0.18);
+    background:
+      radial-gradient(circle at top, rgba(255, 204, 87, 0.08), rgba(0,0,0,0) 60%),
+      rgba(0, 0, 0, 0.7);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+  }
 
-    h2 {
-      font-size: clamp(1.25rem, 3vw, 1.5rem);
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
+  .section h2 {
+    font-size: clamp(1.25rem, 3vw, 1.5rem);
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 0.25rem;
 
-    p {
-      font-size: clamp(1rem, 2.5vw, 1.125rem);
-      color: rgba($text, 0.8);
-      line-height: 1.6;
-      margin: 0;
+    &::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -0.2rem;
+      width: 80px;
+      height: 2px;
+      border-radius: 999px;
+      background: $accent;
     }
+  }
+
+  .section p {
+    font-size: clamp(1rem, 2.5vw, 1.075rem);
+    color: rgba($text, 0.82);
+    line-height: 1.7;
+    margin: 0.45rem auto 0;
+    max-width: 720px;
+    text-align: left;
   }
 
   .founder {
     display: flex;
     align-items: center;
     gap: 1.5rem;
+    margin-top: 0.6rem;
     animation: fadeIn 0.7s ease-out both;
 
     .founderImg {
@@ -73,17 +162,23 @@ $trans:   300ms ease-out;
       object-fit: cover;
       object-position: top center;
       cursor: pointer;
-      transition: transform $trans;
+      border: 2px solid rgba(255, 204, 87, 0.85);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+      transition: transform $trans, box-shadow $trans;
       animation: zoomIn 0.5s ease-out both;
 
-      &:hover { transform: scale(1.05); }
+      &:hover {
+        transform: scale(1.05) translateY(-2px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+      }
     }
 
     .founderText {
       flex: 1;
       font-size: clamp(1rem, 2.5vw, 1.125rem);
-      color: rgba($text, 0.8);
-      line-height: 1.6;
+      color: rgba($text, 0.82);
+      line-height: 1.7;
+      text-align: left;
     }
   }
 
@@ -124,6 +219,7 @@ $trans:   300ms ease-out;
       text-align: center;
       cursor: pointer;
       transition: transform $trans;
+
       &:hover { transform: translateY(-2px); }
     }
   }
@@ -132,13 +228,59 @@ $trans:   300ms ease-out;
 @media (max-width: 600px) {
   .about {
     padding-top: 6rem;
-    padding: 2rem 1rem;
-    gap: 1rem;
+    padding: 2rem 1rem 3rem;
+    gap: 1.25rem;
 
     h1 {
-      /* further push down on mobile */
-      margin-top: clamp(3rem, 8vw, 6rem);
+      margin-top: clamp(3rem, 8vw, 5rem);
       margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .mission {
+      margin-bottom: 1.3rem;
+    }
+
+    .partnersSection {
+      padding: 1.3rem 1rem 1.5rem;
+      border-radius: 18px;
+    }
+
+    /* ✅ 2 logos per row, more vertical breathing room */
+    .partnersGrid {
+      margin-top: 0.4rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 0.85rem;
+      row-gap: 1.05rem;       /* more space between rows */
+      justify-items: center;
+    }
+
+    .partnerCard {
+      flex: initial;
+      width: 100%;
+      max-width: 130px;       /* a bit narrower so they don’t “touch” */
+      padding: 0.3rem 0.6rem; /* slightly smaller pill */
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* center last logo if odd number */
+    .partnersGrid > .partnerCard:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      justify-self: center;
+    }
+
+    .partnerLogo {
+      width: 100%;
+      height: 38px;           /* shorter so cards don’t feel stacked */
+      object-fit: contain;
+    }
+
+    .section {
+      padding: 1.25rem 1rem 1.2rem;
+      margin-top: 1.4rem;
     }
 
     .founder {
@@ -148,8 +290,10 @@ $trans:   300ms ease-out;
       .founderImg {
         object-position: top center;
       }
+
       .founderText {
         margin-top: 1rem;
+        text-align: left;
       }
     }
   }
