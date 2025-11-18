@@ -172,6 +172,16 @@ $muted: rgba($text, 0.6);
     margin-bottom: 4px;
   }
 
+  .aLaCarteLabel {
+    width: 100%;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $muted;
+    font-weight: 600;
+    margin: 0.25rem 0 0.15rem;
+  }
+
   .optionItem {
     display: flex;
     align-items: flex-start;

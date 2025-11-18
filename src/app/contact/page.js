@@ -163,8 +163,8 @@ export default function ContactPage() {
           const p = packageDefinitions.find((pp) => pp.slug === slug);
           return p ? p.includes : [];
         });
-        const toRemove = packageDefinitions.find((p) => p.slug === value)
-          ?.includes || [];
+        const toRemove =
+          packageDefinitions.find((p) => p.slug === value)?.includes || [];
         const newServices = f.services.filter((s) => {
           if (toRemove.includes(s) && !remainingIncludes.includes(s)) {
             return false;
@@ -488,6 +488,9 @@ export default function ContactPage() {
                 </label>
               </div>
             ))}
+
+            {/* A La Carte label between packages and services */}
+            <div className={styles.aLaCarteLabel}>A La Carte</div>
 
             {services.map((svc) => {
               const id = `service-${svc.slug}`;
