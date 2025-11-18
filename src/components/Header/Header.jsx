@@ -27,7 +27,7 @@ export default function Header() {
       <div className={styles.inner}>
         <Link href="/" className={styles.logo} onClick={closeNav}>
           <Image src="/images/logo.png" alt="Logo" width={44} height={44} priority />
-          <span className={styles.text}>REALFRAMES</span>
+          <span className={styles.text}>REAL FRAMES</span>
         </Link>
 
         {/* Hamburger: only visible on mobile */}

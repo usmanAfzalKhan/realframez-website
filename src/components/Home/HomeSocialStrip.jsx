@@ -5,18 +5,18 @@ import styles from '../../app/page.module.scss'
 
 export default function HomeSocialStrip() {
   return (
-    <div className={styles.socialStrip} aria-label="Follow RealFrames on social">
+    <div className={styles.socialStrip} aria-label="Follow Real Frames on social">
       {/* Social strip */}
       <div className={styles.socialBrand}>
         <Image
           src="/images/logo.png"
-          alt="RealFrames"
+          alt="Real Frames"
           width={44}
           height={44}
           className={styles.socialLogo}
         />
         <div className={styles.socialMeta}>
-          <span className={styles.socialLabel}>Follow RealFrames</span>
+          <span className={styles.socialLabel}>Follow Real Frames</span>
           <h3 className={styles.socialHeading}>BTS, edits &amp; new shoots</h3>
         </div>
       </div>

@@ -9,7 +9,7 @@ export default function HomeStorySection() {
       {/* Our Story */}
       <h3 className={styles.storyHeading}>Our Story</h3>
       <p className={styles.storyCopy}>
-        RealFrames started as a one-person photo service in the GTA, shooting condos and townhomes, and grew into
+        Real Frames started as a one-person photo service in the GTA, shooting condos and townhomes, and grew into
         a full real estate media partner — interiors, exteriors, aerials, video, and virtual staging — so agents
         don’t have to juggle 5 vendors.
       </p>

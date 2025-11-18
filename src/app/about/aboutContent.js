@@ -1,6 +1,6 @@
 // src/app/about/aboutContent.js
 const aboutContent = {
-  heading: "About RealFrames",
+  heading: "About Real Frames",
   mission:
     "Delivering stunning real estate photography to help properties stand out and sell fast.",
   sections: [

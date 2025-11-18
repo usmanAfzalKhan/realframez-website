@@ -14,9 +14,9 @@ export default function HomeIntroSection() {
       </p>
 
       <div className={styles.whySection}>
-        <p className={styles.sectionLabel}>WHY REALFRAMES</p>
+        <p className={styles.sectionLabel}>WHY REAL FRAMES</p>
         <p className={styles.why}>
-          RealFrames is built for GTA realtors and property marketers who need fast, consistent media that actually
+          Real Frames is built for GTA realtors and property marketers who need fast, consistent media that actually
           flatters the space.
         </p>
         <p className={styles.why}>

@@ -17,7 +17,7 @@ export default function HomePortfolioSection() {
           Portfolio
         </h3>
         <p className={styles.portfolioCopy}>
-          Recent Listings Shot By RealFrames Around The GTA Highlighted Per Property Gallery
+          Recent Listings Shot By Real Frames Around The GTA Highlighted Per Property Gallery
         </p>
 
         <div className={styles.portfolioGrid}>

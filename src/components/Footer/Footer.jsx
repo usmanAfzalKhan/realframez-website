@@ -9,7 +9,7 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <span className={styles.brand}>
-          RealFrames
+          Real Frames
           <span className={styles.copyright}>&copy;</span>
         </span>
 
