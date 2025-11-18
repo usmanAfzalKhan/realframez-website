@@ -134,7 +134,7 @@ export default function PortfolioLanding() {
     <main className={styles.main}>
       <h1 className={styles.title}>Portfolio</h1>
       <p className={styles.subtitle}>
-        Recent Real Estate Shoots Around The GTA Organized Per Property Address.
+        Recent Real Estate Shoots Around The GTA, Halton, Dufferin County Organized Per Property Address.
       </p>
 
       <div className={styles.cards}>
