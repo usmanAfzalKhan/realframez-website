@@ -23,9 +23,7 @@ function isSlowConnection() {
 }
 
 function RotatingCard({ href, title, description, images }) {
-  // safety: if something is wrong with data, just don’t render the card
-  if (!images || images.length === 0) return null;
-
+  // ✅ hooks MUST be at top-level, so we move them above any return
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState(null);
   const [isFading, setIsFading] = useState(false);
@@ -37,6 +35,8 @@ function RotatingCard({ href, title, description, images }) {
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
 
+  const hasImages = Array.isArray(images) && images.length > 0;
+
   useEffect(() => {
     setMounted(true);
     setSlowMode(isSlowConnection());
@@ -44,15 +44,15 @@ function RotatingCard({ href, title, description, images }) {
 
   // Preload next image only after mount and when not slow
   useEffect(() => {
-    if (!mounted || slowMode || images.length < 2) return;
+    if (!mounted || slowMode || !hasImages || images.length < 2) return;
     const next = (currentIdx + 1) % images.length;
     const img = new window.Image();
     img.src = images[next];
-  }, [mounted, slowMode, currentIdx, images]);
+  }, [mounted, slowMode, hasImages, currentIdx, images]);
 
   // Rotate only after mount and when not slow
   useEffect(() => {
-    if (!mounted || slowMode || images.length < 2) return;
+    if (!mounted || slowMode || !hasImages || images.length < 2) return;
 
     intervalRef.current = setInterval(() => {
       setIsFading(true);
@@ -68,7 +68,10 @@ function RotatingCard({ href, title, description, images }) {
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [mounted, slowMode, images.length, currentIdx]);
+  }, [mounted, slowMode, hasImages, images, currentIdx]);
+
+  // ✅ early return *after* hooks are defined
+  if (!hasImages) return null;
 
   const layerClass =
     !slowMode && mounted ? (isFading ? styles.fadeOut : styles.fadeIn) : '';
