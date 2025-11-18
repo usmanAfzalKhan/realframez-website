@@ -662,12 +662,13 @@
   font-weight: 600;
 }
 
-/* ✅ center the LAST portfolio card on desktop (future-proof) */
+/* ✅ center the LAST portfolio card on desktop ONLY when there's an odd count */
 @media (min-width: 900px) {
-  .portfolioGrid > .portfolioCard:last-child {
+  .portfolioGrid > .portfolioCard:nth-last-child(1):nth-child(odd) {
     grid-column: 4 / span 6;
   }
 }
+
 
 @media (max-width: 720px) {
   .portfolioGrid {
