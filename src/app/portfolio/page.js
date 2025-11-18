@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { interiorImages, exteriorImages, eastMallPoster } from '../../data/galleryImages';
+import { galleryList } from '../../data/galleryImages';
 import styles from './PortfolioLanding.module.scss';
 
 const PREVIEW_COUNT = 5;
@@ -23,13 +23,16 @@ function isSlowConnection() {
 }
 
 function RotatingCard({ href, title, description, images }) {
+  // safety: if something is wrong with data, just don’t render the card
+  if (!images || images.length === 0) return null;
+
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState(null);
   const [isFading, setIsFading] = useState(false);
 
-  // NEW: keep first render identical on server and client
+  // keep first render identical SSR/CSR
   const [mounted, setMounted] = useState(false);
-  const [slowMode, setSlowMode] = useState(true); // start true => no fade classes on initial SSR/CSR
+  const [slowMode, setSlowMode] = useState(true); // start true => no fade classes on initial SSR
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -110,7 +113,7 @@ function RotatingCard({ href, title, description, images }) {
         </div>
         <div className={styles.info}>
           <h2 className={styles.cardTitle}>{title}</h2>
-        <p className={styles.cardSubtitle}>{description}</p>
+          <p className={styles.cardSubtitle}>{description}</p>
         </div>
       </article>
     </Link>
@@ -119,6 +122,7 @@ function RotatingCard({ href, title, description, images }) {
 
 export default function PortfolioLanding() {
   const [slowMode, setSlowMode] = useState(false);
+
   useEffect(() => {
     if (isSlowConnection()) setSlowMode(true);
   }, []);
@@ -126,30 +130,27 @@ export default function PortfolioLanding() {
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>Portfolio</h1>
-      {slowMode && <div className={styles.hint}>Explore interior and exterior galleries below.</div>}
       <p className={styles.subtitle}>
-        See how professional photography transforms spaces—select a gallery to dive into detailed interior and exterior shots.
+        Recent Real Estate Shoots Around The GTA Organized Per Property Address.
       </p>
+
       <div className={styles.cards}>
-        <RotatingCard
-          href="/portfolio/interior"
-          title="Interior Gallery"
-          description="Showcase rooms with natural lighting and meticulous composition."
-          images={interiorImages.slice(0, PREVIEW_COUNT)}
-        />
-        <RotatingCard
-          href="/portfolio/exterior"
-          title="Exterior Gallery"
-          description="Capture the curb appeal and landscape of the property."
-          images={exteriorImages.slice(0, PREVIEW_COUNT)}
-        />
-        {/* East Mall card using thumbnail as the image */}
-        <RotatingCard
-          href="/portfolio/eastmall"
-          title="137-366 The East Mall"
-          description="Walkthrough video tour."
-          images={[eastMallPoster]}
-        />
+        {galleryList.map((gallery) => {
+          const allImages = [
+            gallery.coverImage || gallery.images?.[0],
+            ...(gallery.images || []),
+          ].filter(Boolean);
+
+          return (
+            <RotatingCard
+              key={gallery.slug}
+              href={`/portfolio/${gallery.slug}`}
+              title={gallery.address}
+              description={gallery.cardDescription}
+              images={allImages.slice(0, PREVIEW_COUNT)}
+            />
+          );
+        })}
       </div>
     </main>
   );

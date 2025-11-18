@@ -48,26 +48,23 @@ $accent:  #ffcc57;
   }
 }
 
+/* flex layout so last row is centered */
 .cards {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  grid-template-columns: 1fr;           /* phone: 1 */
-  justify-content: center;              /* center the whole grid when extra space */
-  justify-items: stretch;               /* cards fill their tracks */
+  justify-content: center;          /* centers the last row automatically */
   margin-inline: auto;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, minmax(280px, 1fr)); /* tablet: 2 */
-    max-width: min(1100px, 95vw);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, minmax(280px, 1fr)); /* desktop: 3 across */
-    max-width: min(1200px, 95vw);
-  }
+  max-width: min(1200px, 95vw);
 }
 
-.cardLink { text-decoration: none; display: block; height: 100%; }
+.cardLink {
+  text-decoration: none;
+  display: block;
+  height: 100%;
+  flex: 1 1 280px;                  /* responsive width */
+  max-width: 360px;                 /* keeps 3-across look on desktop */
+}
 
 .card {
   display: flex;
@@ -77,6 +74,7 @@ $accent:  #ffcc57;
   border-radius: 0.75rem;
   overflow: hidden;
   height: 100%;
+  min-height: 400px;                /* ✅ smaller but still same size for all cards */
   animation: fadeIn 0.8s both;
   justify-content: space-between;
 
