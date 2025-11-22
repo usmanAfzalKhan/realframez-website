@@ -1,158 +1,210 @@
 // src/components/Hero/Hero.jsx
-'use client'
+'use client';
 
-import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { slides } from '../../data/slides'
-import styles from './Hero.module.scss'
+import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { slides } from '../../data/slides';
+import styles from './Hero.module.scss';
 
 export default function Hero() {
-  const [current, setCurrent] = useState(0)
-  const [showImage, setShowImage] = useState(false)
-  const timeoutRef = useRef(null)
-  const videoRef = useRef(null)
-  const [isMounted, setIsMounted] = useState(false)
-  const touchStartX = useRef(0)
-  const touchEndX = useRef(0)
+  const [currentSlide, setCurrentSlide] = useState(0);
 
+  // 1️⃣ Initial backgrounds: deterministic (first image of each slide)
+  const [bgPerSlide, setBgPerSlide] = useState(() =>
+    slides.map((slide) => {
+      const imgs = slide.images || [];
+      return imgs.length ? imgs[0] : null;
+    })
+  );
+
+  // 2️⃣ After hydration on the client: swap to random images (no SSR mismatch)
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setBgPerSlide(
+      slides.map((slide) => {
+        const imgs = slide.images || [];
+        if (!imgs.length) return null;
+        const randomIndex = Math.floor(Math.random() * imgs.length);
+        return imgs[randomIndex];
+      })
+    );
+  }, []);
 
-  const isMobile = isMounted && window.innerWidth < 768
-  const slide = slides[current]
+  // swipe / drag state
+  const [dragOffset, setDragOffset] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const startX = useRef(0);
 
-  // special case: combined interior/exterior photography slide uses exterior video + interior image
-  const isPhotography = slide.slug === 'photography'
-  const exteriorSlide = slides.find((s) => s.slug === 'exterior-photography')
-  const interiorSlide = slides.find((s) => s.slug === 'interior-photography')
+  const slide = slides[currentSlide];
+  const activeImage = bgPerSlide[currentSlide] || null;
 
-  const videoSourceSlide = isPhotography
-    ? exteriorSlide ?? slide
-    : slide
+  // per-slide CTAs
+  const defaultHref = slide.slug === 'welcome' ? '/services' : '/services';
+  const defaultLabel =
+    slide.slug === 'welcome' ? 'View Services' : 'View Service';
 
-  const imageSourceSlide = isPhotography
-    ? interiorSlide ?? slide
-    : slide
+  const ctaHref = slide.ctaHref || defaultHref;
+  const ctaLabel = slide.ctaLabel || defaultLabel;
 
-  const videoSrc = isMobile
-    ? videoSourceSlide.mobileVideo || videoSourceSlide.desktopVideo
-    : videoSourceSlide.desktopVideo || videoSourceSlide.mobileVideo
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
 
-  const webmSrc = isMobile
-    ? videoSourceSlide.mobileVideoWebM || videoSourceSlide.desktopVideoWebM
-    : videoSourceSlide.desktopVideoWebM || videoSourceSlide.mobileVideoWebM
+  const prevSlide = () => {
+    setCurrentSlide((s) => (s - 1 + slides.length) % slides.length);
+  };
 
-  const imageSrc = isMobile
-    ? imageSourceSlide.mobileImage || imageSourceSlide.desktopImage
-    : imageSourceSlide.desktopImage || imageSourceSlide.mobileImage
+  const nextSlide = () => {
+    setCurrentSlide((s) => (s + 1) % slides.length);
+  };
 
-  // Reset image/video toggle & preload next video's src
-  useEffect(() => {
-    setShowImage(false)
-    clearTimeout(timeoutRef.current)
+  // ==== SWIPE / DRAG HANDLERS (like Mehndi hero, but only moving the bg) ====
+  const THRESHOLD = 35; // nice and sensitive
 
-    const nextIdx = (current + 1) % slides.length
-    const nextSlide = slides[nextIdx]
-    // For the "photography" slide, preload its video like normal
-    const nextVideoHref = isMounted
-      ? (window.innerWidth < 768
-          ? nextSlide.mobileVideo
-          : nextSlide.desktopVideo)
-      : null
+  const onStart = (clientX) => {
+    setDragging(true);
+    startX.current = clientX;
+  };
 
-    if (nextVideoHref) {
-      const link = document.createElement('link')
-      link.rel = 'preload'
-      link.as = 'video'
-      link.href = nextVideoHref
-      document.head.appendChild(link)
-      return () => {
-        clearTimeout(timeoutRef.current)
-        document.head.removeChild(link)
-      }
+  const onMove = (clientX) => {
+    if (!dragging) return;
+    setDragOffset(clientX - startX.current);
+  };
+
+  const onEnd = () => {
+    if (!dragging) return;
+
+    const dx = dragOffset;
+    setDragging(false);
+    setDragOffset(0);
+
+    if (dx > THRESHOLD) {
+      prevSlide();
+    } else if (dx < -THRESHOLD) {
+      nextSlide();
     }
-  }, [current, isMounted])
+  };
 
-  // When the video has loaded its first frame, play & start 5s timer
-  const handleLoadedData = () => {
-    if (videoRef.current) {
-      videoRef.current.play()
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = setTimeout(() => setShowImage(true), 5000)
-    }
-  }
+  // touch
+  const handleTouchStart = (e) => {
+    if (!e.touches || !e.touches[0]) return;
+    onStart(e.touches[0].clientX);
+  };
 
-  const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length)
-  const next = () => setCurrent((c) => (c + 1) % slides.length)
+  const handleTouchMove = (e) => {
+    if (!e.touches || !e.touches[0]) return;
+    onMove(e.touches[0].clientX);
+  };
 
-  const onTouchStart = (e) => {
-    touchStartX.current = e.changedTouches[0].screenX
-  }
-  const onTouchEnd = (e) => {
-    touchEndX.current = e.changedTouches[0].screenX
-    if (touchEndX.current - touchStartX.current > 50) prev()
-    else if (touchStartX.current - touchEndX.current > 50) next()
-  }
+  const handleTouchEnd = () => {
+    onEnd();
+  };
+
+  // mouse (desktop drag)
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return; // left click only
+    onStart(e.clientX);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!dragging) return;
+    onMove(e.clientX);
+  };
+
+  const handleMouseUp = () => {
+    onEnd();
+  };
+
+  const handleMouseLeave = () => {
+    onEnd();
+  };
+
+  // Move ONLY the background image, so no black gap while swiping
+  const bgStyle = {
+    backgroundImage: activeImage ? `url(${activeImage})` : undefined,
+    transform: `translateX(${dragging ? dragOffset : 0}px)`,
+    transition: dragging ? 'none' : 'transform 280ms ease-out',
+  };
 
   return (
-    <div
-      className={`${styles.hero} ${styles.slideIn}`}
-      style={{ backgroundImage: `url(${imageSrc})` }}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+    <section
+      className={styles.hero}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
     >
-      <video
-        ref={videoRef}
-        suppressHydrationWarning
-        key={videoSrc}
-        className={`${styles.media} ${showImage ? styles.hidden : ''}`}
-        muted
-        playsInline
-        preload="auto"
-        poster={imageSrc}
-        onLoadedData={handleLoadedData}
-        onEnded={() => {
-          setShowImage(true)
-          videoRef.current?.pause()
-        }}
-        autoPlay
-        loop
-      >
-        {webmSrc && <source src={webmSrc} type="video/webm" />}
-        <source src={videoSrc} type="video/mp4" />
-      </video>
+      <div className={`${styles.heroInner} ${styles.slideIn}`}>
+        {/* Background (your work) */}
+        {activeImage && (
+          <div
+            key={`${currentSlide}`}
+            className={`${styles.heroBg} ${styles.fadeIn}`}
+            style={bgStyle}
+          />
+        )}
 
-      <img
-        suppressHydrationWarning
-        key={imageSrc}
-        className={`${styles.media} ${!showImage ? styles.hidden : styles.fadeIn}`}
-        src={imageSrc}
-        alt={slide.title}
-      />
+        {/* Gradient overlay for text legibility */}
+        <div className={styles.heroOverlay} />
 
-      <div className={styles.logoSlide}>
-        <Image src="/images/logo.png" alt="Logo" width={60} height={60} />
-      </div>
+        {/* Brand pill – positioned via your SCSS */}
+        <div className={styles.logoPill}>
+          <Image
+            src="/images/logo.png"
+            alt="Real Frames logo"
+            width={32}
+            height={32}
+          />
+          <span className={styles.logoText}>Real Frames</span>
+        </div>
 
-      <button className={styles.arrowLeft} onClick={prev} aria-label="Previous slide">
-        ‹
-      </button>
-      <button className={styles.arrowRight} onClick={next} aria-label="Next slide">
-        ›
-      </button>
+        {/* Text & CTA – bottom-left */}
+        <div className={styles.content}>
+          <div className={styles.copyBlock}>
+            <h1 className={styles.title}>{slide.title}</h1>
+            <p className={styles.desc}>{slide.description}</p>
+            <Link href={ctaHref} className={styles.cta}>
+              {ctaLabel}
+            </Link>
+          </div>
 
-      <div className={styles.overlay}>
-        <h1 className={styles.title}>{slide.title}</h1>
-        <p className={styles.desc}>{slide.description}</p>
-        <Link
-          href={current === 0 ? '/services' : `/services/${slide.slug}`}
-          className={styles.cta}
+          {/* Dots */}
+          <div className={styles.dots}>
+            {slides.map((s, idx) => (
+              <button
+                key={s.slug}
+                type="button"
+                className={`${styles.dot} ${
+                  idx === currentSlide ? styles.dotActive : ''
+                }`}
+                onClick={() => goToSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}: ${s.title}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Arrows (desktop only via CSS) */}
+        <button
+          type="button"
+          className={styles.arrowLeft}
+          onClick={prevSlide}
+          aria-label="Previous slide"
         >
-          {current === 0 ? 'View Services' : 'View Service'}
-        </Link>
+          ‹
+        </button>
+        <button
+          type="button"
+          className={styles.arrowRight}
+          onClick={nextSlide}
+          aria-label="Next slide"
+        >
+          ›
+        </button>
       </div>
-    </div>
-  )
+    </section>
+  );
 }

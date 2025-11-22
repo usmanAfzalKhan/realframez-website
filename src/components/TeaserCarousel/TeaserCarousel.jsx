@@ -24,7 +24,6 @@ export default function TeaserCarousel() {
           </Link>
         ))}
       </div>
-      <div className={styles.indicator}>Swipe →</div>
     </section>
   )
 }
