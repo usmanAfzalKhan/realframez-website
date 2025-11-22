@@ -21,7 +21,8 @@ const dayspringImgs = dayspring?.images ?? [];
 const rowntreeImgs = rowntree?.images ?? [];
 const finchImgs = finch?.images ?? [];
 
-const use = (...paths) => paths.filter(Boolean);
+// 👇 renamed so ESLint doesn't think it's a React hook
+const pickImages = (...paths) => paths.filter(Boolean);
 
 export const slides = [
   // 0) WELCOME
@@ -30,16 +31,16 @@ export const slides = [
     title: 'Welcome to Real Frames',
     description: 'Premium real estate media solutions across the GTA.',
     // all of these are valid hero candidates – you asked to use all of them
-    images: use(
+    images: pickImages(
       // 13 Sandhill
       sandhillImgs[0], // 13-Sandhill_01.webp
       sandhillImgs[1], // 13-Sandhill_02.webp
       sandhillImgs[2], // 13-Sandhill_03.webp
 
       // 16 Sandway
-      sandwayImgs[0],  // 16-Sandway_01.webp
-      sandwayImgs[1],  // 16-Sandway_02.webp
-      sandwayImgs[4],  // 16-Sandway_05.webp
+      sandwayImgs[0], // 16-Sandway_01.webp
+      sandwayImgs[1], // 16-Sandway_02.webp
+      sandwayImgs[4], // 16-Sandway_05.webp
 
       // Manorcrest
       manorcrestImgs[0], // Manorcrest01.webp
@@ -69,10 +70,10 @@ export const slides = [
     title: 'Interior / Exterior Photography',
     description:
       'Clean, MLS-ready interior and exterior photos that make every room pop.',
-    images: use(
+    images: pickImages(
       sandhillImgs[4], // 13-Sandhill_05.webp
       sandhillImgs[5], // 13-Sandhill_06.webp
-      sandhillImgs[6]  // 13-Sandhill_07.webp
+      sandhillImgs[6] // 13-Sandhill_07.webp
     ),
     ctaHref: '/services/photography',
     ctaLabel: 'View Service',
@@ -84,7 +85,7 @@ export const slides = [
     title: 'Aerial Photography',
     description:
       'Capture curb appeal, surroundings, and views in a single hero shot.',
-    images: use(
+    images: pickImages(
       // Manorcrest (aerial-ish angles)
       manorcrestImgs[1], // Manorcrest03.webp
       manorcrestImgs[3], // Manorcrest05.webp
@@ -108,7 +109,7 @@ export const slides = [
     title: 'Twilight Shoots',
     description:
       'Warm, inviting images that feel like golden hour even on a cloudy day.',
-    images: use(
+    images: pickImages(
       // you specified Finch 7.webp for this slide
       finchImgs[6] // 7.webp
     ),
@@ -123,7 +124,7 @@ export const slides = [
     title: 'Video Production',
     description:
       'Cinematic walk-throughs built from steady, well-composed footage.',
-    images: use(
+    images: pickImages(
       eastMallImgs[0],
       eastMallImgs[1],
       eastMallImgs[2],
@@ -141,7 +142,7 @@ export const slides = [
     title: '360° Virtual Tours',
     description:
       'Room-to-room coverage that lets buyers explore every corner on their phone.',
-    images: use(
+    images: pickImages(
       dayspringImgs[5],
       dayspringImgs[6],
       dayspringImgs[7],
@@ -162,7 +163,7 @@ export const slides = [
     title: 'Aerial Video',
     description:
       'Smooth balcony and exterior angles that show off height, views, and surroundings.',
-    images: use(
+    images: pickImages(
       // Rowntree – different frames than aerial-photography
       rowntreeImgs[3], // 4.webp
       rowntreeImgs[4], // 5.webp
@@ -173,7 +174,7 @@ export const slides = [
       dayspringImgs[5], // 6.webp
       dayspringImgs[6], // 7.webp
       dayspringImgs[7], // 8.webp
-      dayspringImgs[8]  // 9.webp
+      dayspringImgs[8] // 9.webp
     ),
     // 👇 if your actual route is different, change this string
     ctaHref: '/services/drone-aerial-video',
@@ -186,7 +187,7 @@ export const slides = [
     title: 'Virtual Staging',
     description:
       'Neutral, realistic staging that helps buyers imagine living there.',
-    images: use(
+    images: pickImages(
       pandoraImgs[1],
       pandoraImgs[2],
       sandwayImgs[8],
@@ -204,7 +205,7 @@ export const slides = [
     title: 'Social Media Reel with Realtor',
     description:
       'Vertical-friendly sequences ready to cut into high-performing reels.',
-    images: use(
+    images: pickImages(
       finchImgs[1], // 2.webp
       finchImgs[2],
       finchImgs[3],
@@ -224,11 +225,7 @@ export const slides = [
     title: 'Listing Packages',
     description:
       'Three clear bundles so you can price photos, video, and add-ons in seconds.',
-    images: use(
-      sandwayImgs[2],
-      sandwayImgs[3],
-      manorcrestImgs[6]
-    ),
+    images: pickImages(sandwayImgs[2], sandwayImgs[3], manorcrestImgs[6]),
     ctaHref: '/packages',
     ctaLabel: 'View Packages',
   },
@@ -239,7 +236,7 @@ export const slides = [
     title: 'Portfolio',
     description:
       'Full property galleries that show how your listings look online.',
-    images: use(
+    images: pickImages(
       eastMallImgs[10] ?? eastMallImgs[0],
       sandhillImgs[12],
       rowntreeImgs[10]
@@ -254,10 +251,7 @@ export const slides = [
     title: 'FAQ & Booking Details',
     description:
       'Shoot prep, turnaround times, and what to expect on the day of your listing.',
-    images: use(
-      pandoraImgs[5],
-      dayspringImgs[12]
-    ),
+    images: pickImages(pandoraImgs[5], dayspringImgs[12]),
     ctaHref: '/faq',
     ctaLabel: 'View FAQ',
   },
@@ -268,10 +262,7 @@ export const slides = [
     title: 'Our Story',
     description:
       'A small, detail-obsessed team serving the GTA, Peel, and surrounding areas.',
-    images: use(
-      sandhillImgs[15],
-      manorcrestImgs[10]
-    ),
+    images: pickImages(sandhillImgs[15], manorcrestImgs[10]),
     ctaHref: '/about',
     ctaLabel: 'Our Story',
   },
@@ -282,10 +273,7 @@ export const slides = [
     title: 'Ready to List Your Next Property?',
     description:
       'Tell us the address and timeline, and we’ll recommend the right Real Frames package.',
-    images: use(
-      rowntreeImgs[12],
-      finchImgs[10]
-    ),
+    images: pickImages(rowntreeImgs[12], finchImgs[10]),
     ctaHref: '/contact',
     ctaLabel: 'Book a Shoot',
   },
@@ -296,10 +284,7 @@ export const slides = [
     title: 'Agent Reviews',
     description:
       'See why local realtors trust Real Frames with their photos and video.',
-    images: use(
-      finchImgs[12],
-      sandhillImgs[20]
-    ),
+    images: pickImages(finchImgs[12], sandhillImgs[20]),
     ctaHref: '/review',
     ctaLabel: 'Read Reviews',
   },
