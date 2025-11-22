@@ -98,6 +98,7 @@ $text:   var(--color-neutral-light);
     font-size: 1rem;
     text-align: center;
     min-height: 44px;
+    font-family: 'Montserrat', sans-serif; /* 👈 make short text match site font */
   }
 
   .viewBtn {
