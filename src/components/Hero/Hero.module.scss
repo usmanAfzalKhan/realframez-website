@@ -17,7 +17,7 @@
   /* 🔥 slightly smaller hero so it doesn’t feel as tall */
   min-height: calc(100vh - 120px); /* was calc(100vh - 40px) */
   overflow: hidden;
-  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9);
+  box-shadow: none;
   isolation: isolate;
 }
 

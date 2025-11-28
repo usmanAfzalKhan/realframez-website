@@ -2,9 +2,9 @@
 
 :root {
   /* Core Brand Colors */
-  --color-primary: #ffffff;                  /* All main text: pure white */
+  --color-primary: #ffffff;                  /* Brand white (used in header/footer etc.) */
   --color-neutral-light: #ffffff;            /* Cards, overlays: white */
-  --color-neutral-dark: #000000;             /* Background: jet black */
+  --color-neutral-dark: #000000;             /* Header/footer background: jet black */
   --color-accent: #ffd15c;                   /* Gold accent, for CTAs */
   --color-highlight: #fff5cd;                /* Very light gold highlight */
   --color-success: #38a169;
@@ -28,7 +28,7 @@
   --gap-md: 1.5rem;
   --gap-lg: 2rem;
 
-  /* Line‑heights */
+  /* Line-heights */
   --lh-tight:   1.2;
   --lh-normal:  1.5;
   --lh-relaxed: 1.8;
@@ -51,16 +51,21 @@
   --max-width: 1200px;
 }
 
-/* Apply the dark theme globally */
-html.dark,
+/* Base light page background */
 body {
-  background-color: var(--color-neutral-dark);
-  color: var(--color-neutral-light);
+  background-color: #f5f3ee;  /* warm white page bg */
+  color: #111827;             /* dark text by default */
   margin: 0;
   padding: 0;
 }
 
-/* Ensure your main content wrapper also inherits the background */
-.main-content {
+/* Optional dark-mode hook (only used if html gets class="dark") */
+html.dark {
   background-color: var(--color-neutral-dark);
+  color: var(--color-neutral-light);
+}
+
+/* Main content wrapper matches the page background */
+.main-content {
+  background-color: #f5f3ee;
 }

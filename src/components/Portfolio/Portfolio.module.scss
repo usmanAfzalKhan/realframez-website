@@ -1,7 +1,7 @@
 @use 'sass:color';
 
-$bg:      #000;
-$text:    #f6f6fa;
+$bg:      #f8f4ec;  // light page background
+$text:    #111827;  // dark body text
 $accent:  #ffcc57;
 $trans:   0.8s ease-out both;
 
@@ -12,8 +12,8 @@ $trans:   0.8s ease-out both;
 }
 
 .container {
-  background: $bg;
-  color: $text;
+  background: $bg;                 /* was #000 */
+  color: $text;                    /* was light text */
   font-family: 'Montserrat', sans-serif;
   padding: 8rem 1rem 4rem;
   margin: 0 auto;
@@ -24,11 +24,12 @@ $trans:   0.8s ease-out both;
     font-size: clamp(2.5rem, 5vw, 4rem);
     margin-bottom: 0.5rem;
     animation: fadeIn $trans;
+    color: $text;
   }
 
   .instruction {
     font-size: clamp(1rem, 2.5vw, 1.125rem);
-    color: rgba($text, 0.7);
+    color: color.scale($text, $lightness: -20%); /* softer dark grey */
     margin-bottom: 1.5rem;
     animation: fadeIn $trans;
   }
@@ -48,6 +49,7 @@ $trans:   0.8s ease-out both;
     border-radius: 0.75rem;
     cursor: pointer;
     animation: fadeIn $trans;
+    background: #fdfbf7;               /* light card behind image */
 
     &:hover {
       box-shadow: 0 0 15px rgba($accent, 0.5);
@@ -63,7 +65,7 @@ $trans:   0.8s ease-out both;
 .modalOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.85);  /* keep dark overlay so photos pop */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,15 +95,19 @@ $trans:   0.8s ease-out both;
 .nextButton,
 .closeButton {
   position: absolute;
-  background: rgba($bg, 0.5);
+  background: rgba(0, 0, 0, 0.7);  /* was rgba($bg, 0.5) – keep dark for contrast */
   border: none;
-  color: $text;
+  color: #ffffff;
   font-size: 2rem;
   padding: 0.5rem;
   border-radius: 50%;
   cursor: pointer;
   z-index: 10001;
   transition: background 200ms ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.9);
+  }
 }
 
 .prevButton {

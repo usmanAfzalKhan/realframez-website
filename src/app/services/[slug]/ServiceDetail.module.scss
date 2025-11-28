@@ -5,8 +5,8 @@
 
 .main {
   position: relative;
-  background-color: #000;
-  color: #fff;
+  background-color: #fff8e7; /* warm off-white like the rest of the site */
+  color: #111827;            /* dark text for readability */
   min-height: 100vh;
   /* bump top padding to clear header */
   padding: clamp(6rem, 10vw, 7rem) clamp(1.5rem, 4vw, 3rem);
@@ -20,25 +20,31 @@
 
 .backBtn {
   display: inline-block;
-  color: var(--color-accent);
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
+
+  background: var(--color-accent);
+  color: #000;
   border: 1px solid var(--color-accent);
   padding: 0.5rem 1.2rem;
   border-radius: 6px;
   transition: background 0.3s, color 0.3s;
 
-  &:hover {
-    background: var(--color-accent);
-    color: #000;
+  &:hover,
+  &:focus-visible {
+    background: transparent;
+    color: var(--color-accent);
+    outline: none;
   }
 }
+
 
 .title {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
   margin-bottom: 1.5rem;
+  color: #111827;
   animation: fadeUp 0.6s ease-out 0.3s both;
 }
 
@@ -55,7 +61,7 @@
   aspect-ratio: 16/9;
   border-radius: 0.75rem;
   overflow: hidden;
-  background-color: #181a24;
+  background-color: #e5e7eb; /* soft grey behind image on load */
 
   img {
     object-fit: cover;
@@ -100,9 +106,9 @@
 }
 
 .desc {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  color: #b5b8c6;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #4b5563; /* softer dark grey for body copy */
   margin-bottom: 1.8rem;
   animation: fadeUp 0.6s ease-out 0.5s both;
 }
@@ -118,21 +124,23 @@
 }
 
 .starting {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
+  color: #4b5563;
 
   span {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    color: #fff;
+    color: #111827;
   }
 }
 
+/* 🔁 Book button: filled by default, outline on hover */
 .bookBtn {
   font-weight: 600;
   font-size: 1rem;
-  background: transparent;
-  color: var(--color-accent);
+  background: var(--color-accent);
+  color: #000;
   border: 1.5px solid var(--color-accent);
   border-radius: 0.33rem;
   padding: 0.65rem 1.8rem;
@@ -141,7 +149,8 @@
 
   &:hover,
   &:focus-visible {
-    background: var(--color-accent);
-    color: #000;
+    background: transparent;
+    color: var(--color-accent);
+    outline: none;
   }
 }

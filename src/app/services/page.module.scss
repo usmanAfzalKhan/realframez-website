@@ -10,8 +10,14 @@
 }
 
 .main {
-  background: var(--color-neutral-dark);
-  color: var(--color-neutral-light);
+  /* light, warm background like home */
+  background: linear-gradient(
+    180deg,
+    #f5f3ee 0%,
+    #fdfaf4 40%,
+    #f7f1e6 100%
+  );
+  color: #111827;
   min-height: 100vh;
   /* bump top padding to clear header */
   padding: clamp(6rem, 10vw, 7rem) 0 0 0;
@@ -27,7 +33,7 @@
     font-weight: 700;
     font-size: clamp(2rem, 6vw, 3.5rem);
     margin-bottom: 0.5rem;
-    color: var(--color-neutral-light);
+    color: #111827; /* dark heading on light bg */
     letter-spacing: 0.01em;
     opacity: 0;
     transform: translateY(32px);
@@ -35,8 +41,8 @@
   }
 
   p {
-    font-family: 'Montserrat', sans-serif; /* ✅ match site font */
-    color: #b5b8c6;
+    font-family: 'Montserrat', sans-serif;
+    color: #4b5563 !important; /* override inline white; soft dark grey */
     font-size: clamp(1.1rem, 2.5vw, 1.3rem);
     margin: 0 auto;
     max-width: 520px;

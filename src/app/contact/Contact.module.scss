@@ -1,13 +1,14 @@
 @use 'sass:color';
 
-$bg:      #000;
-$text:    #f6f6fa;
+$bg:      #f8f4ec;           // warm page background to match FAQ/About
+$text:    #111827;           // dark text
 $accent:  #ffcc57;
-$radius: 0.75rem;
+$radius:  0.75rem;
 $transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-$input-bg: color.scale($bg, $lightness: 8%);
-$border: rgba(255, 255, 255, 0.08);
-$muted: rgba($text, 0.6);
+$input-bg: #f9fafb;          // soft input background
+$border:  rgba(15, 23, 42, 0.12);
+$muted:   rgba($text, 0.6);
+$chip-bg: #fffaf0;           // warmer chip / option background
 
 .main {
   background: $bg;
@@ -35,7 +36,7 @@ $muted: rgba($text, 0.6);
   .intro {
     font-size: clamp(1rem, 2.5vw, 1.125rem);
     margin: 0 auto 1rem;
-    color: rgba($text, 0.9);
+    color: rgba($text, 0.85);
     line-height: 1.4;
     text-align: center;
     max-width: 90%;
@@ -123,18 +124,18 @@ $muted: rgba($text, 0.6);
     box-sizing: border-box;
 
     &::placeholder {
-      color: rgba($text, 0.5);
+      color: rgba($text, 0.45);
     }
 
     &:focus {
       border-color: $accent;
-      box-shadow: 0 0 20px rgba($accent, 0.3);
+      box-shadow: 0 0 0 3px rgba($accent, 0.35);
     }
   }
 
-  /* calendar icon white */
+  /* calendar icon: default dark on light bg */
   input[type='date']::-webkit-calendar-picker-indicator {
-    filter: invert(1) brightness(1.2);
+    filter: none;
   }
 
   .phoneRow {
@@ -188,10 +189,11 @@ $muted: rgba($text, 0.6);
     gap: 6px;
     min-width: 140px;
     position: relative;
-    background: color.mix($bg, rgba(255, 255, 255, 0.03), 10%);
+    background: $chip-bg;
     padding: 6px 12px;
     border-radius: 8px;
     font-size: 0.95rem;
+    border: 1px solid rgba($accent, 0.4);
 
     input {
       margin-top: 4px;
@@ -232,13 +234,13 @@ $muted: rgba($text, 0.6);
 
   .addBtn {
     background: $accent;
-    border: none;
+    border: 1.5px solid $accent;
     padding: 0.85rem 1.75rem;
     font-weight: 700;
     border-radius: $radius;
     cursor: pointer;
     font-size: 1rem;
-    transition: filter $transition;
+    transition: background $transition, color $transition, filter $transition;
     color: #000;
     width: 100%;
     max-width: 360px;
@@ -250,13 +252,15 @@ $muted: rgba($text, 0.6);
     }
 
     &:hover:not(:disabled) {
-      filter: brightness(0.95);
+      background: $bg;      // invert on hover
+      color: $accent;
+      filter: none;
     }
   }
 
   .error {
-    background: rgba(244, 63, 94, 0.08);
-    color: #f43f5e;
+    background: rgba(244, 63, 94, 0.06);
+    color: #b91c1c;
     padding: 0.5rem 0.75rem;
     border-radius: 6px;
     font-size: 0.85rem;

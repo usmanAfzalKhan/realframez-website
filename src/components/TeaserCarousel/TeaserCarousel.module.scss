@@ -1,15 +1,17 @@
 // src/components/TeaserCarousel/TeaserCarousel.module.scss
 
-// Use the same color variables as the rest of your site
-$bg-color:    var(--color-neutral-dark);     // #171a2b
-$text-color:  #f6f6fa;                      // white-ish
-$accent:      var(--color-accent);          // #ffcc57
-$card-bg:     #1a1d2d;                      // slightly lighter than main bg
+// Light theme to match home intro: white base + gold accents
+$bg-color:    #f9fafb;                   // soft white/grey background
+$text-color:  #111827;                   // dark slate text
+$accent:      var(--color-accent);       // gold #ffcc57
+$card-bg:     #ffffff;                   // pure white cards
 $transition:  300ms cubic-bezier(0.4,0,0.2,1);
 
-// Carousel section wrapper: same dark background
+// Carousel section wrapper
 .carousel {
-  background: $bg-color;
+  background:
+    radial-gradient(circle at top, rgba(255,209,92,.18), rgba(255,255,255,0) 60%),
+    $bg-color;
   padding: clamp(2rem, 6vw, 3rem) clamp(1.5rem, 5vw, 3rem);
   overflow: hidden;
   position: relative;
@@ -54,16 +56,19 @@ $transition:  300ms cubic-bezier(0.4,0,0.2,1);
   padding: clamp(1rem, 3vw, 1.5rem) clamp(1.5rem, 4vw, 2rem);
   text-align: center;
   scroll-snap-align: start;
-  transition: transform $transition, background $transition, color $transition;
+  transition: transform $transition, background $transition, color $transition, box-shadow $transition, border-color $transition;
   min-width: clamp(120px, 30%, 200px);
+  border: 1px solid rgba(15,23,42,.08);
+  box-shadow: 0 4px 10px rgba(15,23,42,0.06);
 
   &:hover,
   &:focus-visible {
     background: $accent;
-    color: $bg-color;
+    color: #111827; // dark text on gold
     transform: translateY(-4px) scale(1.05);
     outline: none;
-    box-shadow: 0 4px 16px rgba(255,204,87, 0.10);
+    border-color: rgba(255,209,92,0.9);
+    box-shadow: 0 8px 22px rgba(255,204,87, 0.25);
   }
 }
 

@@ -1,8 +1,8 @@
 @use 'sass:color';
 
-$bg:      #000;
-$text:    #f6f6fa;
-$accent:  #ffcc57;
+$bg:      #f8f4ec;   // soft warm background (matches home/portfolio landing)
+$text:    #111827;   // dark slate text
+$accent:  #ffcc57;   // gold accent
 $trans:   0.8s ease-out both;
 
 @keyframes fadeUp {
@@ -11,7 +11,8 @@ $trans:   0.8s ease-out both;
 }
 
 .main {
-  background: $bg;
+  /* light base with a subtle gold glow at the top */
+  background: radial-gradient(circle at top, rgba($accent, 0.14), transparent 55%), $bg;
   color: $text;
   font-family: 'Montserrat', sans-serif;
   padding: 8rem 1rem 4rem;
@@ -21,25 +22,28 @@ $trans:   0.8s ease-out both;
 
   .backButton {
     display: inline-block;
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
+    background: $accent;                 /* default: filled gold */
+    color: #111827;                      /* dark text */
+    border: 1px solid $accent;
     padding: 0.5rem 1.2rem;
     border-radius: 6px;
     text-decoration: none;
     font-weight: 600;
     margin-bottom: 1rem;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
     animation: fadeUp $trans;
 
     &:hover {
-      background: var(--color-accent);
-      color: #000;
+      background: transparent;           /* hover: outline style */
+      color: $accent;
+      border-color: $accent;
     }
   }
 
   .heading {
     font-size: clamp(2.5rem, 5vw, 4rem);
     margin-bottom: 0.5rem;
+    color: $text;
     animation: fadeUp $trans;
   }
 
@@ -65,7 +69,8 @@ $trans:   0.8s ease-out both;
   border: 2px solid $accent;
   border-radius: 0.75rem;
   overflow: hidden;
-  background: color.scale($bg, $lightness: 8%);
+  /* slightly darker panel on the light bg */
+  background: color.scale($bg, $lightness: -4%);
   animation: fadeUp $trans;
 }
 

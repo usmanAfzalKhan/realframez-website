@@ -3,7 +3,8 @@
 @use 'sass:color';
 
 $accent: #ffcc57;
-$text:   var(--color-neutral-light);
+/* use dark text on the new light background */
+$text:   #111827;
 
 /* fade-up animation */
 @keyframes fadeUp {
@@ -88,13 +89,13 @@ $text:   var(--color-neutral-light);
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
     font-size: clamp(1.2rem,3vw,1.5rem);
-    color: $text;
+    color: $text; /* now dark text */
     text-align: center;
   }
 
   p {
     margin: 0 0 1.6rem;
-    color: #b5b8c6;
+    color: #4b5563; /* darker body copy for readability */
     font-size: 1rem;
     text-align: center;
     min-height: 44px;
@@ -106,8 +107,10 @@ $text:   var(--color-neutral-light);
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     font-size: 1rem;
-    background: transparent;
-    color: $accent;
+
+    /* 🔁 opposite logic: filled by default, outline on hover */
+    background: $accent;
+    color: #000;
     border: 1.5px solid $accent;
     border-radius: 0.33rem;
     padding: 0.6rem 1.7rem;
@@ -117,9 +120,10 @@ $text:   var(--color-neutral-light);
 
     &:hover,
     &:focus-visible {
-      background: $accent;
-      color: #000;
+      background: transparent;
+      color: $accent;
       outline: none;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
   }
 }

@@ -1,10 +1,13 @@
 // src/app/about/About.module.scss
 @use 'sass:color';
 
-$bg:      #000000;    // pure black background
-$text:    #f6f6fa;
-$accent:  #ffcc57;
-$trans:   300ms ease-out;
+$bg:          #f8f4ec;   // match FAQ / warm page background
+$text:        #111827;   // dark text like Review
+$accent:      #ffcc57;
+$trans:       300ms ease-out;
+$card-bg:     #f9fafb;   // soft card background
+$card-border: rgba(15, 23, 42, 0.06);
+$shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
 
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -57,11 +60,11 @@ $trans:   300ms ease-out;
     text-align: center;
     padding: 1.6rem 1.4rem 1.8rem;
     border-radius: 20px;
-    border: 1px solid rgba(255, 204, 87, 0.22);
+    border: 1px solid $card-border;
     background:
-      radial-gradient(circle at top, rgba(255, 204, 87, 0.14), rgba(0, 0, 0, 0) 55%),
-      rgba(0, 0, 0, 0.65);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+      radial-gradient(circle at top, rgba($accent, 0.16), rgba($card-bg, 0.9) 60%),
+      $card-bg;
+    box-shadow: $shadow-soft;
     animation: fadeIn 0.6s ease-out both;
     scroll-margin-top: 110px; // anchor scroll lands clean
   }
@@ -111,11 +114,11 @@ $trans:   300ms ease-out;
     margin-top: 1.8rem;
     padding: 1.6rem 1.4rem 1.5rem;
     border-radius: 18px;
-    border: 1px solid rgba(255, 204, 87, 0.18);
+    border: 1px solid $card-border;
     background:
-      radial-gradient(circle at top, rgba(255, 204, 87, 0.08), rgba(0,0,0,0) 60%),
-      rgba(0, 0, 0, 0.7);
-    box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+      radial-gradient(circle at top, rgba($accent, 0.08), rgba($card-bg, 0.92) 65%),
+      $card-bg;
+    box-shadow: $shadow-soft;
   }
 
   .section h2 {
@@ -163,13 +166,13 @@ $trans:   300ms ease-out;
       object-position: top center;
       cursor: pointer;
       border: 2px solid rgba(255, 204, 87, 0.85);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.7);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
       transition: transform $trans, box-shadow $trans;
       animation: zoomIn 0.5s ease-out both;
 
       &:hover {
         transform: scale(1.05) translateY(-2px);
-        box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.28);
       }
     }
 
