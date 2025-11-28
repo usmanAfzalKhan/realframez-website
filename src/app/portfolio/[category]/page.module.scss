@@ -11,8 +11,8 @@ $trans:   0.8s ease-out both;
 }
 
 .main {
-  /* light base with a subtle gold glow at the top */
-  background: radial-gradient(circle at top, rgba($accent, 0.14), transparent 55%), $bg;
+  /* flat warm background so there's no color band behind the address */
+  background: $bg;
   color: $text;
   font-family: 'Montserrat', sans-serif;
   padding: 8rem 1rem 4rem;
