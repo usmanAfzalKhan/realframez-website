@@ -261,7 +261,7 @@ export const slides = [
     slug: 'our-story',
     title: 'Our Story',
     description:
-      'A small, detail-obsessed team serving the GTA, Peel, and surrounding areas.',
+      'A small, detail-obsessed team serving the GTA, Halton, Dufferin County and surrounding areas.',
     images: pickImages(sandhillImgs[15], manorcrestImgs[10]),
     ctaHref: '/about',
     ctaLabel: 'Our Story',

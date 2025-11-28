@@ -45,9 +45,11 @@
   background-size: cover;
   background-position: center;
   will-change: transform;
-  animation: heroZoom 15s ease-out forwards;
+  /* ⛔ no zoom animation so image stays natural */
+  /* animation: heroZoom 15s ease-out forwards; */
 }
 
+/* keeping keyframes in case you ever want it back, but it's NOT used now */
 @keyframes heroZoom {
   from {
     transform: scale(1.12);
@@ -61,14 +63,8 @@
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(
-      120deg,
-      rgba(0, 0, 0, 0.72) 0%,
-      rgba(0, 0, 0, 0.46) 32%,
-      rgba(0, 0, 0, 0.18) 60%,
-      rgba(0, 0, 0, 0.02) 100%
-    );
+  /* ⛔ make overlay fully transparent so image is untouched */
+  background: transparent;
   pointer-events: none;
 }
 
@@ -133,6 +129,7 @@
   max-width: 40rem;
 }
 
+/* 🔽 CHANGED: color + stronger multi-shadow so it doesn’t blend into bright areas */
 .title {
   margin: 0;
   font-size: clamp(2.2rem, 3.8vw, 3.2rem); /* a touch smaller */
@@ -140,18 +137,28 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  /* 🔍 very soft halo so it stays readable on bright images */
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  color: #fefce8; /* warm off-white that stands apart from pure white highlights */
+  text-shadow:
+    0 0 4px rgba(0, 0, 0, 0.95),
+    0 0 10px rgba(0, 0, 0, 0.9),
+    1px 1px 2px rgba(0, 0, 0, 0.95),
+    -1px 1px 2px rgba(0, 0, 0, 0.95),
+    1px -1px 2px rgba(0, 0, 0, 0.95),
+    -1px -1px 2px rgba(0, 0, 0, 0.95);
 }
 
+/* 🔽 CHANGED: slightly softer version for the body line so it doesn’t look chunky */
 .desc {
   margin-top: 0.5rem; /* closer to heading */
   max-width: 32rem;
   font-size: 1.02rem;
   line-height: 1.5;
-  color: rgba(249, 250, 251, 0.9);
-  /* same subtle shadow for readability */
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  color: #fefcf5;
+  text-shadow:
+    0 0 3px rgba(0, 0, 0, 0.9),
+    0 0 8px rgba(0, 0, 0, 0.85),
+    1px 1px 1px rgba(0, 0, 0, 0.9),
+    -1px -1px 1px rgba(0, 0, 0, 0.9);
 }
 
 /* CTA – force Montserrat so it never looks like Times New Roman */
