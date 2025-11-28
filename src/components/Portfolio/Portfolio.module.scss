@@ -91,22 +91,25 @@ $trans:   0.8s ease-out both;
   object-fit: contain;
 }
 
+/* ⬅️➡️✕ controls — no black circle, just the icons */
 .prevButton,
 .nextButton,
 .closeButton {
   position: absolute;
-  background: rgba(0, 0, 0, 0.7);  /* was rgba($bg, 0.5) – keep dark for contrast */
+  background: transparent;         /* no circle */
   border: none;
   color: #ffffff;
   font-size: 2rem;
-  padding: 0.5rem;
-  border-radius: 50%;
+  padding: 0.25rem;                /* small hit area but not a pill */
+  border-radius: 0;                /* remove round shape */
   cursor: pointer;
   z-index: 10001;
-  transition: background 200ms ease;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.75); /* keep icons readable on bright images */
+  transition: opacity 150ms ease;  /* ✅ no transform change, so no movement */
 
   &:hover {
-    background: rgba(0, 0, 0, 0.9);
+    background: transparent;
+    opacity: 0.9;
   }
 }
 

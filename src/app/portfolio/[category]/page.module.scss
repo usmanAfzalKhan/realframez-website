@@ -33,6 +33,9 @@ $trans:   0.8s ease-out both;
     transition: background 0.3s, color 0.3s, border-color 0.3s;
     animation: fadeUp $trans;
 
+    /* ⬅️ move button to the left like Services page */
+    float: left;
+
     &:hover {
       background: transparent;           /* hover: outline style */
       color: $accent;
@@ -45,6 +48,9 @@ $trans:   0.8s ease-out both;
     margin-bottom: 0.5rem;
     color: $text;
     animation: fadeUp $trans;
+
+    /* make sure title sits below the floated button and stays centered */
+    clear: both;
   }
 
   .instruction {
