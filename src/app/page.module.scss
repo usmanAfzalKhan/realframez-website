@@ -177,7 +177,8 @@
   border: 1px solid rgba(15,23,42,.08);
   border-radius: 14px;
   padding: .85rem .85rem 1rem;
-  box-shadow: var(--shadow);
+  /* ⬇️ remove persistent shadow so no dark band under services */
+  box-shadow: none;
   min-height: 260px;
   transition: transform .18s ease, box-shadow .2s ease, border-color .2s ease;
   animation: serviceDrift 10s ease-in-out infinite alternate;
@@ -310,7 +311,8 @@
   display: flex;
   flex-direction: column;
   gap: .6rem;
-  box-shadow: 0 10px 24px rgba(15,23,42,.12);
+  /* ⬇️ remove persistent shadow so no dark band under packages */
+  box-shadow: none;
   min-height: 210px;
   overflow: hidden;
   max-height: 220px;
@@ -700,8 +702,6 @@
   }
 }
 
-
-
 /* ===== PORTFOLIO (HOME) ===== */
 .portfolioHeading {
   margin-top: 3rem;
@@ -821,7 +821,6 @@
     grid-column: 4 / span 6;
   }
 }
-
 
 @media (max-width: 720px) {
   .portfolioGrid {
@@ -1031,7 +1030,6 @@
     align-self: center; /* 👈 centers the Book / Contact → block */
   }
 }
-
 
 /* ===== TESTIMONIALS / REVIEWS ===== */
 .reviewsHeading {
