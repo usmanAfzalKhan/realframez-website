@@ -389,6 +389,12 @@ export const galleriesBySlug = {
     address: '8 Levida St',
     cardDescription: 'Detached Home With Clean Listing Photography',
     coverImage: '/images/gallery/8-levida-st/45.webp',
+
+    // 🎥 Portrait video just for this gallery
+    video: '/images/gallery/8-levida-st/8-Levida.mp4',
+    videoPoster: '/images/gallery/8-levida-st/45.webp',
+    isPortraitVideo: true,
+
     images: [
       '/images/gallery/8-levida-st/35.webp',
       '/images/gallery/8-levida-st/36.webp',
@@ -524,6 +530,8 @@ export const galleriesBySlug = {
       '/images/gallery/8-levida-st/167.webp',
     ],
   },
+
+
 
   '416-5-rowntree-rd': {
     slug: '416-5-rowntree-rd',

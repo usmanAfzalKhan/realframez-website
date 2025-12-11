@@ -8,7 +8,6 @@ import { galleriesBySlug } from '../../../data/galleryImages';
 import styles from './page.module.scss';
 
 export default function PortfolioCategoryPage() {
-  // 👇 IMPORTANT: your folder is [category], so we alias it to slug
   const { category: slug } = useParams();
   const gallery = slug ? galleriesBySlug[slug] : null;
 
@@ -29,6 +28,15 @@ export default function PortfolioCategoryPage() {
   const hasImages = gallery.images && gallery.images.length > 0;
   const hasVideo = !!gallery.video;
 
+  // 👇 pick classes based on portrait flag (8 Levida only right now)
+  const videoWrapClass = gallery.isPortraitVideo
+    ? styles.videoWrapPortrait
+    : styles.videoWrap;
+
+  const videoClass = gallery.isPortraitVideo
+    ? styles.videoPortrait
+    : styles.video;
+
   return (
     <main className={styles.main}>
       <Link href="/portfolio" className={styles.backButton}>
@@ -38,11 +46,11 @@ export default function PortfolioCategoryPage() {
       <h1 className={styles.heading}>{gallery.address}</h1>
 
       {hasVideo && (
-        <div className={styles.videoWrap}>
+        <div className={videoWrapClass}>
           <video
             src={gallery.video}
             poster={gallery.videoPoster || gallery.coverImage}
-            className={styles.video}
+            className={videoClass}
             controls
             playsInline
             preload="metadata"
