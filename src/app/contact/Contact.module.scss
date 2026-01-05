@@ -10,6 +10,11 @@ $border:  rgba(15, 23, 42, 0.12);
 $muted:   rgba($text, 0.6);
 $chip-bg: #fffaf0;           // warmer chip / option background
 
+/* NEW: make the main page wrapper match the contact background */
+:global(main.main-content) {
+  background-color: $bg;
+}
+
 .main {
   background: $bg;
   color: $text;
@@ -20,6 +25,7 @@ $chip-bg: #fffaf0;           // warmer chip / option background
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-height: 100vh; // NEW: ensure section is at least viewport height
 
   h1 {
     font-size: clamp(2.25rem, 5vw, 3rem);
