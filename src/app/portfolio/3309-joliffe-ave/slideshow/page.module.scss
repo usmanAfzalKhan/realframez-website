@@ -1,0 +1,90 @@
+@use 'sass:color';
+
+$bg:      #f8f4ec;
+$text:    #111827;
+$accent:  #ffcc57;
+$trans:   0.8s ease-out both;
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.main {
+  background: $bg;
+  color: $text;
+  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  // header is fixed, so give breathing room
+  padding: 8rem 1rem 4rem;
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  background: $accent;
+  color: #111827;
+  border: 1px solid $accent;
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+
+  font-weight: 800;
+  text-decoration: none;
+
+  box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+
+  animation: fadeUp $trans;
+
+  &:hover {
+    background: transparent;
+    color: $accent;
+    border-color: $accent;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.14);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+}
+
+.header {
+  margin-top: 1.35rem;
+  margin-bottom: 1.1rem;
+  animation: fadeUp $trans;
+}
+
+.title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.titleMuted {
+  font-weight: 900;
+  opacity: 0.55;
+}
+
+.sub {
+  margin: 0;
+  font-size: clamp(1rem, 2.2vw, 1.1rem);
+  color: rgba($text, 0.72);
+  line-height: 1.5;
+  max-width: 70ch;
+}
+
+@media (max-width: 640px) {
+  .main { padding-top: 7.4rem; }
+  .header { margin-top: 1rem; }
+}

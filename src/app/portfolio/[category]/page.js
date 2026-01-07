@@ -28,7 +28,6 @@ export default function PortfolioCategoryPage() {
   const hasImages = gallery.images && gallery.images.length > 0;
   const hasVideo = !!gallery.video;
 
-  // 👇 pick classes based on portrait flag (8 Levida only right now)
   const videoWrapClass = gallery.isPortraitVideo
     ? styles.videoWrapPortrait
     : styles.videoWrap;
@@ -61,9 +60,18 @@ export default function PortfolioCategoryPage() {
 
       {hasImages && (
         <>
-          <p className={styles.instruction}>
-            <em>Click an image to enlarge</em>
-          </p>
+          <div className={styles.mediaIntro}>
+            <p className={styles.instruction}>
+              <em>Click an image to enlarge</em>
+            </p>
+
+            {gallery?.slideshowHref && (
+              <Link href={gallery.slideshowHref} className={styles.slideshowCta}>
+                View Full Slideshow <span aria-hidden="true">→</span>
+              </Link>
+            )}
+          </div>
+
           <PortfolioGallery images={gallery.images} />
         </>
       )}
