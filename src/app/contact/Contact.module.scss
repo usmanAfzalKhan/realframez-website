@@ -1,3 +1,4 @@
+/* src/app/contact/Contact.module.scss */
 @use 'sass:color';
 
 $bg:      #f8f4ec;           // warm page background to match FAQ/About
@@ -17,6 +18,10 @@ $chip-bg: #fffaf0;           // warmer chip / option background
   padding: clamp(3rem, 6vw, 5rem) 1rem 4rem;
   max-width: 1000px;
   margin: 0 auto;
+
+  width: 100%;
+  overflow-x: clip; // ✅ prevents the right-side "black strip" overflow
+
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -171,6 +176,9 @@ $chip-bg: #fffaf0;           // warmer chip / option background
     gap: 1rem;
     flex-wrap: wrap;
     margin-bottom: 4px;
+
+    width: 100%;
+    max-width: 100%; // ✅ prevents flex children from forcing overflow
   }
 
   .aLaCarteLabel {
@@ -195,6 +203,10 @@ $chip-bg: #fffaf0;           // warmer chip / option background
     font-size: 0.95rem;
     border: 1px solid rgba($accent, 0.4);
 
+    max-width: 100%;
+    min-width: 0;          // ✅ key flexbox fix
+    box-sizing: border-box;
+
     input {
       margin-top: 4px;
       flex: 0 0 auto;
@@ -208,12 +220,22 @@ $chip-bg: #fffaf0;           // warmer chip / option background
       cursor: pointer;
       display: flex;
       flex-direction: column;
+
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere; // ✅ long “Includes: …” wraps instead of pushing width
+      word-break: break-word;
     }
 
     .subtext {
       font-size: 0.65rem;
       color: $muted;
       margin-top: 2px;
+
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
     &[disabled],
@@ -298,10 +320,16 @@ $chip-bg: #fffaf0;           // warmer chip / option background
     .inlineOptions {
       gap: 0.75rem;
       flex-direction: column;
+
+      width: 100%;
+      max-width: 100%;
     }
 
     .optionItem {
       min-width: 100%;
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .addBtn {
