@@ -11,41 +11,94 @@ export default function GallerySlideshow({
   priorityFirst = true,
 }) {
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
+
   const [i, setI] = useState(0);
+  const indexRef = useRef(0);
+
   const [isPlaying, setIsPlaying] = useState(autoPlay);
   const timerRef = useRef(null);
+
+  const [prevIndex, setPrevIndex] = useState(null);
+  const [reduceMotion, setReduceMotion] = useState(false);
 
   const count = safeImages.length;
   const hasMany = count > 1;
 
+  const clearTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  useEffect(() => {
+    indexRef.current = i;
+  }, [i]);
+
+  // reduced motion preference
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReduceMotion(!!mq.matches);
+
+    sync();
+    mq.addEventListener?.('change', sync);
+    return () => mq.removeEventListener?.('change', sync);
+  }, []);
+
+  // keep index valid when images change
+  useEffect(() => {
+    if (!count) return;
+    if (i >= count) setI(0);
+  }, [count, i]);
+
+  const transitionTo = (nextIndex) => {
+    if (!count) return;
+
+    const cur = indexRef.current;
+    if (nextIndex === cur) return;
+
+    setPrevIndex(cur);
+    setI(nextIndex);
+  };
+
   const go = (nextIndex) => {
     if (!count) return;
     const normalized = (nextIndex + count) % count;
-    setI(normalized);
+    transitionTo(normalized);
   };
 
-  const next = () => go(i + 1);
-  const prev = () => go(i - 1);
+  const next = () => go(indexRef.current + 1);
+  const prev = () => go(indexRef.current - 1);
 
-  // autoplay (respects reduced motion)
+  // drop previous layer after fade duration
   useEffect(() => {
+    if (prevIndex === null) return;
+
+    const t = setTimeout(() => {
+      setPrevIndex(null);
+    }, reduceMotion ? 0 : 520);
+
+    return () => clearTimeout(t);
+  }, [i, prevIndex, reduceMotion]);
+
+  // autoplay (resets on each slide change)
+  useEffect(() => {
+    clearTimer();
+
     if (!hasMany || !isPlaying) return;
-
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReduced) return;
+    if (reduceMotion) return;
 
     timerRef.current = setInterval(() => {
-      setI((v) => (v + 1) % count);
+      const cur = indexRef.current;
+      const nxt = (cur + 1) % count;
+      transitionTo(nxt);
     }, intervalMs);
 
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [count, hasMany, isPlaying, intervalMs]);
+    return clearTimer;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasMany, isPlaying, intervalMs, count, i, reduceMotion]);
 
   // keyboard support
   useEffect(() => {
@@ -53,90 +106,84 @@ export default function GallerySlideshow({
       if (!hasMany) return;
       if (e.key === 'ArrowRight') next();
       if (e.key === 'ArrowLeft') prev();
-      if (e.key === ' ') setIsPlaying((p) => !p);
+      if (e.key === ' ') togglePlay();
     };
+
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasMany, i]);
+  }, [hasMany]);
+
+  const togglePlay = () => {
+    setIsPlaying((p) => {
+      const nextState = !p;
+      if (!nextState) clearTimer(); // stop instantly when pausing
+      return nextState;
+    });
+  };
 
   if (!count) return null;
 
-  const current = safeImages[i];
+  const currentSrc = safeImages[i];
+  const prevSrc = prevIndex !== null ? safeImages[prevIndex] : null;
 
-  // Don't show dots for huge galleries (looks messy). Still keep arrows + autoplay + progress bar.
-  const showDots = hasMany && count <= 12;
-
-  const progressPct = count ? ((i + 1) / count) * 100 : 0;
+  const progressPct = hasMany ? ((i + 1) / count) * 100 : 0;
 
   return (
-    <section className={styles.wrap} aria-label="Property slideshow">
+    <div className={styles.wrap} aria-label="Property slideshow">
       <div className={styles.frame}>
-        <Image
-          key={current} // ✅ forces remount so the CSS animation plays on slide change
-          src={current}
-          alt={`Slide ${i + 1}`}
-          fill
-          sizes="(max-width: 768px) 100vw, 1100px"
-          priority={priorityFirst && i === 0}
-          className={styles.img}
-        />
+        {prevSrc && (
+          <div className={`${styles.layer} ${styles.layerPrev}`} key={`prev-${prevIndex}`}>
+            <Image
+              src={prevSrc}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 1100px"
+              className={styles.img}
+              draggable={false}
+            />
+          </div>
+        )}
 
-        <div className={styles.overlayTop}>
-          {hasMany && (
+        <div className={`${styles.layer} ${styles.layerCurrent}`} key={`cur-${i}`}>
+          <Image
+            src={currentSrc}
+            alt="Property photo"
+            fill
+            sizes="(max-width: 768px) 100vw, 1100px"
+            priority={priorityFirst && i === 0}
+            className={`${styles.img} ${reduceMotion ? styles.noMotion : styles.imgFadeIn}`}
+            draggable={false}
+          />
+        </div>
+      </div>
+
+      {hasMany && (
+        <>
+          <div className={styles.controls} aria-label="Slideshow controls">
+            <button type="button" className={styles.ctrlBtn} onClick={prev} aria-label="Previous image">
+              ‹
+            </button>
+
             <button
               type="button"
-              className={styles.playBtn}
-              onClick={() => setIsPlaying((p) => !p)}
+              className={`${styles.ctrlBtn} ${styles.playBtn}`}
+              onClick={togglePlay}
               aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
             >
               {isPlaying ? 'Pause' : 'Play'}
             </button>
-          )}
-        </div>
 
-        {hasMany && (
-          <>
-            <button
-              type="button"
-              className={`${styles.navBtn} ${styles.prev}`}
-              onClick={prev}
-              aria-label="Previous image"
-            >
-              ‹
-            </button>
-            <button
-              type="button"
-              className={`${styles.navBtn} ${styles.next}`}
-              onClick={next}
-              aria-label="Next image"
-            >
+            <button type="button" className={styles.ctrlBtn} onClick={next} aria-label="Next image">
               ›
             </button>
-          </>
-        )}
-      </div>
+          </div>
 
-      {hasMany && (
-        <div className={styles.progress} aria-hidden="true">
-          <span className={styles.progressBar} style={{ width: `${progressPct}%` }} />
-        </div>
+          <div className={styles.progress} aria-hidden="true">
+            <span className={styles.progressFill} style={{ width: `${progressPct}%` }} />
+          </div>
+        </>
       )}
-
-      {showDots && (
-        <div className={styles.dots} role="tablist" aria-label="Slideshow dots">
-          {safeImages.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              className={`${styles.dot} ${idx === i ? styles.dotActive : ''}`}
-              onClick={() => go(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              aria-current={idx === i ? 'true' : 'false'}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+    </div>
   );
 }
