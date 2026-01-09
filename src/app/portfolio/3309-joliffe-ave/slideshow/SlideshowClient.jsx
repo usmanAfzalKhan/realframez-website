@@ -5,3 +5,4 @@ import GallerySlideshow from '../../../../components/GallerySlideshow/GallerySli
 export default function SlideshowClient({ images }) {
   return <GallerySlideshow images={images} autoPlay intervalMs={3500} />;
 }
+S

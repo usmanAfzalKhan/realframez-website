@@ -31,6 +31,11 @@ export const partnerLogos = [
     name: 'RE/MAX City',
     src: '/images/partners/remaxcity.webp',
   },
+    {
+    slug: 'homelife',
+    name: 'Homelife',
+    src: '/images/partners/homelife.webp',
+  },
   {
     slug: 'webphoto',
     name: 'Web Photo',

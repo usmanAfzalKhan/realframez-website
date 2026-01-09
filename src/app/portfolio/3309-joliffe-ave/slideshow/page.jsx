@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import GallerySlideshow from '../../../../components/GallerySlideshow/GallerySlideshow';
+import AgentContactCard from '../../../../components/AgentContactCard/AgentContactCard';
 import { galleriesBySlug } from '../../../../data/galleryImages';
 import styles from './page.module.scss';
 
@@ -33,7 +34,7 @@ export default function JoliffeSlideshowPage() {
 
         <header className={styles.header}>
           <h1 className={styles.title}>
-            {gallery.address} <span className={styles.titleMuted}>— Slideshow</span>
+            {gallery.address} <span className={styles.titleMuted}></span>
           </h1>
           <p className={styles.sub}>
             Use the arrows to navigate. Play/Pause toggles auto.
@@ -41,6 +42,17 @@ export default function JoliffeSlideshowPage() {
         </header>
 
         <GallerySlideshow images={gallery.images} autoPlay intervalMs={3500} />
+
+        <AgentContactCard
+          photoSrc="/images/gallery/3309-joliffe-ave/ghuman.webp"
+          brokerage="HomeLife/Miracle Realty Ltd"
+          name="Surjit Ghuman"
+          website="https://www.surjitghuman.ca"
+          websiteLabel="www.surjitghuman.ca"
+          phone="416.841.1900"
+          phoneTel="+14168411900"
+          email="surjitghuman@gmail.com"
+        />
       </div>
     </main>
   );
