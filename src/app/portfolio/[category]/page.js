@@ -4,6 +4,7 @@
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import PortfolioGallery from '../../../components/Portfolio/Portfolio';
+import AgentContactCard from '../../../components/AgentContactCard/AgentContactCard';
 import { galleriesBySlug } from '../../../data/galleryImages';
 import styles from './page.module.scss';
 
@@ -36,6 +37,8 @@ export default function PortfolioCategoryPage() {
     ? styles.videoPortrait
     : styles.video;
 
+  const showAgentCard = slug === '3309-joliffe-ave';
+
   return (
     <main className={styles.main}>
       <Link href="/portfolio" className={styles.backButton}>
@@ -61,15 +64,28 @@ export default function PortfolioCategoryPage() {
       {hasImages && (
         <>
           <div className={styles.mediaIntro}>
-            <p className={styles.instruction}>
-              <em>Click an image to enlarge</em>
-            </p>
-
             {gallery?.slideshowHref && (
               <Link href={gallery.slideshowHref} className={styles.slideshowCta}>
                 View Full Slideshow <span aria-hidden="true">→</span>
               </Link>
             )}
+
+            {showAgentCard && (
+              <AgentContactCard
+                photoSrc="/images/gallery/3309-joliffe-ave/ghuman.webp"
+                brokerage="HomeLife/Miracle Realty Ltd"
+                name="Surjit Ghuman"
+                website="https://www.surjitghuman.ca"
+                websiteLabel="www.surjitghuman.ca"
+                phone="416.841.1900"
+                phoneTel="+14168411900"
+                email="surjitghuman@gmail.com"
+              />
+            )}
+
+            <p className={styles.instruction}>
+              <em>Click an image to enlarge</em>
+            </p>
           </div>
 
           <PortfolioGallery images={gallery.images} />
