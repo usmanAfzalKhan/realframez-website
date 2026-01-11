@@ -1,4 +1,3 @@
-// src/app/portfolio/[category]/page.js
 'use client';
 
 import { useParams } from 'next/navigation';
@@ -26,7 +25,7 @@ export default function PortfolioCategoryPage() {
     );
   }
 
-  const hasImages = gallery.images && gallery.images.length > 0;
+  const hasImages = Array.isArray(gallery.images) && gallery.images.length > 0;
   const hasVideo = !!gallery.video;
 
   const videoWrapClass = gallery.isPortraitVideo
@@ -39,6 +38,9 @@ export default function PortfolioCategoryPage() {
 
   const showAgentCard = slug === '3309-joliffe-ave';
 
+  // ✅ Always works for ALL addresses + future ones
+  const slideshowHref = gallery.slideshowHref || `/portfolio/${slug}/slideshow`;
+
   return (
     <main className={styles.main}>
       <Link href="/portfolio" className={styles.backButton}>
@@ -47,6 +49,7 @@ export default function PortfolioCategoryPage() {
 
       <h1 className={styles.heading}>{gallery.address}</h1>
 
+      {/* ✅ VIDEO FIRST */}
       {hasVideo && (
         <div className={videoWrapClass}>
           <video
@@ -61,14 +64,13 @@ export default function PortfolioCategoryPage() {
         </div>
       )}
 
+      {/* ✅ BUTTON + CARD + INSTRUCTION AFTER VIDEO (so under video) */}
       {hasImages && (
         <>
           <div className={styles.mediaIntro}>
-            {gallery?.slideshowHref && (
-              <Link href={gallery.slideshowHref} className={styles.slideshowCta}>
-                View Full Slideshow <span aria-hidden="true">→</span>
-              </Link>
-            )}
+            <Link href={slideshowHref} className={styles.slideshowCta}>
+              View Full Slideshow <span aria-hidden="true">→</span>
+            </Link>
 
             {showAgentCard && (
               <AgentContactCard

@@ -7,7 +7,7 @@ import styles from './GallerySlideshow.module.scss';
 export default function GallerySlideshow({
   images = [],
   autoPlay = true,
-  intervalMs = 3500,
+  intervalMs = 8000, // ✅ slower by default
   priorityFirst = true,
 }) {
   const safeImages = useMemo(() => images.filter(Boolean), [images]);
@@ -70,11 +70,9 @@ export default function GallerySlideshow({
       setPrevI(curr);
       setI(normalized);
 
-      // set starting state then flip to "to" on next frame so transitions run
       setPhase('from');
       requestAnimationFrame(() => setPhase('to'));
 
-      // keep prev image long enough for the full smooth transition
       cleanupRef.current = setTimeout(() => {
         setPrevI(null);
         setPhase('idle');
@@ -96,7 +94,6 @@ export default function GallerySlideshow({
       setI((v) => {
         const n = (v + 1) % count;
 
-        // kick transition
         setPrevI(v);
         setPhase('from');
         requestAnimationFrame(() => setPhase('to'));
@@ -146,12 +143,16 @@ export default function GallerySlideshow({
   const exitingClass = phase === 'from' ? styles.exitFrom : styles.exitTo;
 
   return (
-    <section className={styles.wrap} aria-label="Property slideshow">
+    <section
+      className={styles.wrap}
+      aria-label="Property slideshow"
+      style={{ '--hold-ms': `${intervalMs}ms` }}
+    >
       <div className={styles.frame}>
-        {/* previous image fades OUT */}
+        {/* previous image fades OUT + zooms OUT */}
         {previous && (
           <Image
-            key={`prev-${prevI}`}   // ✅ IMPORTANT: no "phase" in key (prevents pop)
+            key={`prev-${prevI}`}
             src={previous}
             alt="Property photo"
             fill
@@ -161,9 +162,9 @@ export default function GallerySlideshow({
           />
         )}
 
-        {/* current image fades IN */}
+        {/* current image fades IN + slowly zooms IN while holding */}
         <Image
-          key={`curr-${i}`}        // ✅ IMPORTANT: no "phase" in key (prevents pop)
+          key={`curr-${i}`}
           src={current}
           alt="Property photo"
           fill
@@ -219,6 +220,10 @@ export default function GallerySlideshow({
               onChange={(e) => go(Number(e.target.value))}
               aria-label="Slide position"
             />
+          </div>
+
+          <div className={styles.counter} aria-label="Slide count">
+            {i + 1}/{count}
           </div>
         </>
       )}

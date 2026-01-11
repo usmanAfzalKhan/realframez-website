@@ -7,11 +7,9 @@ $dark:   #0b1220;
 
 $ease:   220ms cubic-bezier(0.4, 0, 0.2, 1);
 
-/* smoother + more “cinematic” */
+/* fade timings */
 $fadeDur: 780ms;
-$zoomDur: 1500ms;
 $fadeEase: cubic-bezier(0.22, 0.9, 0.22, 1);
-$zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
 
 .wrap {
   width: 100%;
@@ -38,49 +36,50 @@ $zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
     0 1px 0 rgba(255,255,255,0.25) inset;
 }
 
-/* base image layer */
+/* ===== Ken Burns ===== */
+@keyframes kenBurnsIn {
+  from { transform: scale(1.02); }
+  to   { transform: scale(1.10); }
+}
+
+@keyframes kenBurnsOut {
+  from { transform: scale(1.10); }
+  to   { transform: scale(1.02); }
+}
+
+/* base layer */
 .img {
   object-fit: cover;
-
-  /* smoothness helpers */
   will-change: opacity, transform;
   backface-visibility: hidden;
   transform: translateZ(0);
 
-  /* transitions */
-  transition:
-    opacity $fadeDur $fadeEase,
-    transform $zoomDur $zoomEase;
-
-  /* base premium scale */
-  transform: scale(1.01);
+  /* ✅ crossfade only */
+  transition: opacity $fadeDur $fadeEase;
 }
 
 /* layering */
 .imgPrev { z-index: 1; }
 .imgCurr { z-index: 2; }
 
-/* ENTER (new image): start zoomed IN then ease OUT */
-.enterFrom {
-  opacity: 0;
-  transform: scale(1.10); /* <-- more noticeable zoom-in start */
+/* current image: slow zoom IN during the hold */
+.imgCurr {
+  animation: kenBurnsIn var(--hold-ms, 6000ms) linear forwards;
+  transform: scale(1.02);
 }
 
-.enterTo {
-  opacity: 1;
-  transform: scale(1.01); /* settle */
+/* previous image: starts zoomed in, zooms OUT while it fades */
+.imgPrev {
+  animation: kenBurnsOut $fadeDur linear forwards;
+  transform: scale(1.10);
 }
 
-/* EXIT (old image): start normal then zoom IN + fade out */
-.exitFrom {
-  opacity: 1;
-  transform: scale(1.01);
-}
+/* opacity states */
+.enterFrom { opacity: 0; }
+.enterTo   { opacity: 1; }
 
-.exitTo {
-  opacity: 0;
-  transform: scale(1.14); /* <-- more noticeable zoom-in on exit */
-}
+.exitFrom  { opacity: 1; }
+.exitTo    { opacity: 0; }
 
 .controlsBar {
   width: min(100%, 720px);
@@ -132,9 +131,7 @@ $zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
     transform: translateY(-1px);
   }
 
-  &:active {
-    transform: translateY(0);
-  }
+  &:active { transform: translateY(0); }
 
   &:disabled {
     opacity: 0.5;
@@ -168,9 +165,7 @@ $zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
     transform: translateY(-1px);
   }
 
-  &:active {
-    transform: translateY(0);
-  }
+  &:active { transform: translateY(0); }
 
   &:disabled {
     opacity: 0.6;
@@ -184,6 +179,31 @@ $zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
   margin: 0 auto;
   box-sizing: border-box;
   max-width: 100%;
+}
+
+.counter {
+  align-self: center;
+  margin: 0.18rem auto 0; /* ✅ closer to scrub */
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(15, 23, 42, 0.10);
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,0.08),
+    0 1px 0 rgba(255,255,255,0.70) inset;
+
+  font-family: inherit;
+  font-weight: 950;
+  letter-spacing: 0.10em;
+  font-size: 0.82rem;
+  line-height: 1;
+  color: rgba($text, 0.75);
+
+  min-width: 74px;
+  text-align: center;
+  backdrop-filter: blur(10px);
 }
 
 .scrub {
@@ -215,9 +235,7 @@ $zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
     transition: transform $ease;
   }
 
-  &:hover::-webkit-slider-thumb {
-    transform: scale(1.06);
-  }
+  &:hover::-webkit-slider-thumb { transform: scale(1.06); }
 
   &::-moz-range-track {
     height: 10px;
@@ -236,12 +254,10 @@ $zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
     transition: transform $ease;
   }
 
-  &:hover::-moz-range-thumb {
-    transform: scale(1.06);
-  }
+  &:hover::-moz-range-thumb { transform: scale(1.06); }
 }
 
-/* ✅ MOBILE FIX: pill + slider never exceed the screen */
+/* ✅ MOBILE FIX */
 @media (max-width: 640px) {
   .frame {
     aspect-ratio: 4 / 3;
@@ -272,216 +288,25 @@ $zoomEase: cubic-bezier(0.16, 0.84, 0.16, 1);
     max-width: 320px;
     margin: 0 auto;
   }
-}
 
-/* =========================
-   ✅ AGENT CONTACT CARD
-   ========================= */
-
-.agentWrap {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 1.15rem;
-}
-
-.agentCard {
-  width: min(560px, 100%);
-  background: #ffffff;
-  border-radius: 1.05rem;
-  overflow: hidden;
-
-  border: 1px solid rgba(15, 23, 42, 0.10);
-  box-shadow:
-    0 18px 45px rgba(0,0,0,0.10),
-    0 1px 0 rgba(255,255,255,0.75) inset;
-
-  /* put the bar visually at the bottom */
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.agentSummary {
-  background: #ef6b6b;
-  color: #ffffff;
-
-  padding: 1.15rem 1.25rem;
-  font-weight: 950;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.85rem;
-
-  cursor: pointer;
-  user-select: none;
-
-  outline: none;
-
-  &::-webkit-details-marker { display: none; }
-  &::marker { content: ""; }
-}
-
-.chev {
-  width: 10px;
-  height: 10px;
-  border-right: 3px solid rgba(255,255,255,0.95);
-  border-bottom: 3px solid rgba(255,255,255,0.95);
-  transform: rotate(-135deg); /* open state (up) */
-  transition: transform 180ms ease;
-}
-
-.agentCard:not([open]) .chev {
-  transform: rotate(45deg); /* closed state (down) */
-}
-
-.agentContent {
-  padding: 1.2rem 1.25rem 1.05rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.95rem;
-}
-
-.agentTop {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-}
-
-.agentAvatar {
-  position: relative;
-  width: 92px;
-  height: 92px;
-  border-radius: 999px;
-  overflow: hidden;
-  flex: 0 0 auto;
-
-  background: #ffffff;
-  border: 6px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 12px 26px rgba(0,0,0,0.14);
-}
-
-.agentImg {
-  object-fit: cover;
-}
-
-.agentMeta {
-  min-width: 0;
-}
-
-.brand {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.05;
-  margin-bottom: 0.55rem;
-}
-
-.brandName {
-  font-weight: 950;
-  letter-spacing: 0.12em;
-  font-size: 0.95rem;
-}
-
-.brandTag {
-  margin-top: 0.2rem;
-  font-weight: 850;
-  letter-spacing: 0.18em;
-  font-size: 0.62rem;
-  color: rgba($text, 0.55);
-}
-
-.agentBroker {
-  font-weight: 900;
-  font-size: 1.05rem;
-  line-height: 1.15;
-}
-
-.agentName {
-  margin-top: 0.35rem;
-  font-weight: 950;
-  font-size: 1.45rem;
-  line-height: 1.1;
-}
-
-.agentSite {
-  display: inline-block;
-  margin-top: 0.35rem;
-  font-weight: 900;
-  color: $text;
-  text-decoration: none;
-
-  &:hover { text-decoration: underline; }
-}
-
-.agentDetails {
-  padding-top: 0.9rem;
-  border-top: 1px solid rgba(15, 23, 42, 0.10);
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.agentRow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-
-  font-weight: 900;
-  color: rgba($text, 0.92);
-  text-decoration: none;
-
-  &:hover { text-decoration: underline; }
-}
-
-.agentIcon {
-  width: 22px;
-  height: 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    width: 20px;
-    height: 20px;
-    fill: rgba($text, 0.45);
-  }
-}
-
-@media (max-width: 640px) {
-  .agentCard {
-    width: 100%;
-    max-width: 360px;
-  }
-
-  .agentContent {
-    padding: 1rem 1rem 0.95rem;
-  }
-
-  .agentAvatar {
-    width: 82px;
-    height: 82px;
-  }
-
-  .agentSummary {
-    padding: 1rem 1rem;
-    font-size: 1.02rem;
+  .counter {
+    margin-top: 0.18rem;
+    font-size: 0.78rem;
+    min-width: 68px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .img {
-    transition: none;
+  .imgCurr,
+  .imgPrev {
+    animation: none !important;
+    transform: none !important;
   }
-
+  .img {
+    transition: none !important;
+  }
   .iconBtn,
   .pauseBtn {
-    transition: none;
-  }
-
-  .chev {
-    transition: none;
+    transition: none !important;
   }
 }

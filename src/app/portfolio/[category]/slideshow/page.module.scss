@@ -1,0 +1,54 @@
+.main {
+  min-height: 100vh;
+  padding: clamp(5rem, 8vw, 7rem) 1rem 4rem;
+  background: linear-gradient(180deg, #ffffff, #f9fafb);
+  color: #111827;
+  font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  justify-content: center;
+}
+
+.inner {
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.backLink {
+  width: fit-content;
+  text-decoration: none;
+  font-weight: 600;
+  color: #111827;
+  opacity: 0.9;
+}
+
+.backLink:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.75rem, 3.2vw, 2.6rem);
+  letter-spacing: -0.02em;
+}
+
+.titleMuted {
+  color: rgba(17, 24, 39, 0.55);
+  font-weight: 500;
+}
+
+.sub {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: rgba(17, 24, 39, 0.65);
+}
