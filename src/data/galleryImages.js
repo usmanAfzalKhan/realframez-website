@@ -388,7 +388,7 @@ export const galleriesBySlug = {
 
     // 🎥 Portrait video just for this gallery
     video: '/images/gallery/8-levida-st/8-Levida.mp4',
-    videoPoster: '/images/gallery/8-levida-st/45.webp',
+    videoPoster: '/images/gallery/8-levida-st/8-Levida-poster.webp',
     isPortraitVideo: true,
 
     images: [
