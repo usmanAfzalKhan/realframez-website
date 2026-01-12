@@ -39,7 +39,6 @@
   }
 }
 
-
 .title {
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
@@ -153,4 +152,57 @@
     color: var(--color-accent);
     outline: none;
   }
+}
+
+/* ✅ Virtual Staging: Before/After toggle block */
+.compareWrap {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  animation: fadeUp 0.6s ease-out 0.45s both;
+}
+
+.compareBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  font-weight: 700;
+  font-size: 0.95rem;
+
+  background: var(--color-accent);
+  color: #000;
+  border: 1.5px solid var(--color-accent);
+  border-radius: 999px;
+  padding: 0.7rem 1.2rem;
+
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus-visible {
+    background: transparent;
+    color: var(--color-accent);
+    outline: none;
+    transform: translateY(-1px);
+  }
+
+  &[aria-expanded='true'] {
+    background: transparent;
+    color: var(--color-accent);
+  }
+}
+
+.compareIcon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.comparePanel {
+  width: 100%;
 }

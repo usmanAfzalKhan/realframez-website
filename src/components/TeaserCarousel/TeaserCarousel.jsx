@@ -6,7 +6,7 @@ import styles from './TeaserCarousel.module.scss'
 const ITEMS = [
   { label: 'Services', href: '/services' },
   { label: 'Packages', href: '/packages' },
-  { label: 'Portfolio',  href: '/portfolio'  },
+  { label: 'Our Work',  href: '/portfolio'  },
   { label: 'FAQ',      href: '/faq'      },
   { label: 'Review',   href: '/review'   },
   { label: 'About',    href: '/about'    },

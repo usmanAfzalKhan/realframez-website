@@ -59,30 +59,6 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
     ],
   },
   {
-    slug: 'matterport-360-tour',
-    title: '360° Virtual Tours',
-    short: 'Immersive Matterport 360 virtual walkthroughs.',
-    description: `Create interactive 3D virtual tours of your property for an immersive online experience, capturing every angle and detail with Matterport technology.`,
-    why: `360° tours keep prospects on your page 3× longer—let them explore every corner at their own pace.`,
-    price: 149.99,
-    images: [
-      '/images/services/matterport-360-tour-desktop.webp',
-      '/images/services/matterport-360-tour-mobile.webp',
-    ],
-  },
-  {
-    slug: 'drone-aerial-video',
-    title: 'Aerial Video',
-    short: 'Get stunning bird’s-eye video with professional drone footage.',
-    description: `Our licensed drone pilots provide dynamic, high-impact aerial videos for a complete perspective of your property and neighborhood.`,
-    why: `Aerial videos give context—show off property size, neighborhood, and landscaping for a competitive edge.`,
-    price: 99.99,
-    images: [
-      '/images/services/aerial-video-desktop.webp',
-      '/images/services/aerial-video-mobile.webp',
-    ],
-  },
-  {
     slug: 'virtual-staging',
     title: 'Virtual Staging',
     short: 'Enhance empty rooms with realistic virtual furniture.',

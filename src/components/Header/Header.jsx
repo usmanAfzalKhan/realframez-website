@@ -48,7 +48,7 @@ export default function Header() {
           <Link href="/" onClick={closeNav}>Home</Link>
           <Link href="/services" onClick={closeNav}>Services</Link>
           <Link href="/packages" onClick={closeNav}>Packages</Link>
-          <Link href="/portfolio" onClick={closeNav}>Portfolio</Link>
+          <Link href="/portfolio" onClick={closeNav}>Our Work</Link>
           <Link href="/faq" onClick={closeNav}>FAQ</Link>
           <Link href="/review" onClick={closeNav}>Review</Link>
           <Link href="/about" onClick={closeNav}>About</Link>

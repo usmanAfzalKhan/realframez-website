@@ -8,11 +8,17 @@ import { useParams } from 'next/navigation'
 import { getServiceBySlug } from '../../../data/services'
 import styles from './ServiceDetail.module.scss'
 
+// ✅ Before/After slider (only used on Virtual Staging)
+import BeforeAfterSlider from '../../../components/BeforeAfterSlider/BeforeAfterSlider'
+import { virtualStagingDemo } from '../../../components/BeforeAfterSlider/virtualStagingPairs'
+
 export default function ServiceDetailPage() {
   const { slug } = useParams()
   const svc = getServiceBySlug(slug)
 
   const [isMobile, setIsMobile] = useState(false)
+  const [showCompare, setShowCompare] = useState(false)
+
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768)
     onResize()
@@ -20,9 +26,16 @@ export default function ServiceDetailPage() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
+  // reset the compare panel when switching services (client-side nav)
+  useEffect(() => {
+    setShowCompare(false)
+  }, [slug])
+
   if (!svc) {
     return <div className={styles.main}><p>Service Not Found</p></div>
   }
+
+  const isVirtualStaging = slug === 'virtual-staging'
 
   // On all non-video pages use interior image
   const detailImage = svc.images[isMobile ? 1 : 0]
@@ -70,6 +83,35 @@ export default function ServiceDetailPage() {
               />
             </div>
           </div>
+        </div>
+      )}
+
+      {/* ✅ Virtual Staging ONLY: premium before/after toggle */}
+      {isVirtualStaging && virtualStagingDemo && (
+        <div className={styles.compareWrap}>
+          <button
+            type="button"
+            className={styles.compareBtn}
+            onClick={() => setShowCompare((v) => !v)}
+            aria-expanded={showCompare}
+          >
+            <span className={styles.compareIcon} aria-hidden="true">↔</span>
+            {showCompare ? 'Hide Before / After' : 'View Before / After'}
+          </button>
+
+          {showCompare && (
+            <div className={styles.comparePanel}>
+              <BeforeAfterSlider
+                beforeSrc={virtualStagingDemo.beforeSrc}
+                afterSrc={virtualStagingDemo.afterSrc}
+                beforeAlt={virtualStagingDemo.beforeAlt}
+                afterAlt={virtualStagingDemo.afterAlt}
+                aspectRatio={virtualStagingDemo.aspectRatio}
+                initial={virtualStagingDemo.initial}
+                priority
+              />
+            </div>
+          )}
         </div>
       )}
 
