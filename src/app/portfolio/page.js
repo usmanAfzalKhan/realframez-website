@@ -4,7 +4,9 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
 import { galleryList } from '../../data/galleryImages';
+import { serviceList } from '../../data/serviceGalleries';
 import styles from './PortfolioLanding.module.scss';
 
 const PREVIEW_COUNT = 5;
@@ -23,14 +25,12 @@ function isSlowConnection() {
 }
 
 function RotatingCard({ href, title, description, images }) {
-  // ✅ hooks MUST be at top-level, so we move them above any return
   const [currentIdx, setCurrentIdx] = useState(0);
   const [prevIdx, setPrevIdx] = useState(null);
   const [isFading, setIsFading] = useState(false);
 
-  // keep first render identical SSR/CSR
   const [mounted, setMounted] = useState(false);
-  const [slowMode, setSlowMode] = useState(true); // start true => no fade classes on initial SSR
+  const [slowMode, setSlowMode] = useState(true);
 
   const timeoutRef = useRef(null);
   const intervalRef = useRef(null);
@@ -42,7 +42,6 @@ function RotatingCard({ href, title, description, images }) {
     setSlowMode(isSlowConnection());
   }, []);
 
-  // Preload next image only after mount and when not slow
   useEffect(() => {
     if (!mounted || slowMode || !hasImages || images.length < 2) return;
     const next = (currentIdx + 1) % images.length;
@@ -50,7 +49,6 @@ function RotatingCard({ href, title, description, images }) {
     img.src = images[next];
   }, [mounted, slowMode, hasImages, currentIdx, images]);
 
-  // Rotate only after mount and when not slow
   useEffect(() => {
     if (!mounted || slowMode || !hasImages || images.length < 2) return;
 
@@ -70,7 +68,6 @@ function RotatingCard({ href, title, description, images }) {
     };
   }, [mounted, slowMode, hasImages, images, currentIdx]);
 
-  // ✅ early return *after* hooks are defined
   if (!hasImages) return null;
 
   const layerClass =
@@ -93,6 +90,7 @@ function RotatingCard({ href, title, description, images }) {
               />
             </div>
           )}
+
           <div className={`${styles.singleLayer} ${layerClass}`} key={currentIdx}>
             <Image
               src={images[currentIdx]}
@@ -104,6 +102,7 @@ function RotatingCard({ href, title, description, images }) {
               loading={currentIdx === 0 ? 'eager' : 'lazy'}
             />
           </div>
+
           <div className={styles.cardLogo}>
             <Image
               src="/images/logo.png"
@@ -114,6 +113,7 @@ function RotatingCard({ href, title, description, images }) {
             />
           </div>
         </div>
+
         <div className={styles.info}>
           <h2 className={styles.cardTitle}>{title}</h2>
           <p className={styles.cardSubtitle}>{description}</p>
@@ -124,18 +124,22 @@ function RotatingCard({ href, title, description, images }) {
 }
 
 export default function PortfolioLanding() {
-  const [slowMode, setSlowMode] = useState(false);
-
   useEffect(() => {
-    if (isSlowConnection()) setSlowMode(true);
+    isSlowConnection();
   }, []);
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>Our Work</h1>
+      <h1 className={styles.title}>Portfolio</h1>
       <p className={styles.subtitle}>
         Recent Real Estate Shoots Around The GTA, Halton, Dufferin County Organized Per Property Address.
       </p>
+
+      {/* Properties */}
+      <p className={styles.hint}>Properties</p>
+      {styles.sectionSub ? (
+        <p className={styles.sectionSub}>Browse by property address</p>
+      ) : null}
 
       <div className={styles.cards}>
         {galleryList.map((gallery) => {
@@ -155,6 +159,33 @@ export default function PortfolioLanding() {
           );
         })}
       </div>
+
+      {/* Services */}
+      <section className={styles.videoSection}>
+        <p className={styles.hint}>Services</p>
+        {styles.sectionSub ? (
+          <p className={styles.sectionSub}>Browse by service type</p>
+        ) : null}
+
+        <div className={styles.cards}>
+          {serviceList.map((service) => {
+            const allImages = [
+              service.coverImage || service.images?.[0],
+              ...(service.images || []),
+            ].filter(Boolean);
+
+            return (
+              <RotatingCard
+                key={service.slug}
+                href={`/portfolio/${service.slug}`}
+                title={service.title}
+                description={service.cardDescription}
+                images={allImages.slice(0, PREVIEW_COUNT)}
+              />
+            );
+          })}
+        </div>
+      </section>
     </main>
   );
 }

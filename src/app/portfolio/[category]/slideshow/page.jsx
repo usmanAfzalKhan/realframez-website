@@ -1,24 +1,43 @@
 import Link from 'next/link';
 import { galleriesBySlug } from '../../../../data/galleryImages';
+import { servicesBySlug } from '../../../../data/serviceGalleries';
+import { services } from '../../../../data/services';
 import SlideshowClient from './SlideshowClient';
 
 // ✅ keep Joliffe styling so it looks identical everywhere
 import styles from '../../3309-joliffe-ave/slideshow/page.module.scss';
 
-export async function generateMetadata({ params }) {
-  const { category: slug } = await params;
-  const gallery = slug ? galleriesBySlug[slug] : null;
+function fallbackServiceGallery(slug) {
+  if (!slug || !Array.isArray(services)) return null;
+  const svc = services.find((s) => s?.slug === slug);
+  if (!svc) return null;
 
   return {
-    title: gallery?.address ? `${gallery.address} — Slideshow` : 'Slideshow',
+    slug: svc.slug,
+    title: svc.title,
+    images: Array.isArray(svc.images) ? svc.images : [],
+  };
+}
+
+export async function generateMetadata({ params }) {
+  const { category: slug } = await params;
+  const gallery =
+    slug ? (galleriesBySlug[slug] || servicesBySlug[slug] || fallbackServiceGallery(slug)) : null;
+
+  const title = gallery?.address || gallery?.title;
+
+  return {
+    title: title ? `${title} — Slideshow` : 'Slideshow',
   };
 }
 
 export default async function SlideshowPage({ params }) {
   const { category: slug } = await params;
-  const gallery = slug ? galleriesBySlug[slug] : null;
+  const gallery =
+    slug ? (galleriesBySlug[slug] || servicesBySlug[slug] || fallbackServiceGallery(slug)) : null;
 
   const hasImages = !!gallery?.images?.length;
+  const title = gallery?.address || gallery?.title || 'Slideshow';
 
   if (!gallery || !hasImages) {
     return (
@@ -44,11 +63,9 @@ export default async function SlideshowPage({ params }) {
 
         <header className={styles.header}>
           <h1 className={styles.title}>
-            {gallery.address} <span className={styles.titleMuted}></span>
+            {title} <span className={styles.titleMuted}></span>
           </h1>
-          <p className={styles.sub}>
-            Use the arrows to navigate. Play/Pause toggles auto.
-          </p>
+          <p className={styles.sub}>Use the arrows to navigate. Play/Pause toggles auto.</p>
         </header>
 
         <SlideshowClient images={gallery.images} />

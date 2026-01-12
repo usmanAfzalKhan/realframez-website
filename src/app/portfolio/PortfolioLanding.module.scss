@@ -147,6 +147,30 @@ $accent:  #ffcc57;   // gold accent
   display: inline-block;
 }
 
+/* ✅ NEW: clean section subline + subtle gold divider (matches theme) */
+.sectionSub {
+  margin: -0.6rem 0 2rem;
+  font-size: 0.95rem;
+  color: rgba($text, 0.78);
+  line-height: 1.35;
+  display: inline-block;
+  position: relative;
+  padding-bottom: 0.65rem;
+  animation: fadeIn 0.8s both;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: min(260px, 70vw);
+    height: 2px;
+    background: rgba($accent, 0.55);
+    border-radius: 999px;
+  }
+}
+
 /* (kept for video page styling if you use it later) */
 .videoSection {
   margin-top: 3rem;
