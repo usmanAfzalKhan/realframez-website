@@ -1,8 +1,10 @@
+/* src/components/Home/HomeBeforeAfterSection.module.scss */
+
 .grid {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 14px;        /* a bit more breathing room */
   padding-top: 10px;
   overflow: visible;
 }
@@ -14,12 +16,9 @@
   box-shadow: none;
   padding: 0;
   margin: 0;
-
-  isolation: isolate;
-  contain: layout paint;
-  transform: translateZ(0);
 }
 
+/* ===== Home-only slider styling (premium, no badges) ===== */
 .slider {
   width: 100%;
   display: grid;
@@ -29,7 +28,10 @@
 .stage {
   width: 100%;
   position: relative;
-  border-radius: 18px;
+
+  /* ✅ make it fully rectangular (no rounded corners) */
+  border-radius: 0;
+
   overflow: hidden;
 
   background: #0b1220;
@@ -40,23 +42,15 @@
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
-
-  isolation: isolate;
-  contain: layout paint;
-  transform: translateZ(0);
 }
 
 .layer {
   position: absolute;
   inset: 0;
-  will-change: clip-path;
-  transform: translateZ(0);
 }
 
 .img {
   object-fit: cover;
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
 .line {
@@ -64,20 +58,19 @@
   top: 0;
   bottom: 0;
   width: 2px;
-  transform: translate3d(-1px, 0, 0);
+  transform: translateX(-1px);
   background: rgba(255, 255, 255, 0.92);
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.22),
     0 10px 25px rgba(0, 0, 0, 0.25);
   pointer-events: none;
-  will-change: left;
 }
 
-/* ✅ draggable */
+/* ✅ MUCH smaller by default (desktop too) */
 .handle {
   position: absolute;
   top: 50%;
-  transform: translate3d(-50%, -50%, 0);
+  transform: translate(-50%, -50%);
   border: 0;
   padding: 0;
 
@@ -101,11 +94,6 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.18);
 
   color: rgba(255, 255, 255, 0.95);
-
-  will-change: left, transform;
-
-  /* ✅ important so handle drags smoothly on mobile */
-  touch-action: none;
 
   &:active {
     cursor: grabbing;
@@ -131,6 +119,7 @@
   opacity: 0.95;
 }
 
+/* ✅ MOBILE: shrink WAY more */
 @media (max-width: 768px) {
   .grid {
     gap: 12px;
