@@ -6,6 +6,7 @@ import SpecialOffer from '../components/Offer/SpecialOffer'
 import TeaserCarousel from '../components/TeaserCarousel/TeaserCarousel'
 
 import HomeIntroSection from '../components/Home/HomeIntroSection'
+import HomeBeforeAfterSection from '../components/Home/HomeBeforeAfterSection'
 import HomeServicesSection from '../components/Home/HomeServicesSection'
 import HomePackagesSection from '../components/Home/HomePackagesSection'
 import HomePortfolioSection from '../components/Home/HomePortfolioSection'
@@ -27,6 +28,7 @@ export default function HomePage() {
       <section className={styles.intro} aria-labelledby="intro-title">
         <div className={styles.introInner}>
           <HomeIntroSection />
+          <HomeBeforeAfterSection />
           <HomeServicesSection />
           <HomePackagesSection />
           <HomePortfolioSection />
