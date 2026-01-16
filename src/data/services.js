@@ -12,13 +12,13 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
     price: 149.99,
     // used on the Services listing cards (exterior previews)
     cardImages: [
-      '/images/services/exterior-photography-desktop.webp',
-      '/images/services/exterior-photography-mobile.webp',
+      '/images/gallery/interior-exterior/12.webp',
+      '/images/gallery/interior-exterior/12.webp',
     ],
     // used on the detail page (interior shots)
     images: [
-      '/images/services/exterior-photography-desktop.webp',
-      '/images/services/exterior-photography-mobile.webp',
+      '/images/gallery/interior-exterior/4.webp',
+      '/images/gallery/interior-exterior/4.webp',
     ],
   },
 
@@ -30,8 +30,8 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
     why: `Aerial views give context—show off property size, neighborhood, and landscaping for a competitive edge.`,
     price: 79.99,
     images: [
-      '/images/services/aerial-photography-desktop.webp',
-      '/images/services/aerial-photography-mobile.webp',
+      '/images/gallery/aerial/1.webp',
+      '/images/gallery/aerial/1.webp',
     ],
   },
   {
@@ -42,8 +42,8 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
     why: `Dusk images add drama and warmth—perfect for creating an emotional connection with potential buyers.`,
     price: 79.99,
     images: [
-      '/images/services/twilight-shoots-desktop.webp',
-      '/images/services/twilight-shoots-mobile.webp',
+      '/images/gallery/twilight/1.webp',
+      '/images/gallery/twilight/1.webp',
     ],
   },
   {
@@ -66,8 +66,8 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
     why: `Virtual staging helps buyers see the possibilities—empty rooms become inviting spaces that sell faster.`,
     price: 19.99 + '/ image',
     images: [
-      '/images/services/virtual-staging-desktop.webp',
-      '/images/services/virtual-staging-mobile.webp',
+      '/images/gallery/virtual-staging/1.webp',
+      '/images/gallery/virtual-staging/5.webp',
     ],
   },
   {

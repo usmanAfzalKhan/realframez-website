@@ -209,13 +209,11 @@
 }
 
 /* ✅ your 6 service images + the 2 new ones */
-.photography .serviceMedia        { background-image: url('/images/home/exterior-photography-desktop.webp'); }
-.aerial .serviceMedia             { background-image: url('/images/home/aerial-photography-desktop.webp'); }
-.twilight .serviceMedia           { background-image: url('/images/home/twilight-shoots-desktop.webp'); }
+.photography .serviceMedia {background-image: url('/images/gallery/interior-exterior/12.webp');}
+.aerial .serviceMedia             { background-image: url('/images/gallery/aerial/1.webp'); }
+.twilight .serviceMedia           { background-image: url('/images/gallery/twilight/1.webp'); }
 .video .serviceMedia              { background-image: url('/images/home/video-production.webp'); }
-.virtualStaging .serviceMedia     { background-image: url('/images/home/virtual-staging-desktop.webp'); }
-.aerialVideo .serviceMedia        { background-image: url('/images/home/aerial-video-desktop.webp'); }
-.virtualTour .serviceMedia        { background-image: url('/images/home/matterport-360-tour-desktop.webp'); }
+.virtualStaging .serviceMedia     { background-image: url('/images/gallery/virtual-staging/1.webp'); }
 .socialReel .serviceMedia         { background-image: url('/images/home/social-media-reel-desktop.webp'); }
 
 /* ✅ center the last 2 services on desktop only */

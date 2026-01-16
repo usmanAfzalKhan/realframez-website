@@ -53,28 +53,6 @@ export default function HomeServicesSection() {
           </Link>
         </li>
 
-        <li className={`${styles.serviceCard} ${styles.virtualTour}`}>
-          <div className={styles.serviceMedia} aria-hidden="true" />
-          <div className={styles.serviceBody}>
-            <h3 className={styles.serviceTitle}>360° Virtual Tours</h3>
-            <p className={styles.serviceDesc}>Immersive Matterport-style walkthroughs.</p>
-          </div>
-          <Link href="/services/matterport-360-tour" className={styles.serviceLink}>
-            View Details
-          </Link>
-        </li>
-
-        <li className={`${styles.serviceCard} ${styles.aerialVideo}`}>
-          <div className={styles.serviceMedia} aria-hidden="true" />
-          <div className={styles.serviceBody}>
-            <h3 className={styles.serviceTitle}>Aerial Video</h3>
-            <p className={styles.serviceDesc}>Bird’s-eye views in motion.</p>
-          </div>
-          <Link href="/services/drone-aerial-video" className={styles.serviceLink}>
-            View Details
-          </Link>
-        </li>
-
         <li className={`${styles.serviceCard} ${styles.virtualStaging}`}>
           <div className={styles.serviceMedia} aria-hidden="true" />
           <div className={styles.serviceBody}>
