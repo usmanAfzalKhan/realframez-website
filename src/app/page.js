@@ -23,7 +23,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <SpecialOffer />
+      {/* <SpecialOffer /> */}
       <HomeServingStrip />
       <section className={styles.intro} aria-labelledby="intro-title">
         <div className={styles.introInner}>

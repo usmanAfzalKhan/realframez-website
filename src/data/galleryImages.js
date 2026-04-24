@@ -954,14 +954,36 @@ export const galleriesBySlug = {
   },
 };
 
-// Flat list for mapping on landing / home sections (future use)
-export const galleryList = Object.values(galleriesBySlug);
+// Addresses client does NOT want live right now.
+// Keep the actual gallery data above so we can bring them back later.
+const hiddenGallerySlugs = new Set([
+  '16-sandway-cres',
+  '20-manorcrest',
+  '139-pandora-cir',
+  '203-4-dayspring-circle',
+  '123-1-beckenrose-crt',
+  '416-5-rowntree-rd',
+]);
+
+// Flat list for mapping on landing / home sections.
+// Hidden galleries stay in galleriesBySlug, but do not show in lists/cards.
+export const galleryList = Object.values(galleriesBySlug).filter(
+  (gallery) => !hiddenGallerySlugs.has(gallery.slug)
+);
 
 // ✅ Legacy exports so nothing else breaks.
 // Interior gallery = Sandhill
-export const interiorImages = galleriesBySlug['13-sandhill-cres'].images || [];
-// Exterior gallery now uses Rowntree (since 2200 Lakeshore folder is gone)
-export const exteriorImages = galleriesBySlug['416-5-rowntree-rd'].images || [];
+export const interiorImages =
+  galleriesBySlug['13-sandhill-cres']?.images || [];
 
-export const eastMallVideo = galleriesBySlug['137-366-the-east-mall'].video;
-export const eastMallPoster = galleriesBySlug['137-366-the-east-mall'].videoPoster;
+// Exterior fallback changed because Rowntree is hidden right now.
+// Use an active gallery so homepage sections do not crash.
+export const exteriorImages =
+  galleriesBySlug['12-linderwood-dr']?.images || [];
+
+// Video exports stay safe too.
+export const eastMallVideo =
+  galleriesBySlug['137-366-the-east-mall']?.video;
+
+export const eastMallPoster =
+  galleriesBySlug['137-366-the-east-mall']?.videoPoster;
