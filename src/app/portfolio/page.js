@@ -36,6 +36,7 @@ function RotatingCard({ href, title, description, images }) {
   const intervalRef = useRef(null);
 
   const hasImages = Array.isArray(images) && images.length > 0;
+  const hasDescription = Boolean(description && description.trim());
 
   useEffect(() => {
     setMounted(true);
@@ -116,7 +117,9 @@ function RotatingCard({ href, title, description, images }) {
 
         <div className={styles.info}>
           <h2 className={styles.cardTitle}>{title}</h2>
-          <p className={styles.cardSubtitle}>{description}</p>
+          {hasDescription && (
+            <p className={styles.cardSubtitle}>{description}</p>
+          )}
         </div>
       </article>
     </Link>

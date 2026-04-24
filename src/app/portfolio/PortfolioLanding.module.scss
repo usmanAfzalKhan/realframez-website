@@ -22,7 +22,6 @@ $accent:  #ffcc57;   // gold accent
 .fadeOut { opacity: 0; transition: opacity 0.5s ease; }
 
 .main {
-  /* soft white base + subtle gold glow at the top */
   background: radial-gradient(circle at top, rgba($accent, 0.14), transparent 55%), $bg;
   color: $text;
   font-family: 'Montserrat', sans-serif;
@@ -32,7 +31,7 @@ $accent:  #ffcc57;   // gold accent
   text-align: center;
 
   .title {
-    font-size: clamp(2.5rem,5vw,4rem);
+    font-size: clamp(2.5rem, 5vw, 4rem);
     margin-bottom: 0.5rem;
     animation: fadeIn 0.8s both;
   }
@@ -54,7 +53,7 @@ $accent:  #ffcc57;   // gold accent
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  justify-content: center;          /* centers the last row automatically */
+  justify-content: center;
   margin-inline: auto;
   max-width: min(1200px, 95vw);
 }
@@ -63,24 +62,22 @@ $accent:  #ffcc57;   // gold accent
   text-decoration: none;
   display: block;
   height: 100%;
-  flex: 1 1 280px;                  /* responsive width */
-  max-width: 360px;                 /* keeps 3-across look on desktop */
+  flex: 1 1 280px;
+  max-width: 360px;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  background: color.scale($bg, $lightness: 8%); /* light card on light bg */
+  background: color.scale($bg, $lightness: 8%);
   border: 2px solid $accent;
   border-radius: 0.75rem;
   overflow: hidden;
-  height: 100%;
-  min-height: 400px;                /* same height for all cards */
+  height: auto;
   animation: fadeIn 0.8s both;
-  justify-content: space-between;
 
   &:hover {
-    box-shadow: 0 0 15px rgba($accent,0.5);
+    box-shadow: 0 0 15px rgba($accent, 0.5);
   }
 }
 
@@ -116,23 +113,25 @@ $accent:  #ffcc57;   // gold accent
 }
 
 .info {
-  padding: 1.5rem;
-  flex: 1;
+  padding: 1.25rem 1.1rem 1.35rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .cardTitle {
-  margin: 0 0 0.5rem;
-  font-size: clamp(1.75rem,4vw,2rem);
+  margin: 0;
+  font-size: clamp(1.55rem, 4vw, 2rem);
   color: $accent;
   animation: fadeIn 0.8s both;
+  line-height: 1.15;
 }
 
 .cardSubtitle {
-  margin: 0 0 auto;
-  font-size: clamp(1rem,2.5vw,1.125rem);
-  color: rgba($text,0.75);
+  margin: 0.55rem 0 0;
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  color: rgba($text, 0.75);
   line-height: 1.4;
   animation: fadeIn 0.8s both;
 }
@@ -147,7 +146,6 @@ $accent:  #ffcc57;   // gold accent
   display: inline-block;
 }
 
-/* ✅ NEW: clean section subline + subtle gold divider (matches theme) */
 .sectionSub {
   margin: -0.6rem 0 2rem;
   font-size: 0.95rem;
@@ -171,7 +169,6 @@ $accent:  #ffcc57;   // gold accent
   }
 }
 
-/* (kept for video page styling if you use it later) */
 .videoSection {
   margin-top: 3rem;
   text-align: center;
@@ -190,7 +187,7 @@ $accent:  #ffcc57;   // gold accent
   border: 2px solid $accent;
   border-radius: 0.75rem;
   overflow: hidden;
-  background: color.scale($bg,$lightness:8%);
+  background: color.scale($bg, $lightness: 8%);
   aspect-ratio: 16/9;
 }
 

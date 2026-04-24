@@ -967,9 +967,13 @@ const hiddenGallerySlugs = new Set([
 
 // Flat list for mapping on landing / home sections.
 // Hidden galleries stay in galleriesBySlug, but do not show in lists/cards.
-export const galleryList = Object.values(galleriesBySlug).filter(
-  (gallery) => !hiddenGallerySlugs.has(gallery.slug)
-);
+// Gallery descriptions are removed from the cards per client request.
+export const galleryList = Object.values(galleriesBySlug)
+  .filter((gallery) => !hiddenGallerySlugs.has(gallery.slug))
+  .map((gallery) => ({
+    ...gallery,
+    cardDescription: '',
+  }));
 
 // ✅ Legacy exports so nothing else breaks.
 // Interior gallery = Sandhill

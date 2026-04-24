@@ -19,7 +19,7 @@ const faq = [
   {
     question: "When will I receive my photos?",
     answer:
-      "You’ll receive your fully edited, high‑resolution photos within 24–48 hours after the shoot.",
+      "You’ll receive your fully edited, high‑resolution photos within 4–10 hours after the shoot.",
   },
   {
     question: "Do you provide image editing?",

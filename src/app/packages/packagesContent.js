@@ -6,7 +6,6 @@ const packagesContent = {
     {
       title: "Essential",
       price: "$199.99",
-      value: "$230",
       tagline: "Saving $30",
       features: [
         "Interior/Exterior HDR",
@@ -16,7 +15,6 @@ const packagesContent = {
     {
       title: "Silver",
       price: "$249.99",
-      value: "$310",
       tagline: "Saving $60",
       features: [
         "Interior/Exterior HDR",
@@ -27,7 +25,6 @@ const packagesContent = {
     {
       title: "Platinum",
       price: "$479.99",
-      value: "$690",
       tagline: "Saving $210",
       features: [
         "Interior/Exterior HDR",
