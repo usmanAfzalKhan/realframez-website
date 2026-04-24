@@ -20,7 +20,6 @@
   --container-max: 1100px;
   --shadow: 0 10px 30px rgba(0,0,0,.15);
 
-  /* white base with soft gold glow */
   background:
     radial-gradient(circle at top, rgba(255,209,92,.22), rgba(255,255,255,0) 60%),
     #f9fafb;
@@ -154,7 +153,9 @@
     padding-bottom: .5rem;
   }
 
-  .servicesGrid::-webkit-scrollbar { display: none; }
+  .servicesGrid::-webkit-scrollbar {
+    display: none;
+  }
 
   .serviceCard {
     flex: 0 0 78%;
@@ -165,6 +166,7 @@
 
 .serviceCard {
   grid-column: span 6;
+
   @media (min-width: 900px) {
     grid-column: span 4;
   }
@@ -177,7 +179,6 @@
   border: 1px solid rgba(15,23,42,.08);
   border-radius: 14px;
   padding: .85rem .85rem 1rem;
-  /* ⬇️ remove persistent shadow so no dark band under services */
   box-shadow: none;
   min-height: 260px;
   transition: transform .18s ease, box-shadow .2s ease, border-color .2s ease;
@@ -208,15 +209,30 @@
   border: 1px solid rgba(15,23,42,.06);
 }
 
-/* ✅ your 6 service images + the 2 new ones */
-.photography .serviceMedia {background-image: url('/images/gallery/interior-exterior/12.webp');}
-.aerial .serviceMedia             { background-image: url('/images/gallery/aerial/1.webp'); }
-.twilight .serviceMedia           { background-image: url('/images/gallery/twilight/1.webp'); }
-.video .serviceMedia              { background-image: url('/images/home/video-production.webp'); }
-.virtualStaging .serviceMedia     { background-image: url('/images/gallery/virtual-staging/1.webp'); }
-.socialReel .serviceMedia         { background-image: url('/images/home/social-media-reel-desktop.webp'); }
+.photography .serviceMedia {
+  background-image: url('/images/gallery/interior-exterior/12.webp');
+}
 
-/* ✅ center the last 2 services on desktop only */
+.aerial .serviceMedia {
+  background-image: url('/images/gallery/aerial/1.webp');
+}
+
+.twilight .serviceMedia {
+  background-image: url('/images/gallery/twilight/1.webp');
+}
+
+.video .serviceMedia {
+  background-image: url('/images/home/video-production.webp');
+}
+
+.virtualStaging .serviceMedia {
+  background-image: url('/images/gallery/virtual-staging/1.webp');
+}
+
+.socialReel .serviceMedia {
+  background-image: url('/images/home/social-media-reel-desktop.webp');
+}
+
 @media (min-width: 900px) {
   .servicesGrid > .serviceCard:nth-child(7) {
     grid-column: 3 / span 4;
@@ -296,6 +312,7 @@
 
 .packageCard {
   grid-column: span 12;
+
   @media (min-width: 700px) {
     grid-column: span 4;
   }
@@ -309,7 +326,6 @@
   display: flex;
   flex-direction: column;
   gap: .6rem;
-  /* ⬇️ remove persistent shadow so no dark band under packages */
   box-shadow: none;
   min-height: 210px;
   overflow: hidden;
@@ -328,8 +344,8 @@
 }
 
 .package-essential { border-color: #1abc9c; }
-.package-silver    { border-color: #ffcc57; }
-.package-platinum  { border-color: #e5e4e2; }
+.package-silver { border-color: #ffcc57; }
+.package-platinum { border-color: #e5e4e2; }
 
 .packageTop {
   display: flex;
@@ -366,8 +382,8 @@
 }
 
 .package-essential .packagePrice { color: #1abc9c; }
-.package-silver .packagePrice    { color: #ffcc57; }
-.package-platinum .packagePrice  { color: #b4b4b4; }
+.package-silver .packagePrice { color: #ffcc57; }
+.package-platinum .packagePrice { color: #b4b4b4; }
 
 .packageOld {
   font-size: .75rem;
@@ -519,7 +535,6 @@
   line-height: 1;
 }
 
-/* ===== MOBILE PACKAGES ===== */
 @media (max-width: 720px) {
   .packagesGrid {
     display: flex;
@@ -530,7 +545,9 @@
     padding-bottom: .5rem;
   }
 
-  .packagesGrid::-webkit-scrollbar { display: none; }
+  .packagesGrid::-webkit-scrollbar {
+    display: none;
+  }
 
   .packageCard {
     flex: 0 0 70%;
@@ -555,7 +572,7 @@
 /* ===== SERVING STRIP ===== */
 .servingStrip {
   margin-top: 1.8rem;
-  margin-bottom: 0.6rem;  /* spacing above the logos */
+  margin-bottom: 0.6rem;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
   max-width: 780px;
@@ -616,13 +633,10 @@
   align-items: center;
   justify-content: center;
   gap: .35rem;
-
-  /* match the rest of the site’s font feel */
   font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 700;
   font-size: .8rem;
   letter-spacing: .02em;
-
   background: #ffcc57;
   border: none;
   border-radius: 999px;
@@ -637,12 +651,12 @@
   filter: brightness(.97);
 }
 
-/* ===== PARTNER LOGO STRIP (under Serving Areas pill) ===== */
+/* ===== PARTNER LOGO STRIP ===== */
 .partnersStrip {
   margin-top: 0.85rem;
   overflow: hidden;
-  max-width: 920px;       /* 👈 slightly wider than the pill above */
-  margin-inline: auto;    /* centered like testimonials content */
+  max-width: 920px;
+  margin-inline: auto;
 }
 
 .partnersTrack {
@@ -651,17 +665,15 @@
   gap: 2rem;
   width: max-content;
   padding: 0.4rem 0 0.2rem;
-  animation: reviewScroll 85s linear infinite; /* slower / smoother */
+  animation: reviewScroll 85s linear infinite;
 }
 
-/* extra breathing room at the start & end of the strip */
 .partnersTrack::before,
 .partnersTrack::after {
   content: '';
   flex: 0 0 40px;
 }
 
-/* each logo in a consistent “slot” */
 .partnerLogoWrap {
   flex: 0 0 auto;
   width: 200px;
@@ -713,7 +725,7 @@
 
 .portfolioCopy {
   max-width: 620px;
-  margin: 0 auto 1.2rem;
+  margin: 0 auto .95rem;
   font-size: .9rem;
   opacity: .8;
   text-align: center;
@@ -730,6 +742,7 @@
 
 .portfolioCard {
   grid-column: span 6;
+
   @media (min-width: 900px) {
     grid-column: span 6;
   }
@@ -738,10 +751,8 @@
   border: 1px solid rgba(255,204,87,.45);
   border-radius: 16px;
   overflow: hidden;
-  min-height: 240px;
   display: flex;
   flex-direction: column;
-  gap: .4rem;
   transition: transform .12s ease, border .12s ease;
 }
 
@@ -753,7 +764,6 @@
 .portfolioLink {
   display: flex;
   flex-direction: column;
-  height: 100%;
   text-decoration: none;
   color: inherit;
 }
@@ -788,17 +798,20 @@
 }
 
 .portfolioBody {
-  padding: .85rem .85rem 1rem;
+  padding: .62rem .75rem .72rem;
   display: flex;
   flex-direction: column;
-  gap: .25rem;
-  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: .22rem;
+  text-align: center;
 }
 
 .portfolioTitle {
   margin: 0;
-  font-weight: 600;
-  font-size: .98rem;
+  font-weight: 700;
+  font-size: .95rem;
+  line-height: 1.14;
   color: #111827;
 }
 
@@ -806,16 +819,30 @@
   margin: 0;
   font-size: .78rem;
   opacity: .85;
+  line-height: 1.35;
 }
 
 .portfolioCta {
-  margin-top: auto;
-  font-size: .73rem;
+  margin-top: 0;
+  font-size: .68rem;
+  line-height: 1;
   color: #ffcc57;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-/* ✅ center the LAST portfolio card on desktop ONLY when there's an odd count */
+.portfolioCardCompact .portfolioBody {
+  padding: .58rem .7rem .64rem;
+  gap: .2rem;
+}
+
+.portfolioCardCompact .portfolioTitle {
+  margin: 0;
+}
+
+.portfolioCardCompact .portfolioCta {
+  margin-top: .05rem;
+}
+
 @media (min-width: 900px) {
   .portfolioGrid > .portfolioCard:nth-last-child(1):nth-child(odd) {
     grid-column: 4 / span 6;
@@ -826,24 +853,55 @@
   .portfolioGrid {
     display: flex;
     overflow-x: auto;
-    gap: .85rem;
+    gap: .75rem;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: .5rem;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    align-items: flex-start;
   }
 
-  .portfolioGrid::-webkit-scrollbar { display: none; }
+  .portfolioGrid::-webkit-scrollbar {
+    display: none;
+  }
 
   .portfolioCard {
-    flex: 0 0 78%;
-    min-width: 78%;
+    flex: 0 0 72%;
+    min-width: 72%;
     scroll-snap-align: start;
+    border-radius: 14px;
+    align-self: flex-start;
+  }
+
+  .portfolioThumb {
+    aspect-ratio: 16 / 9;
+  }
+
+  .portfolioBody {
+    padding: .46rem .58rem .5rem;
+    gap: .1rem;
+  }
+
+  .portfolioTitle {
+    font-size: .76rem;
+    line-height: 1.06;
+  }
+
+  .portfolioCta {
+    margin-top: 0;
+    font-size: .58rem;
+    line-height: 1;
+  }
+
+  .portfolioCardCompact .portfolioBody {
+    padding: .42rem .52rem .46rem;
+    gap: .08rem;
   }
 }
 
 /* ===== FAQ STRIP ===== */
 .faqTeaser {
-  margin-top: 2.6rem;
+  margin-top: 1rem;
   margin-bottom: 0;
   background: radial-gradient(circle at top, rgba(255,204,87,.14), rgba(255,255,255,0) 60%), #ffffff;
   border: 1px solid rgba(255,204,87,.45);
@@ -888,6 +946,7 @@
 
 @media (max-width: 720px) {
   .faqTeaser {
+    margin-top: .85rem;
     padding: 1.4rem 1rem 1.2rem;
   }
 }
@@ -1027,7 +1086,7 @@
 
   .contactActions {
     justify-content: center;
-    align-self: center; /* 👈 centers the Book / Contact → block */
+    align-self: center;
   }
 }
 
@@ -1229,7 +1288,6 @@
   color: #fff;
 }
 
-/* ✅ make TikTok glyph visible in the white circle */
 .socialTt .socialIcon {
   background: #fff;
   color: #000;
@@ -1261,7 +1319,6 @@
     align-items: flex-start;
   }
 
-  /* ✅ keep IG + TikTok on one row */
   .socialLinks {
     justify-content: flex-start;
     flex-wrap: nowrap;

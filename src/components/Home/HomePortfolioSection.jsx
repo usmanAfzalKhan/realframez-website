@@ -17,17 +17,24 @@ export default function HomePortfolioSection() {
         <h3 id="home-portfolio-heading" className={styles.portfolioHeading}>
           Our Work
         </h3>
+
         <p className={styles.portfolioCopy}>
-         Recent Listings Shot By Real Frames Around The GTA — Organized By Property Galleries And Service Type
+          Recent Listings Shot By Real Frames Around The GTA — Organized By Property Galleries And Service Type
         </p>
 
         <div className={styles.portfolioGrid}>
           {featuredItems.map((item) => {
             const title = item.address || item.title || 'Gallery'
             const badge = item.address ? 'Gallery' : 'Service'
+            const hasDescription = Boolean(item.cardDescription && item.cardDescription.trim())
 
             return (
-              <article key={item.slug} className={styles.portfolioCard}>
+              <article
+                key={item.slug}
+                className={`${styles.portfolioCard} ${
+                  !hasDescription ? styles.portfolioCardCompact : ''
+                }`}
+              >
                 <Link href={`/portfolio/${item.slug}`} className={styles.portfolioLink}>
                   <div className={styles.portfolioThumb}>
                     {item.coverImage ? (
@@ -41,13 +48,14 @@ export default function HomePortfolioSection() {
                     ) : (
                       <div className={styles.portfolioImg} />
                     )}
+
                     <span className={styles.portfolioBadge}>{badge}</span>
                   </div>
 
                   <div className={styles.portfolioBody}>
                     <h4 className={styles.portfolioTitle}>{title}</h4>
 
-                    {item.cardDescription && (
+                    {hasDescription && (
                       <p className={styles.portfolioDesc}>{item.cardDescription}</p>
                     )}
 
