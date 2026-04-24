@@ -8,9 +8,14 @@ export default function HomeServicesSection() {
     <>
       {/* SERVICES */}
       <h3 className={styles.servicesHeading}>Our Services</h3>
+
       <ul className={styles.servicesGrid} role="list" aria-label="Popular services">
         <li className={`${styles.serviceCard} ${styles.photography}`}>
-          <div className={styles.serviceMedia} aria-hidden="true" />
+          <div
+            className={styles.serviceMedia}
+            style={{ backgroundImage: "url('/images/services/21.webp')" }}
+            aria-hidden="true"
+          />
           <div className={styles.serviceBody}>
             <h3 className={styles.serviceTitle}>Interior / Exterior</h3>
             <p className={styles.serviceDesc}>Clean angles, bright edits, curb appeal.</p>
