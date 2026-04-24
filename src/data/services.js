@@ -10,12 +10,12 @@ Interior: professional lighting, angles, and HDR editing to highlight living roo
 Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gardens, driveways, and landscaping.`,
     why: `Combining interior and exterior images tells the full story of your property—buyers feel at home inside before they even step through the door, and are won over by stunning curb appeal outside.`,
     price: 149.99,
-    // used on the Services listing cards (exterior previews)
+    // used on the Services listing cards (thumbnail only)
     cardImages: [
-      '/images/gallery/interior-exterior/12.webp',
-      '/images/gallery/interior-exterior/12.webp',
+      '/images/services/21.webp',
+      '/images/services/21.webp',
     ],
-    // used on the detail page (interior shots)
+    // used on the detail page
     images: [
       '/images/gallery/interior-exterior/4.webp',
       '/images/gallery/interior-exterior/4.webp',
