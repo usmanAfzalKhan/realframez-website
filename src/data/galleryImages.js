@@ -963,6 +963,7 @@ const hiddenGallerySlugs = new Set([
   '203-4-dayspring-circle',
   '123-1-beckenrose-crt',
   '416-5-rowntree-rd',
+  '2101-3045-finch-ave',
 ]);
 
 // Flat list for mapping on landing / home sections.
