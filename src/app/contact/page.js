@@ -44,7 +44,7 @@ export default function ContactPage() {
     services: [],
     street: "",
     city: "",
-    province: "",
+    province: "Ontario",
     date: today,
     message: "",
   });
@@ -432,7 +432,7 @@ export default function ContactPage() {
               type="text"
               className={styles.input}
               value={form.province}
-              onChange={handleChange}
+              readOnly
               required
               aria-invalid={!!errors.province}
               aria-describedby={errors.province ? "error-province" : undefined}

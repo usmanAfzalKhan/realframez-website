@@ -75,8 +75,8 @@ function buildSlidesFromSeed(seed) {
       title: 'Welcome to Real Frames',
       description: 'Premium real estate media solutions across the GTA.',
       images: takeHero(13),
-      ctaHref: '/services',
-      ctaLabel: 'View Services',
+      ctaHref: '/contact',
+      ctaLabel: 'Book Now',
     },
 
     // 1) INTERIOR / EXTERIOR PHOTOGRAPHY
