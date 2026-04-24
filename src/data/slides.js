@@ -1,13 +1,13 @@
 // src/data/slides.js
-// Client wants ONLY /public/images/gallery/twilight/* used across ALL slides.
+// Non-aerial hero slides use /public/images/hero/*.
+// Aerial slide uses ONLY /public/images/gallery/twilight/13.webp.
 // Slide copy + CTA stays the same; ONLY images change.
-// Randomized per fresh session (SSR-safe).
 
-const TWILIGHT_COUNT = 25;
+const HERO_COUNT = 13;
 
-const twilightPool = Array.from(
-  { length: TWILIGHT_COUNT },
-  (_, i) => `/images/gallery/twilight/${i + 1}.webp`
+const heroPool = Array.from(
+  { length: HERO_COUNT },
+  (_, i) => `/images/hero/${i + 1}.webp`
 );
 
 // ---- deterministic PRNG helpers (seeded shuffle) ----
@@ -55,14 +55,15 @@ function getSessionSeed() {
 
 function buildSlidesFromSeed(seed) {
   const rng = mulberry32(seed);
-  const pool = shuffle(twilightPool, rng);
-  let cursor = 0;
 
-  const take = (n) => {
+  const heroImages = shuffle(heroPool, rng);
+  let heroCursor = 0;
+
+  const takeHero = (n) => {
     const out = [];
     for (let k = 0; k < n; k++) {
-      out.push(pool[cursor % pool.length]);
-      cursor++;
+      out.push(heroImages[heroCursor % heroImages.length]);
+      heroCursor++;
     }
     return out;
   };
@@ -73,7 +74,7 @@ function buildSlidesFromSeed(seed) {
       slug: 'welcome',
       title: 'Welcome to Real Frames',
       description: 'Premium real estate media solutions across the GTA.',
-      images: take(13),
+      images: takeHero(13),
       ctaHref: '/services',
       ctaLabel: 'View Services',
     },
@@ -84,7 +85,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Interior / Exterior Photography',
       description:
         'Clean, MLS-ready interior and exterior photos that make every room pop.',
-      images: take(3),
+      images: takeHero(3),
       ctaHref: '/services/photography',
       ctaLabel: 'View Service',
     },
@@ -95,7 +96,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Aerial Photography',
       description:
         'Capture curb appeal, surroundings, and views in a single hero shot.',
-      images: take(7),
+      images: ['/images/gallery/twilight/13.webp'],
       ctaHref: '/services/aerial-photography',
       ctaLabel: 'View Service',
     },
@@ -106,7 +107,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Twilight Shoots',
       description:
         'Warm, inviting images that feel like golden hour even on a cloudy day.',
-      images: take(1),
+      images: takeHero(1),
       ctaHref: '/services/twilight-shoots',
       ctaLabel: 'View Service',
     },
@@ -117,7 +118,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Video Production',
       description:
         'Cinematic walk-throughs built from steady, well-composed footage.',
-      images: take(6),
+      images: takeHero(6),
       ctaHref: '/services/video-production',
       ctaLabel: 'View Service',
     },
@@ -128,7 +129,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Virtual Staging',
       description:
         'Neutral, realistic staging that helps buyers imagine living there.',
-      images: take(6),
+      images: takeHero(6),
       ctaHref: '/services/virtual-staging',
       ctaLabel: 'View Service',
     },
@@ -139,7 +140,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Social Media Reel with Realtor',
       description:
         'Vertical-friendly sequences ready to cut into high-performing reels.',
-      images: take(6),
+      images: takeHero(6),
       ctaHref: '/services/social-media-reel-with-realtor',
       ctaLabel: 'View Service',
     },
@@ -150,7 +151,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Listing Packages',
       description:
         'Three clear bundles so you can price photos, video, and add-ons in seconds.',
-      images: take(3),
+      images: takeHero(3),
       ctaHref: '/packages',
       ctaLabel: 'View Packages',
     },
@@ -161,7 +162,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Portfolio',
       description:
         'Full property galleries that show how your listings look online.',
-      images: take(3),
+      images: takeHero(3),
       ctaHref: '/portfolio',
       ctaLabel: 'View Portfolio',
     },
@@ -172,7 +173,7 @@ function buildSlidesFromSeed(seed) {
       title: 'FAQ & Booking Details',
       description:
         'Shoot prep, turnaround times, and what to expect on the day of your listing.',
-      images: take(2),
+      images: takeHero(2),
       ctaHref: '/faq',
       ctaLabel: 'View FAQ',
     },
@@ -183,7 +184,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Our Story',
       description:
         'A small, detail-obsessed team serving the GTA, Halton, Dufferin County and surrounding areas.',
-      images: take(2),
+      images: takeHero(2),
       ctaHref: '/about',
       ctaLabel: 'Our Story',
     },
@@ -194,7 +195,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Ready to List Your Next Property?',
       description:
         'Tell us the address and timeline, and we’ll recommend the right Real Frames package.',
-      images: take(2),
+      images: takeHero(2),
       ctaHref: '/contact',
       ctaLabel: 'Book a Shoot',
     },
@@ -205,7 +206,7 @@ function buildSlidesFromSeed(seed) {
       title: 'Agent Reviews',
       description:
         'See why local realtors trust Real Frames with their photos and video.',
-      images: take(2),
+      images: takeHero(2),
       ctaHref: '/review',
       ctaLabel: 'Read Reviews',
     },
