@@ -7,6 +7,15 @@ import Image from 'next/image';
 import { slides } from '../../data/slides';
 import styles from './Hero.module.scss';
 
+const heroServiceBookingMap = {
+  photography: 'photography',
+  'aerial-photography': 'aerial-photography',
+  'twilight-photography': 'twilight-shoots',
+  'video-production': 'video-production',
+  'virtual-staging': 'virtual-staging',
+  'social-media-reel-with-realtor': 'social-media-reel-with-realtor',
+};
+
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -45,6 +54,9 @@ export default function Hero() {
 
   const ctaHref = slide.ctaHref || defaultHref;
   const ctaLabel = slide.ctaLabel || defaultLabel;
+
+  const bookingServiceSlug = heroServiceBookingMap[slide.slug];
+  const showBookNow = Boolean(bookingServiceSlug);
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -166,9 +178,28 @@ export default function Hero() {
           <div className={styles.copyBlock}>
             <h1 className={styles.title}>{slide.title}</h1>
             <p className={styles.desc}>{slide.description}</p>
-            <Link href={ctaHref} className={styles.cta}>
-              {ctaLabel}
-            </Link>
+
+            <div
+              style={{
+                display: 'flex',
+                gap: '0.75rem',
+                flexWrap: 'wrap',
+                alignItems: 'center',
+              }}
+            >
+              <Link href={ctaHref} className={styles.cta}>
+                {ctaLabel}
+              </Link>
+
+              {showBookNow && (
+                <Link
+                  href={`/contact?service=${bookingServiceSlug}`}
+                  className={styles.cta}
+                >
+                  Book Now
+                </Link>
+              )}
+            </div>
           </div>
 
           {/* Dots */}
