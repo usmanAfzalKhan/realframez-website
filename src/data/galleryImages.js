@@ -10,15 +10,17 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
-  // ⭐ New property: 2 Logger Ln
+  // ⭐ New property: 2 Loggers Lane
   '2-logger-ln': {
     slug: '2-logger-ln',
-    address: '2 Logger Ln',
+    address: '2 Loggers Lane',
     cardDescription: 'Detached Home With Clean Listing Photography And Video Feature',
-    coverImage: '/images/gallery/2-logger-ln/1.webp',
+    coverImage: '/images/gallery/2-logger-ln/twilight.webp',
     video: '/images/gallery/2-logger-ln/2-logger-ln.mp4',
     videoPoster: '/images/gallery/2-logger-ln/2-logger-ln-poster.webp',
     images: [
+      '/images/gallery/2-logger-ln/twilight.webp',
+      '/images/gallery/2-logger-ln/staging.webp',
       '/images/gallery/2-logger-ln/1.webp',
       '/images/gallery/2-logger-ln/2.webp',
       '/images/gallery/2-logger-ln/3.webp',
