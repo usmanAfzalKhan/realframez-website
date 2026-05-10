@@ -5,15 +5,61 @@ import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 
 export const metadata = {
+  metadataBase: new URL('https://www.realframes.ca'),
   title: 'Real Frames | Real Estate Media',
   description: 'Premium Real Estate Photography and Media Services',
+
   icons: {
     icon: '/images/logo.png',
     apple: '/images/logo.png',
   },
+
+  openGraph: {
+    title: 'Real Frames | Real Estate Media',
+    description: 'Premium Real Estate Photography and Media Services',
+    url: 'https://www.realframes.ca',
+    siteName: 'Real Frames',
+    images: [
+      {
+        url: '/images/hero/1.webp',
+        width: 1200,
+        height: 630,
+        alt: 'Real Frames real estate photography and media',
+      },
+    ],
+    type: 'website',
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Real Frames | Real Estate Media',
+    description: 'Premium Real Estate Photography and Media Services',
+    images: ['/images/hero/1.webp'],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+    },
+  },
 }
 
 export default function RootLayout({ children }) {
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Real Frames | Real Estate Media',
+    url: 'https://www.realframes.ca',
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: 'https://www.realframes.ca/images/hero/1.webp',
+    },
+  }
+
   return (
     <html lang="en" className="dark" data-scroll-behavior="smooth">
       <head>
@@ -24,6 +70,14 @@ export default function RootLayout({ children }) {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#121624" />
+
+        {/* Preferred Google search thumbnail */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
 
         {/* Speed up DNS & TCP for your media host */}
         <link rel="preconnect" href="https://realframes.netlify.app/" />
