@@ -259,8 +259,7 @@ export default function ContactPage() {
         <h1 className={styles.title}>Thank You!</h1>
         <p className={styles.intro}>
           We appreciate you reaching out. A member of our team will contact you
-          at <strong>{submittedPhone}</strong> within the next 2–5 business
-          days.
+          at <strong>{submittedPhone}</strong> within the next 12 hours.
         </p>
         <p className={styles.intro}>
           If you need immediate assistance, please call us at{" "}
