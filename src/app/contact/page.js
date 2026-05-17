@@ -58,16 +58,21 @@ export default function ContactPage() {
     const preService = params.get("service");
     const prePackage = params.get("package");
     const special = params.get("special");
+
     setForm((f) => {
       const updated = { ...f };
+
       if (preService) {
         updated.services = [preService];
       }
+
       if (prePackage) {
         updated.packages = [prePackage];
       }
+
       if (special === "first-time-client") {
         const tag = "First-time client";
+
         if (updated.message) {
           if (!updated.message.includes(tag)) {
             updated.message = `${tag} - ${updated.message}`;
@@ -76,6 +81,7 @@ export default function ContactPage() {
           updated.message = tag;
         }
       }
+
       return updated;
     });
   }, []);
@@ -87,38 +93,54 @@ export default function ContactPage() {
 
   const formatPhoneNumber = (value) => {
     const digits = normalizePhoneDigits(value);
+
     if (digits.length === 10) {
       return digits.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
     }
+
     return digits;
   };
 
   const validate = () => {
     const errs = {};
+
     if (!form.name.trim()) errs.name = "Name is required.";
-    if (!/^([0-9]{3}-[0-9]{3}-[0-9]{4})$/.test(form.phone))
+
+    if (!/^([0-9]{3}-[0-9]{3}-[0-9]{4})$/.test(form.phone)) {
       errs.phone = "Enter a valid 10-digit phone number.";
+    }
+
     if (!form.street.trim()) errs.street = "Street address is required.";
-    if (form.packages.length === 0 && form.services.length === 0)
+
+    if (form.packages.length === 0 && form.services.length === 0) {
       errs.services = "Select at least one service or package.";
+    }
+
     if (!form.province.trim()) errs.province = "Province is required.";
     if (!form.city.trim()) errs.city = "City is required.";
     if (!form.date) errs.date = "Please choose a date.";
-    if (new Date(form.date) < new Date(today))
+
+    if (new Date(form.date) < new Date(today)) {
       errs.date = "Date cannot be in the past.";
+    }
+
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     if (name === "phone") {
       const digits = normalizePhoneDigits(value);
       setForm((f) => ({ ...f, phone: digits }));
     } else {
       setForm((f) => ({ ...f, [name]: value }));
     }
-    if (errors[name]) setErrors((e) => ({ ...e, [name]: "" }));
+
+    if (errors[name]) {
+      setErrors((e) => ({ ...e, [name]: "" }));
+    }
   };
 
   const handlePhoneBlur = (e) => {
@@ -128,13 +150,16 @@ export default function ContactPage() {
 
   const handleServiceChange = (e) => {
     const { value, checked } = e.target;
+
     setForm((f) => {
       let updatedPackages = [...f.packages];
+
       packageDefinitions.forEach((pkg) => {
         if (pkg.includes.includes(value) && f.packages.includes(pkg.slug)) {
           updatedPackages = updatedPackages.filter((p) => p !== pkg.slug);
         }
       });
+
       return {
         ...f,
         services: checked
@@ -143,61 +168,94 @@ export default function ContactPage() {
         packages: updatedPackages,
       };
     });
-    if (errors.services) setErrors((e) => ({ ...e, services: "" }));
+
+    if (errors.services) {
+      setErrors((e) => ({ ...e, services: "" }));
+    }
   };
 
   const handlePackageChange = (e) => {
     const { value, checked } = e.target;
+
     setForm((f) => {
       if (checked) {
         const pkg = packageDefinitions.find((p) => p.slug === value);
         const addedServices = pkg ? pkg.includes : [];
+
         return {
           ...f,
           packages: [...f.packages, value],
           services: Array.from(new Set([...f.services, ...addedServices])),
         };
-      } else {
-        const remainingPackages = f.packages.filter((p) => p !== value);
-        const remainingIncludes = remainingPackages.flatMap((slug) => {
-          const p = packageDefinitions.find((pp) => pp.slug === slug);
-          return p ? p.includes : [];
-        });
-        const toRemove =
-          packageDefinitions.find((p) => p.slug === value)?.includes || [];
-        const newServices = f.services.filter((s) => {
-          if (toRemove.includes(s) && !remainingIncludes.includes(s)) {
-            return false;
-          }
-          return true;
-        });
-        return {
-          ...f,
-          packages: remainingPackages,
-          services: newServices,
-        };
       }
+
+      const remainingPackages = f.packages.filter((p) => p !== value);
+      const remainingIncludes = remainingPackages.flatMap((slug) => {
+        const p = packageDefinitions.find((pp) => pp.slug === slug);
+        return p ? p.includes : [];
+      });
+
+      const toRemove =
+        packageDefinitions.find((p) => p.slug === value)?.includes || [];
+
+      const newServices = f.services.filter((s) => {
+        if (toRemove.includes(s) && !remainingIncludes.includes(s)) {
+          return false;
+        }
+
+        return true;
+      });
+
+      return {
+        ...f,
+        packages: remainingPackages,
+        services: newServices,
+      };
     });
-    if (errors.services) setErrors((e) => ({ ...e, services: "" }));
+
+    if (errors.services) {
+      setErrors((e) => ({ ...e, services: "" }));
+    }
   };
 
   const handleSelectAllServices = (e) => {
     const checked = e.target.checked;
+
     setForm((f) => ({
       ...f,
       services: checked ? services.map((s) => s.slug) : [],
       packages: [],
     }));
-    if (errors.services) setErrors((e) => ({ ...e, services: "" }));
+
+    if (errors.services) {
+      setErrors((e) => ({ ...e, services: "" }));
+    }
+  };
+
+  const trackContactConversion = () => {
+    try {
+      if (typeof window === "undefined") return;
+      if (typeof window.gtag !== "function") return;
+
+      window.gtag("event", "ads_conversion_Contact_Us_1", {
+        event_timeout: 2000,
+      });
+    } catch {
+      // Keep the contact form working even if tracking is blocked or unavailable.
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (loading) return;
+
     setStatus("");
+
     if (!validate()) return;
 
     setLoading(true);
+
     try {
       const payload = {
         name: form.name,
@@ -218,9 +276,14 @@ export default function ContactPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       if (!res.ok) throw new Error();
+
+      trackContactConversion();
+
       setSubmittedPhone(form.phone);
       setStatus("SENT");
+
       setForm({
         name: "",
         phone: "",
@@ -228,7 +291,7 @@ export default function ContactPage() {
         services: [],
         street: "",
         city: "",
-        province: "",
+        province: "Ontario",
         date: today,
         message: "",
       });
@@ -281,6 +344,7 @@ export default function ContactPage() {
       <h1 className={styles.title} style={{ textAlign: "center" }}>
         Contact Us
       </h1>
+
       <p className={styles.intro}>
         You can reach us via <a href="tel:6475332748">phone</a>,{" "}
         <a href="https://www.instagram.com/realframes.ca/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#">
@@ -308,6 +372,7 @@ export default function ContactPage() {
             </span>{" "}
             Name
           </label>
+
           <input
             id="name"
             name="name"
@@ -319,6 +384,7 @@ export default function ContactPage() {
             aria-invalid={!!errors.name}
             aria-describedby={errors.name ? "error-name" : undefined}
           />
+
           {errors.name && (
             <p className={styles.error} id="error-name" role="alert">
               {errors.name}
@@ -334,10 +400,12 @@ export default function ContactPage() {
             </span>{" "}
             Phone
           </label>
+
           <div className={styles.phoneRow}>
             <div className={styles.plusOne} aria-hidden="true">
               +1
             </div>
+
             <input
               id="phone"
               name="phone"
@@ -352,6 +420,7 @@ export default function ContactPage() {
               aria-describedby={errors.phone ? "error-phone" : undefined}
             />
           </div>
+
           {errors.phone && (
             <p className={styles.error} id="error-phone" role="alert">
               {errors.phone}
@@ -371,6 +440,7 @@ export default function ContactPage() {
             <label className={styles.label} htmlFor="street">
               Street Address
             </label>
+
             <input
               id="street"
               name="street"
@@ -382,12 +452,14 @@ export default function ContactPage() {
               aria-invalid={!!errors.street}
               aria-describedby={errors.street ? "error-street" : undefined}
             />
+
             {errors.street && (
               <p className={styles.error} id="error-street" role="alert">
                 {errors.street}
               </p>
             )}
           </div>
+
           <div
             className={styles.fieldGroup}
             style={{ flex: "1 1 50%", minWidth: 0 }}
@@ -398,6 +470,7 @@ export default function ContactPage() {
               </span>{" "}
               City
             </label>
+
             <input
               id="city"
               name="city"
@@ -409,12 +482,14 @@ export default function ContactPage() {
               aria-invalid={!!errors.city}
               aria-describedby={errors.city ? "error-city" : undefined}
             />
+
             {errors.city && (
               <p className={styles.error} id="error-city" role="alert">
                 {errors.city}
               </p>
             )}
           </div>
+
           <div
             className={styles.fieldGroup}
             style={{ flex: "1 1 50%", minWidth: 0 }}
@@ -425,6 +500,7 @@ export default function ContactPage() {
               </span>{" "}
               Province
             </label>
+
             <input
               id="province"
               name="province"
@@ -436,6 +512,7 @@ export default function ContactPage() {
               aria-invalid={!!errors.province}
               aria-describedby={errors.province ? "error-province" : undefined}
             />
+
             {errors.province && (
               <p className={styles.error} id="error-province" role="alert">
                 {errors.province}
@@ -452,6 +529,7 @@ export default function ContactPage() {
             </span>{" "}
             Package or Services
           </p>
+
           <div
             className={styles.inlineOptions}
             aria-label="Package and service selection"
@@ -467,14 +545,17 @@ export default function ContactPage() {
                   onChange={handlePackageChange}
                   aria-checked={form.packages.includes(pkg.slug)}
                 />
+
                 <label
                   className={styles.checkboxLabel}
                   htmlFor={`pkg-${pkg.slug}`}
                 >
                   <div>{pkg.title}</div>
+
                   {pkg.price && (
                     <div className={styles.subtext}>${pkg.price}</div>
                   )}
+
                   <div className={styles.subtext}>
                     Includes:{" "}
                     {pkg.includes
@@ -497,6 +578,7 @@ export default function ContactPage() {
                 const pkg = packageDefinitions.find((p) => p.slug === pkgSlug);
                 return pkg?.includes.includes(svc.slug);
               });
+
               return (
                 <div key={id} className={styles.optionItem}>
                   <input
@@ -509,6 +591,7 @@ export default function ContactPage() {
                     disabled={disabled}
                     aria-checked={form.services.includes(svc.slug)}
                   />
+
                   <label
                     className={styles.checkboxLabel}
                     htmlFor={id}
@@ -517,9 +600,11 @@ export default function ContactPage() {
                     }
                   >
                     <div>{svc.title}</div>
+
                     {svc.price && (
                       <div className={styles.subtext}>{svc.price}</div>
                     )}
+
                     {disabled && (
                       <div className={styles.subtext}>
                         Included in selected package
@@ -530,6 +615,7 @@ export default function ContactPage() {
               );
             })}
           </div>
+
           {errors.services && (
             <p className={styles.error} id="error-services" role="alert">
               {errors.services}
@@ -545,6 +631,7 @@ export default function ContactPage() {
             </span>{" "}
             Appointment Date
           </label>
+
           <input
             id="date"
             name="date"
@@ -557,6 +644,7 @@ export default function ContactPage() {
             aria-invalid={!!errors.date}
             aria-describedby={errors.date ? "error-date" : undefined}
           />
+
           {errors.date && (
             <p className={styles.error} id="error-date" role="alert">
               {errors.date}
@@ -569,6 +657,7 @@ export default function ContactPage() {
           <label className={styles.label} htmlFor="message">
             Additional Message
           </label>
+
           <textarea
             id="message"
             name="message"
