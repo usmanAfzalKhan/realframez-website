@@ -10,6 +10,51 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
+  // ⭐ New property: 901-1185 DuPont St
+  '901-1185-dupont-st': {
+    slug: '901-1185-dupont-st',
+    address: '901-1185 DuPont St',
+    cardDescription: 'Condo Listing With Clean Real Estate Photography',
+    coverImage: '/images/gallery/901-1185-dupont-st/1.webp',
+    images: [
+      '/images/gallery/901-1185-dupont-st/1.webp',
+      '/images/gallery/901-1185-dupont-st/2.webp',
+      '/images/gallery/901-1185-dupont-st/3.webp',
+      '/images/gallery/901-1185-dupont-st/4.webp',
+      '/images/gallery/901-1185-dupont-st/5.webp',
+      '/images/gallery/901-1185-dupont-st/6.webp',
+      '/images/gallery/901-1185-dupont-st/7.webp',
+      '/images/gallery/901-1185-dupont-st/8.webp',
+      '/images/gallery/901-1185-dupont-st/9.webp',
+      '/images/gallery/901-1185-dupont-st/10.webp',
+      '/images/gallery/901-1185-dupont-st/11.webp',
+      '/images/gallery/901-1185-dupont-st/12.webp',
+      '/images/gallery/901-1185-dupont-st/13.webp',
+      '/images/gallery/901-1185-dupont-st/14.webp',
+      '/images/gallery/901-1185-dupont-st/15.webp',
+      '/images/gallery/901-1185-dupont-st/16.webp',
+      '/images/gallery/901-1185-dupont-st/17.webp',
+      '/images/gallery/901-1185-dupont-st/18.webp',
+      '/images/gallery/901-1185-dupont-st/19.webp',
+      '/images/gallery/901-1185-dupont-st/20.webp',
+      '/images/gallery/901-1185-dupont-st/21.webp',
+      '/images/gallery/901-1185-dupont-st/22.webp',
+      '/images/gallery/901-1185-dupont-st/23.webp',
+      '/images/gallery/901-1185-dupont-st/24.webp',
+      '/images/gallery/901-1185-dupont-st/25.webp',
+      '/images/gallery/901-1185-dupont-st/26.webp',
+      '/images/gallery/901-1185-dupont-st/27.webp',
+      '/images/gallery/901-1185-dupont-st/28.webp',
+      '/images/gallery/901-1185-dupont-st/29.webp',
+      '/images/gallery/901-1185-dupont-st/30.webp',
+      '/images/gallery/901-1185-dupont-st/31.webp',
+      '/images/gallery/901-1185-dupont-st/32.webp',
+      '/images/gallery/901-1185-dupont-st/33.webp',
+      '/images/gallery/901-1185-dupont-st/34.webp',
+      '/images/gallery/901-1185-dupont-st/35.webp',
+    ],
+  },
+
   // ⭐ New property: 496 George Ryan Ave
   '496-georgeryan-ave': {
     slug: '496-georgeryan-ave',
