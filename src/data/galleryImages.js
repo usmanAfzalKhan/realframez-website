@@ -16,6 +16,8 @@ export const galleriesBySlug = {
     address: '496 George Ryan Ave',
     cardDescription: 'Detached Home With Clean Listing Photography',
     coverImage: '/images/gallery/496-georgeryan-ave/1.webp',
+    video: '/images/gallery/496-georgeryan-ave/496-georgeryan-ave.mp4',
+    videoPoster: '/images/gallery/496-georgeryan-ave/496-georgeryan-ave-poster.webp',
     images: [
       '/images/gallery/496-georgeryan-ave/1.webp',
       '/images/gallery/496-georgeryan-ave/2.webp',
