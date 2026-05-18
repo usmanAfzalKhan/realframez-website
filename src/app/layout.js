@@ -1,4 +1,5 @@
 // app/layout.js
+import Script from 'next/script'
 import '../../styles/globals.scss'
 import ScrollToTop from '../components/ScrollToTop'
 import Header from '../components/Header/Header'
@@ -49,6 +50,8 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  const googleTagId = process.env.NEXT_PUBLIC_GOOGLE_TAG_ID
+
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -113,6 +116,29 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/images/logo.png" sizes="any" />
       </head>
       <body>
+        {/* Google tag - only loads after you add NEXT_PUBLIC_GOOGLE_TAG_ID in Netlify */}
+        {googleTagId && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${googleTagId}`}
+              strategy="afterInteractive"
+            />
+            <Script
+              id="google-tag"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){window.dataLayer.push(arguments);}
+                  window.gtag = gtag;
+                  gtag('js', new Date());
+                  gtag('config', '${googleTagId}');
+                `,
+              }}
+            />
+          </>
+        )}
+
         <ScrollToTop />
         <Header />
         <main className="main-content">{children}</main>
