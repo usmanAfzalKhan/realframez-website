@@ -18,36 +18,36 @@ const heroServiceBookingMap = {
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobileHero, setIsMobileHero] = useState(false);
 
-  // 1️⃣ Initial backgrounds: deterministic (first image of each slide)
-  const [bgPerSlide, setBgPerSlide] = useState(() =>
-    slides.map((slide) => {
-      const imgs = slide.images || [];
-      return imgs.length ? imgs[0] : null;
-    })
-  );
-
-  // 2️⃣ After hydration on the client: swap to random images (no SSR mismatch)
   useEffect(() => {
-    setBgPerSlide(
-      slides.map((slide) => {
-        const imgs = slide.images || [];
-        if (!imgs.length) return null;
-        const randomIndex = Math.floor(Math.random() * imgs.length);
-        return imgs[randomIndex];
-      })
-    );
+    const mediaQuery = window.matchMedia('(max-width: 767px)');
+
+    const updateHeroMode = () => {
+      setIsMobileHero(mediaQuery.matches);
+    };
+
+    updateHeroMode();
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', updateHeroMode);
+      return () => mediaQuery.removeEventListener('change', updateHeroMode);
+    }
+
+    mediaQuery.addListener(updateHeroMode);
+    return () => mediaQuery.removeListener(updateHeroMode);
   }, []);
 
-  // swipe / drag state
   const [dragOffset, setDragOffset] = useState(0);
   const [dragging, setDragging] = useState(false);
   const startX = useRef(0);
 
   const slide = slides[currentSlide];
-  const activeImage = bgPerSlide[currentSlide] || null;
 
-  // per-slide CTAs
+  const activeImage = isMobileHero
+    ? slide.mobileImage || slide.images?.[0] || null
+    : slide.images?.[0] || null;
+
   const defaultHref = slide.slug === 'welcome' ? '/services' : '/services';
   const defaultLabel =
     slide.slug === 'welcome' ? 'View Services' : 'View Service';
@@ -70,8 +70,7 @@ export default function Hero() {
     setCurrentSlide((s) => (s + 1) % slides.length);
   };
 
-  // ==== SWIPE / DRAG HANDLERS (like Mehndi hero, but only moving the bg) ====
-  const THRESHOLD = 35; // nice and sensitive
+  const THRESHOLD = 35;
 
   const onStart = (clientX) => {
     setDragging(true);
@@ -97,7 +96,6 @@ export default function Hero() {
     }
   };
 
-  // touch
   const handleTouchStart = (e) => {
     if (!e.touches || !e.touches[0]) return;
     onStart(e.touches[0].clientX);
@@ -112,9 +110,8 @@ export default function Hero() {
     onEnd();
   };
 
-  // mouse (desktop drag)
   const handleMouseDown = (e) => {
-    if (e.button !== 0) return; // left click only
+    if (e.button !== 0) return;
     onStart(e.clientX);
   };
 
@@ -131,7 +128,6 @@ export default function Hero() {
     onEnd();
   };
 
-  // Move ONLY the background image, so no black gap while swiping
   const bgStyle = {
     backgroundImage: activeImage ? `url(${activeImage})` : undefined,
     transform: `translateX(${dragging ? dragOffset : 0}px)`,
@@ -150,19 +146,16 @@ export default function Hero() {
       onMouseLeave={handleMouseLeave}
     >
       <div className={`${styles.heroInner} ${styles.slideIn}`}>
-        {/* Background (your work) */}
         {activeImage && (
           <div
-            key={`${currentSlide}`}
+            key={`${currentSlide}-${isMobileHero ? 'mobile' : 'desktop'}`}
             className={`${styles.heroBg} ${styles.fadeIn}`}
             style={bgStyle}
           />
         )}
 
-        {/* Gradient overlay for text legibility */}
         <div className={styles.heroOverlay} />
 
-        {/* Brand pill – positioned via your SCSS */}
         <div className={styles.logoPill}>
           <Image
             src="/images/logo.png"
@@ -173,7 +166,6 @@ export default function Hero() {
           <span className={styles.logoText}>Real Frames</span>
         </div>
 
-        {/* Text & CTA – bottom-left */}
         <div className={styles.content}>
           <div className={styles.copyBlock}>
             <h1 className={styles.title}>{slide.title}</h1>
@@ -202,7 +194,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Dots */}
           <div className={styles.dots}>
             {slides.map((s, idx) => (
               <button
@@ -218,7 +209,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Arrows (desktop only via CSS) */}
         <button
           type="button"
           className={styles.arrowLeft}
@@ -227,6 +217,7 @@ export default function Hero() {
         >
           ‹
         </button>
+
         <button
           type="button"
           className={styles.arrowRight}

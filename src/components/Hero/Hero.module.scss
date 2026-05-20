@@ -14,8 +14,7 @@
   position: relative;
   width: 100%;
   margin: 0;
-  /* 🔥 slightly smaller hero so it doesn’t feel as tall */
-  min-height: calc(100vh - 120px); /* was calc(100vh - 40px) */
+  min-height: calc(100vh - 120px);
   overflow: hidden;
   box-shadow: none;
   isolation: isolate;
@@ -42,8 +41,12 @@
 .heroBg {
   position: absolute;
   inset: 0;
+
+  /* ✅ no stretching */
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+
   will-change: transform;
   /* ⛔ no zoom animation so image stays natural */
   /* animation: heroZoom 15s ease-out forwards; */
@@ -63,7 +66,6 @@
 .heroOverlay {
   position: absolute;
   inset: 0;
-  /* ⛔ make overlay fully transparent so image is untouched */
   background: transparent;
   pointer-events: none;
 }
@@ -83,7 +85,6 @@
 }
 
 /* ===== BRAND PILL ===== */
-/* always bottom-right on top of the image (desktop default) */
 .logoPill {
   position: absolute;
   right: 1.4rem;
@@ -104,13 +105,11 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  /* ✅ match site font so it never looks like Times */
   font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
 }
 
 /* ===== CONTENT / TEXT BLOCK ===== */
-/* bottom-left, independent from image size */
 .content {
   position: absolute;
   left: clamp(1.6rem, 4vw, 3rem);
@@ -119,7 +118,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1rem; /* tighter stack so top of text sits lower */
+  gap: 1rem;
   font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont,
     sans-serif;
   text-align: left;
@@ -129,15 +128,14 @@
   max-width: 40rem;
 }
 
-/* 🔽 CHANGED: color + stronger multi-shadow so it doesn’t blend into bright areas */
 .title {
   margin: 0;
-  font-size: clamp(2.2rem, 3.8vw, 3.2rem); /* a touch smaller */
-  line-height: 1.05;                        /* tighter so block isn’t as tall */
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  line-height: 1.05;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  color: #fefce8; /* warm off-white that stands apart from pure white highlights */
+  color: #fefce8;
   text-shadow:
     0 0 4px rgba(0, 0, 0, 0.95),
     0 0 10px rgba(0, 0, 0, 0.9),
@@ -147,9 +145,8 @@
     -1px -1px 2px rgba(0, 0, 0, 0.95);
 }
 
-/* 🔽 CHANGED: slightly softer version for the body line so it doesn’t look chunky */
 .desc {
-  margin-top: 0.5rem; /* closer to heading */
+  margin-top: 0.5rem;
   max-width: 32rem;
   font-size: 1.02rem;
   line-height: 1.5;
@@ -161,12 +158,12 @@
     -1px -1px 1px rgba(0, 0, 0, 0.9);
 }
 
-/* CTA – force Montserrat so it never looks like Times New Roman */
+/* CTA */
 .cta {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.7rem; /* pull closer to description */
+  margin-top: 0.7rem;
   padding: 0.85rem 2.3rem;
   border-radius: 999px;
   border: 1px solid var(--color-accent, #ffcc57);
@@ -229,12 +226,10 @@
 }
 
 /* ===== ARROWS ===== */
-/* sit higher so they never collide with the text block */
-/* ✅ no black circle / shade, just clean chevrons */
 .arrowLeft,
 .arrowRight {
   position: absolute;
-  top: 35%; /* was 50% – moved up */
+  top: 35%;
   z-index: 3;
   transform: translateY(-50%);
   width: 2.7rem;
@@ -282,13 +277,18 @@
 /* ===== RESPONSIVE ===== */
 @media (max-width: 767px) {
   .hero {
-    /* match your smaller mobile header height so it doesn’t overlap */
     margin-top: 72px;
   }
 
   .heroInner {
-    /* also slightly smaller on mobile */
     min-height: calc(100vh - 120px);
+  }
+
+  .heroBg {
+    /* ✅ mobile uses separate selected mobile images from Hero.jsx */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
 
   .content {
@@ -298,9 +298,9 @@
     gap: 0.9rem;
   }
 
-  /* 🔻 even smaller hero copy on mobile so images dominate more */
   .title {
     font-size: 1.55rem;
+    line-height: 1.05;
   }
 
   .desc {
@@ -313,7 +313,6 @@
     font-size: 0.78rem;
   }
 
-  /* ✅ MOBILE PILL: smaller + moved to top-right so it never overlaps CTA */
   .logoPill {
     top: 0.85rem;
     right: 0.9rem;
