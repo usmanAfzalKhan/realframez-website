@@ -307,7 +307,7 @@ export const galleriesBySlug = {
 
   "1185-dupont-st": {
     slug: "1185-dupont-st",
-    address: "1185 DuPont St",
+    address: "602-1185 DuPont St",
     cardDescription: "Condo Listing With Clean Real Estate Photography",
     coverImage: "/images/gallery/1185-dupont-st/1.webp",
     images: [
