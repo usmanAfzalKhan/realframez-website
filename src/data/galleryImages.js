@@ -15,6 +15,8 @@ export const galleriesBySlug = {
     slug: "476-prospect-ave",
     address: "476 Prospect Ave",
     cardDescription: "Detached Home With Clean Listing Photography",
+        video: "/images/gallery/476-prospect-ave/476-prospect-ave.mp4",
+    videoPoster: "/images/gallery/476-prospect-ave/476-prospect-ave-poster.webp",
     coverImage: "/images/gallery/476-prospect-ave/1.webp",
     images: [
       "/images/gallery/476-prospect-ave/1.webp",
