@@ -72,6 +72,8 @@ export const galleriesBySlug = {
   "4-donomore-dr": {
     slug: "4-donomore-dr",
     address: "4 Donomore Dr",
+        video: "/images/gallery/4-donomore-dr/4-donomore-dr.mp4",
+    videoPoster: "/images/gallery/4-donomore-dr/4-donomore-dr-poster.webp",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/4-donomore-dr/1.webp",
     images: [
