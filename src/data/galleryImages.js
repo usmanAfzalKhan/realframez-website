@@ -14,6 +14,8 @@ export const galleriesBySlug = {
   "55-bafflin-cres": {
     slug: "55-bafflin-cres",
     address: "55 Baffin Cres",
+        video: "/images/gallery/55-bafflin-cres/55-bafflin-cres.mp4",
+    videoPoster: "/images/gallery/55-bafflin-cres/55-bafflin-cres-poster.webp",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/55-bafflin-cres/01.webp",
     images: [
