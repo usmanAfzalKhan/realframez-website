@@ -11,9 +11,10 @@
 
 export const galleriesBySlug = {
   // ⭐ New property: 42 Fairhill Ave
+  // ⭐ New property: 50 Fairhill Ave
   "50-fairhill-ave": {
     slug: "50-fairhill-ave",
-    address: "42 Fairhill Ave",
+    address: "50 Fairhill Ave",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/50-fairhill-ave/1.webp",
     images: [
