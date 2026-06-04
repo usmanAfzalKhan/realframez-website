@@ -10,6 +10,15 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
+  
+
+
+  
+
+
+  
+
+
   // ⭐ New property: 42 Fairhill Ave
   // ⭐ New property: 50 Fairhill Ave
   "50-fairhill-ave": {
@@ -1593,7 +1602,9 @@ export const galleriesBySlug = {
   },
 };
 
-export const galleryList = Object.values(galleriesBySlug);
+export const galleryList = Object.values(galleriesBySlug).filter(
+  (gallery) => !gallery.disabled
+);
 
 export const servicePortfolios = [
   {
