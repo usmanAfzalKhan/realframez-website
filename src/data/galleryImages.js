@@ -15,6 +15,8 @@ export const galleriesBySlug = {
   "50-fairhill-ave": {
     slug: "50-fairhill-ave",
     address: "50 Fairhill Ave",
+        video: "/images/gallery/50-fairhill-ave/50-fairhill-ave.mp4",
+    videoPoster: "/images/gallery/50-fairhill-ave/50-fairhill-ave-poster.webp",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/50-fairhill-ave/1.webp",
     images: [
