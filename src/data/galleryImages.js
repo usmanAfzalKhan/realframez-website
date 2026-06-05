@@ -89,13 +89,15 @@ export const galleriesBySlug = {
   },
 
   // ⭐ New property: 42 Sarah Cres
-  "42-sarah-cres": {
+      "42-sarah-cres": {
     slug: "42-sarah-cres",
     address: "42 Sarah Cres",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/42-sarah-cres/1.webp",
+    video: "/images/gallery/42-sarah-cres/42-sarah-cres.mp4",
+    videoPoster: "/images/gallery/42-sarah-cres/42-sarah-cres-poster.webp",
     images: [
-            "/images/gallery/42-sarah-cres/1.webp",
+      "/images/gallery/42-sarah-cres/1.webp",
       "/images/gallery/42-sarah-cres/10.webp",
       "/images/gallery/42-sarah-cres/11.webp",
       "/images/gallery/42-sarah-cres/12.webp",
