@@ -273,9 +273,7 @@ export const galleriesBySlug = {
   },
 
   // ⭐ New property: 2 Fletchers Creek
-  "2-fletcher-creek": {
-    disabled: true,
-    slug: "2-fletcher-creek",
+  "2-fletcher-creek": {    slug: "2-fletcher-creek",
     address: "2 Fletchers Creek",
     cardDescription:
       "Detached Home With Clean Listing Photography And Video Feature",
