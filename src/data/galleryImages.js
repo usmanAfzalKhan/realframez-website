@@ -274,6 +274,7 @@ export const galleriesBySlug = {
 
   // ⭐ New property: 2 Fletchers Creek
   "2-fletcher-creek": {
+    disabled: true,
     slug: "2-fletcher-creek",
     address: "2 Fletchers Creek",
     cardDescription:
