@@ -10,51 +10,7 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
-  "620-114-ferguson-dr": {
-    slug: "620-114-ferguson-dr",
-    address: "620 - 114 Ferguson Dr",
-    cardDescription: "Townhome With Clean Listing Photography",
-    coverImage: "/images/gallery/620-114-ferguson-dr/1.webp",
-    images: [
-      "/images/gallery/620-114-ferguson-dr/1.webp",
-      "/images/gallery/620-114-ferguson-dr/2.webp",
-      "/images/gallery/620-114-ferguson-dr/3.webp",
-      "/images/gallery/620-114-ferguson-dr/4.webp",
-      "/images/gallery/620-114-ferguson-dr/5.webp",
-      "/images/gallery/620-114-ferguson-dr/6.webp",
-      "/images/gallery/620-114-ferguson-dr/7.webp",
-      "/images/gallery/620-114-ferguson-dr/8.webp",
-      "/images/gallery/620-114-ferguson-dr/9.webp",
-      "/images/gallery/620-114-ferguson-dr/10.webp",
-      "/images/gallery/620-114-ferguson-dr/11.webp",
-      "/images/gallery/620-114-ferguson-dr/12.webp",
-      "/images/gallery/620-114-ferguson-dr/13.webp",
-      "/images/gallery/620-114-ferguson-dr/14.webp",
-      "/images/gallery/620-114-ferguson-dr/15.webp",
-      "/images/gallery/620-114-ferguson-dr/16.webp",
-      "/images/gallery/620-114-ferguson-dr/17.webp",
-      "/images/gallery/620-114-ferguson-dr/18.webp",
-      "/images/gallery/620-114-ferguson-dr/19.webp",
-      "/images/gallery/620-114-ferguson-dr/20.webp",
-      "/images/gallery/620-114-ferguson-dr/21.webp",
-      "/images/gallery/620-114-ferguson-dr/22.webp",
-      "/images/gallery/620-114-ferguson-dr/23.webp",
-      "/images/gallery/620-114-ferguson-dr/24.webp",
-      "/images/gallery/620-114-ferguson-dr/25.webp",
-      "/images/gallery/620-114-ferguson-dr/26.webp",
-      "/images/gallery/620-114-ferguson-dr/27.webp",
-      "/images/gallery/620-114-ferguson-dr/28.webp",
-      "/images/gallery/620-114-ferguson-dr/29.webp",
-      "/images/gallery/620-114-ferguson-dr/30.webp",
-      "/images/gallery/620-114-ferguson-dr/31.webp",
-      "/images/gallery/620-114-ferguson-dr/32.webp",
-      "/images/gallery/620-114-ferguson-dr/33.webp",
-      "/images/gallery/620-114-ferguson-dr/34.webp",
-      "/images/gallery/620-114-ferguson-dr/35.webp",
-      "/images/gallery/620-114-ferguson-dr/36.webp",
-      "/images/gallery/620-114-ferguson-dr/37.webp",
-    ],
-  },
+  
 
 
   "72-tulip-dr": {
