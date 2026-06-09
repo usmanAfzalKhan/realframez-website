@@ -124,11 +124,13 @@ export const galleriesBySlug = {
   
 
 
-  "48-english-st": {
+    "48-english-st": {
     slug: "48-english-st",
     address: "48 English St",
     cardDescription: "Semi Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/48-english-st/1.webp",
+    video: "/images/gallery/48-english-st/48-english-st.mp4",
+    videoPoster: "/images/gallery/48-english-st/48-english-st-poster.webp",
     images: [
       "/images/gallery/48-english-st/1.webp",
       "/images/gallery/48-english-st/2.webp",
