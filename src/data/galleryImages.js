@@ -118,11 +118,13 @@ export const galleriesBySlug = {
   },
 
 
-  "70-tulip-dr": {
+    "70-tulip-dr": {
     slug: "70-tulip-dr",
     address: "70 Tulip Dr",
     cardDescription: "Banglow With Clean Listing Photography",
     coverImage: "/images/gallery/70-tulip-dr/1.webp",
+    video: "/images/gallery/70-tulip-dr/70-tulip-dr.mp4",
+    videoPoster: "/images/gallery/70-tulip-dr/70-tulip-dr-poster.webp",
     images: [
       "/images/gallery/70-tulip-dr/1.webp",
       "/images/gallery/70-tulip-dr/2.webp",
