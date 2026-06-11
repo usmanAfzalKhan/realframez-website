@@ -236,17 +236,23 @@ export const galleriesBySlug = {
   },
 
 
-      "42-sarah-cres": {
+        "42-sarah-cres": {
     slug: "42-sarah-cres",
     address: "42 Sarah Cres",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/42-sarah-cres/1.webp",
     video: "/images/gallery/42-sarah-cres/42-sarah-cres.mp4",
     videoPoster: "/images/gallery/42-sarah-cres/42-sarah-cres-poster.webp",
+    isPortraitVideo: true,
     bottomVideos: [
       {
         src: "/images/gallery/42-sarah-cres/42-sarah-cres-bottom-video-1.mp4",
         poster: "/images/gallery/42-sarah-cres/42-sarah-cres-bottom-video-1-poster.webp",
+        isPortraitVideo: true,
+      },
+      {
+        src: "/images/gallery/42-sarah-cres/42-sarah-cres-bottom-video-2.mp4",
+        poster: "/images/gallery/42-sarah-cres/42-sarah-cres-bottom-video-2-poster.webp",
         isPortraitVideo: true,
       },
     ],
