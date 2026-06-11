@@ -236,7 +236,7 @@ export const galleriesBySlug = {
   },
 
 
-  "42-sarah-cres": {
+    "42-sarah-cres": {
     slug: "42-sarah-cres",
     address: "42 Sarah Cres",
     cardDescription: "Detached Home With Clean Listing Photography",
