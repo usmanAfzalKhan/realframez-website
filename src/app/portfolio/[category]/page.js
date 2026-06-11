@@ -104,7 +104,7 @@ export default function PortfolioCategoryPage() {
             {
               src: gallery.video,
               poster: gallery.videoPoster || fallbackPoster,
-              isPortraitVideo: fallbackIsPortraitVideo,
+              isPortraitVideo: false,
             },
           ]
         : [];
