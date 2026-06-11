@@ -243,7 +243,6 @@ export const galleriesBySlug = {
     coverImage: "/images/gallery/42-sarah-cres/1.webp",
     video: "/images/gallery/42-sarah-cres/42-sarah-cres.mp4",
     videoPoster: "/images/gallery/42-sarah-cres/42-sarah-cres-poster.webp",
-    isPortraitVideo: true,
     bottomVideos: [
       {
         src: "/images/gallery/42-sarah-cres/42-sarah-cres-bottom-video-1.mp4",
