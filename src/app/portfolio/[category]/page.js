@@ -15,18 +15,54 @@ import { virtualStagingPairs } from '../../../components/BeforeAfterSlider/virtu
 
 import styles from './page.module.scss';
 
+function normalizeVideoItems(rawVideos, fallbackPoster, fallbackIsPortraitVideo) {
+  if (!rawVideos) return [];
+
+  const list = Array.isArray(rawVideos) ? rawVideos : [rawVideos];
+
+  return list
+    .map((videoItem) => {
+      if (typeof videoItem === 'string') {
+        return {
+          src: videoItem,
+          poster: fallbackPoster,
+          isPortraitVideo: fallbackIsPortraitVideo,
+        };
+      }
+
+      if (!videoItem || typeof videoItem !== 'object') return null;
+
+      return {
+        src: videoItem.src || videoItem.video || '',
+        poster: videoItem.poster || videoItem.videoPoster || fallbackPoster,
+        isPortraitVideo:
+          typeof videoItem.isPortraitVideo === 'boolean'
+            ? videoItem.isPortraitVideo
+            : fallbackIsPortraitVideo,
+      };
+    })
+    .filter((videoItem) => {
+      return (
+        videoItem &&
+        typeof videoItem.src === 'string' &&
+        videoItem.src.trim().length > 0
+      );
+    });
+}
+
 export default function PortfolioCategoryPage() {
   const { category: slug } = useParams();
-  const gallery = slug ? (galleriesBySlug[slug] || servicesBySlug[slug]) : null;
+  const gallery = slug ? galleriesBySlug[slug] || servicesBySlug[slug] : null;
 
   // ✅ HARD guarantee: only 1 video plays at a time (DOM-level)
   const pauseOtherVideos = useCallback((currentEl) => {
     if (!currentEl) return;
 
-    const vids = document.querySelectorAll('video[data-play-group="portfolio"]');
-    vids.forEach((v) => {
-      if (v !== currentEl && !v.paused) {
-        v.pause();
+    const videos = document.querySelectorAll('video[data-play-group="portfolio"]');
+
+    videos.forEach((video) => {
+      if (video !== currentEl && !video.paused) {
+        video.pause();
       }
     });
   }, []);
@@ -49,19 +85,47 @@ export default function PortfolioCategoryPage() {
 
   const hasImages = Array.isArray(gallery.images) && gallery.images.length > 0;
 
-  // ✅ support 1 video (gallery.video) OR many (gallery.videos)
-  const rawVideos =
+  const fallbackPoster = gallery.videoPoster || gallery.coverImage || '';
+  const fallbackIsPortraitVideo = !!gallery.isPortraitVideo;
+
+  // ✅ TOP videos: added from automator with "Add Video On Top"
+  const topVideoItems = normalizeVideoItems(
+    gallery.topVideos,
+    fallbackPoster,
+    fallbackIsPortraitVideo
+  );
+
+  // ✅ MAIN videos: old website style still works
+  const mainRawVideos =
     Array.isArray(gallery.videos) && gallery.videos.length > 0
       ? gallery.videos
       : gallery.video
-      ? [gallery.video]
-      : [];
+        ? [
+            {
+              src: gallery.video,
+              poster: gallery.videoPoster || fallbackPoster,
+              isPortraitVideo: fallbackIsPortraitVideo,
+            },
+          ]
+        : [];
 
-  const videoItems = rawVideos
-    .map((v) => (typeof v === 'string' ? { src: v } : v))
-    .filter((v) => v && typeof v.src === 'string' && v.src.trim().length > 0);
+  const mainVideoItems = normalizeVideoItems(
+    mainRawVideos,
+    fallbackPoster,
+    fallbackIsPortraitVideo
+  );
 
-  const hasVideo = videoItems.length > 0;
+  // ✅ BOTTOM videos: added from automator with "Add Video Underneath"
+  const bottomVideoItems = normalizeVideoItems(
+    gallery.bottomVideos,
+    fallbackPoster,
+    fallbackIsPortraitVideo
+  );
+
+  const hasTopVideos = topVideoItems.length > 0;
+  const hasMainVideos = mainVideoItems.length > 0;
+  const hasBottomVideos = bottomVideoItems.length > 0;
+  const hasAnyVideo = hasTopVideos || hasMainVideos || hasBottomVideos;
 
   const showAgentCard = slug === '3309-joliffe-ave' && !!galleriesBySlug[slug];
 
@@ -71,11 +135,51 @@ export default function PortfolioCategoryPage() {
 
   const stagingPairs = Array.isArray(virtualStagingPairs)
     ? virtualStagingPairs.filter(
-        (p) => p && typeof p.beforeSrc === 'string' && typeof p.afterSrc === 'string'
+        (pair) =>
+          pair &&
+          typeof pair.beforeSrc === 'string' &&
+          typeof pair.afterSrc === 'string'
       )
     : [];
 
   const showVirtualStagingSliders = isVirtualStaging && stagingPairs.length > 0;
+
+  const renderVideoStack = (videoItems, sectionLabel) => {
+    if (!videoItems || videoItems.length === 0) return null;
+
+    return (
+      <section className={styles.videoStack} aria-label={sectionLabel}>
+        {videoItems.map((videoItem, index) => {
+          const isPortrait = !!videoItem.isPortraitVideo;
+
+          const videoWrapClass = isPortrait
+            ? styles.videoWrapPortrait
+            : styles.videoWrap;
+
+          const videoClass = isPortrait ? styles.videoPortrait : styles.video;
+
+          const poster = videoItem.poster || fallbackPoster;
+
+          return (
+            <div className={videoWrapClass} key={`${sectionLabel}-${videoItem.src}-${index}`}>
+              <video
+                data-play-group="portfolio"
+                src={videoItem.src}
+                poster={poster}
+                className={videoClass}
+                controls
+                playsInline
+                preload="metadata"
+                aria-label={`${title} walkthrough ${index + 1}`}
+                onPlay={(event) => pauseOtherVideos(event.currentTarget)}
+                onPlaying={(event) => pauseOtherVideos(event.currentTarget)}
+              />
+            </div>
+          );
+        })}
+      </section>
+    );
+  };
 
   return (
     <main className={styles.main}>
@@ -90,39 +194,13 @@ export default function PortfolioCategoryPage() {
         <p className={styles.instruction}>{gallery.cardDescription}</p>
       )}
 
-      {/* ✅ VIDEO FIRST (supports 1 or many) + ✅ ONLY ONE PLAYS */}
-      {hasVideo && (
-        <div style={videoItems.length > 1 ? { display: 'grid', gap: '18px' } : undefined}>
-          {videoItems.map((v, idx) => {
-            const isPortrait =
-              typeof v.isPortraitVideo === 'boolean' ? v.isPortraitVideo : !!gallery.isPortraitVideo;
+      {/* ✅ TOP EXTRA VIDEOS */}
+      {renderVideoStack(topVideoItems, `${title} top videos`)}
 
-            const videoWrapClass = isPortrait ? styles.videoWrapPortrait : styles.videoWrap;
-            const videoClass = isPortrait ? styles.videoPortrait : styles.video;
+      {/* ✅ MAIN VIDEO / OLD VIDEO */}
+      {renderVideoStack(mainVideoItems, `${title} main videos`)}
 
-            const poster = v.poster || gallery.videoPoster || gallery.coverImage;
-
-            return (
-              <div className={videoWrapClass} key={`${v.src}-${idx}`}>
-                <video
-                  data-play-group="portfolio"
-                  src={v.src}
-                  poster={poster}
-                  className={videoClass}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  aria-label={`${title} walkthrough ${idx + 1}`}
-                  onPlay={(e) => pauseOtherVideos(e.currentTarget)}
-                  onPlaying={(e) => pauseOtherVideos(e.currentTarget)} // extra-safe
-                />
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {/* ✅ BUTTON + (Virtual Staging Sliders) + CARD + INSTRUCTION AFTER VIDEO */}
+      {/* ✅ BUTTON + (Virtual Staging Sliders) + CARD + INSTRUCTION AFTER TOP/MAIN VIDEO */}
       {(hasImages || showVirtualStagingSliders) && (
         <>
           <div className={styles.mediaIntro}>
@@ -131,17 +209,17 @@ export default function PortfolioCategoryPage() {
             </Link>
 
             {showVirtualStagingSliders && (
-              <div style={{ display: 'grid', gap: '18px', width: '100%' }}>
-                {stagingPairs.map((pair, idx) => (
+              <div className={styles.virtualStagingGrid}>
+                {stagingPairs.map((pair, index) => (
                   <BeforeAfterSlider
-                    key={pair.id || idx}
+                    key={pair.id || index}
                     beforeSrc={pair.beforeSrc}
                     afterSrc={pair.afterSrc}
                     beforeAlt={pair.beforeAlt}
                     afterAlt={pair.afterAlt}
                     aspectRatio={pair.aspectRatio || '16/9'}
                     initial={typeof pair.initial === 'number' ? pair.initial : 0.5}
-                    priority={idx === 0}
+                    priority={index === 0}
                   />
                 ))}
               </div>
@@ -169,7 +247,10 @@ export default function PortfolioCategoryPage() {
         </>
       )}
 
-      {!hasImages && !hasVideo && !showVirtualStagingSliders && (
+      {/* ✅ BOTTOM EXTRA VIDEOS */}
+      {renderVideoStack(bottomVideoItems, `${title} bottom videos`)}
+
+      {!hasImages && !hasAnyVideo && !showVirtualStagingSliders && (
         <p className={styles.instruction}>
           This gallery doesn&apos;t have media yet. Please check back soon.
         </p>
