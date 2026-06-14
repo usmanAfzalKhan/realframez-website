@@ -10,15 +10,7 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
-  "32-mackemzie-street": {
-    slug: "32-mackemzie-street",
-    address: "32 Mackemzie Street",
-    cardDescription: "Detached Home With Clean Listing Photography",
-    coverImage: "/images/gallery/32-mackemzie-street/1.webp",
-    images: [
-      "/images/gallery/32-mackemzie-street/1.webp",
-    ],
-  },
+  
 
 
   "9395-eighth-line": {
