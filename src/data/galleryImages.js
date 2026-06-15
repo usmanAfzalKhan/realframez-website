@@ -10,11 +10,17 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
-  "32-mackenzie-st": {
+    "32-mackenzie-st": {
     slug: "32-mackenzie-st",
     address: "32 MacKenzie St",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/32-mackenzie-st/1.webp",
+    topVideos: [
+      {
+        src: "/images/gallery/32-mackenzie-st/32-mackenzie-st-top-video-1.mp4",
+        poster: "/images/gallery/32-mackenzie-st/32-mackenzie-st-top-video-1-poster.webp",
+      },
+    ],
     images: [
       "/images/gallery/32-mackenzie-st/1.webp",
       "/images/gallery/32-mackenzie-st/2.webp",
