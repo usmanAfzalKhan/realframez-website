@@ -99,7 +99,7 @@ export const galleriesBySlug = {
   
 
 
-    "9395-eighth-line": {
+      "9395-eighth-line": {
     slug: "9395-eighth-line",
     address: "9395 Eighth Line",
     cardDescription: "Custom Built Home With Clean Listing Photography",
@@ -159,6 +159,7 @@ export const galleriesBySlug = {
       "/images/gallery/9395-eighth-line/52.webp",
       "/images/gallery/9395-eighth-line/53.webp",
       "/images/gallery/9395-eighth-line/54.webp",
+      "/images/gallery/9395-eighth-line/55.webp",
     ],
   },
 
