@@ -10,11 +10,13 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
-  "23": {
+    "23": {
     slug: "23",
     address: "23",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/23/1.webp",
+    video: "/images/gallery/23/23.mp4",
+    videoPoster: "/images/gallery/23/23-poster.webp",
     images: [
       "/images/gallery/23/1.webp",
     ],
