@@ -10,11 +10,13 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
-  "30-emeny-lane": {
+    "30-emeny-lane": {
     slug: "30-emeny-lane",
     address: "30 Emeny Lane",
     cardDescription: "Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/30-emeny-lane/1.webp",
+    video: "/images/gallery/30-emeny-lane/30-emeny-lane.mp4",
+    videoPoster: "/images/gallery/30-emeny-lane/30-emeny-lane-poster.webp",
     images: [
       "/images/gallery/30-emeny-lane/1.webp",
       "/images/gallery/30-emeny-lane/2.webp",
