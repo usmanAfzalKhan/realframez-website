@@ -10,11 +10,13 @@
 // - optional video + videoPoster for properties with video
 
 export const galleriesBySlug = {
-  "52-junction-cres": {
+    "52-junction-cres": {
     slug: "52-junction-cres",
     address: "52 Junction Cres",
     cardDescription: "Semi Detached Home With Clean Listing Photography",
     coverImage: "/images/gallery/52-junction-cres/1.webp",
+    video: "/images/gallery/52-junction-cres/52-junction-cres.mp4",
+    videoPoster: "/images/gallery/52-junction-cres/52-junction-cres-poster.webp",
     images: [
       "/images/gallery/52-junction-cres/1.webp",
       "/images/gallery/52-junction-cres/2.webp",
