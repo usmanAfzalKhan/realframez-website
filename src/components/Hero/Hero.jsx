@@ -27,10 +27,6 @@ function getDifferentRandomIndex(currentIndex, poolLength) {
     return 0;
   }
 
-  /*
-   * Selects another image without immediately choosing the image
-   * that is currently being displayed.
-   */
   const randomOffset =
     1 + Math.floor(Math.random() * (poolLength - 1));
 
@@ -58,19 +54,14 @@ export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const currentSlideRef = useRef(0);
 
-  /*
-   * Every slide starts at image zero.
-   *
-   * This means Interior/Exterior initially displays the original
-   * image that the client asked to keep.
-   */
   const [imageIndexes, setImageIndexes] = useState(() =>
     slides.map(() => 0),
   );
 
   /*
-   * First visit to each slide uses its first image.
-   * Returning to a previously visited slide selects another image.
+   * The first time a slide opens, image zero is displayed.
+   * When the user returns to that slide, another image is
+   * selected without immediately repeating the previous image.
    */
   const visitedSlidesRef = useRef(new Set([0]));
 
@@ -85,8 +76,8 @@ export default function Hero() {
     slides[0]?.images?.[0] || null;
 
   /*
-   * The old background stays visible until the next background
-   * has fully loaded.
+   * The previous image remains behind the incoming image while
+   * the incoming image fades in and zooms outward.
    */
   const [renderedImage, setRenderedImage] =
     useState(initialHeroImage);
@@ -106,7 +97,7 @@ export default function Hero() {
     : getDesktopImage(slide, activeImageIndex);
 
   /*
-   * Detect desktop or mobile mode.
+   * Detect whether desktop or mobile hero images should be used.
    */
   useEffect(() => {
     const mediaQuery = window.matchMedia(
@@ -141,8 +132,8 @@ export default function Hero() {
   }, []);
 
   /*
-   * Preload every hero image so changing slides does not produce
-   * a blank flash.
+   * Preload the hero images to avoid blank flashes while
+   * switching between slides.
    */
   useEffect(() => {
     const loadedImages = [];
@@ -163,7 +154,7 @@ export default function Hero() {
     };
 
     /*
-     * Load the first image for every slide immediately.
+     * Immediately load the first image for every slide.
      */
     const firstImages = slides.flatMap(
       (heroSlide) => [
@@ -230,8 +221,9 @@ export default function Hero() {
   }, []);
 
   /*
-   * Load the requested background before displaying it.
-   * Once loaded, the new image fades over the old image.
+   * Load the requested image before displaying it.
+   * The old image stays behind the new image until the
+   * 1.6-second reveal animation has finished.
    */
   useEffect(() => {
     if (!activeImage || activeImage === renderedImage) {
@@ -265,7 +257,7 @@ export default function Hero() {
         window.setTimeout(() => {
           setPreviousImage(null);
           transitionTimerRef.current = null;
-        }, 600);
+        }, 1650);
     };
 
     loader.onload = swapImages;
@@ -335,7 +327,9 @@ export default function Hero() {
           );
       } else {
         /*
-         * First visit displays image zero.
+         * First visit uses image zero.
+         * Interior/Exterior image zero is the original image
+         * the client asked to keep.
          */
         visitedSlidesRef.current.add(
           normalizedIndex,
@@ -519,11 +513,7 @@ export default function Hero() {
           {renderedImage && (
             <div
               key={renderedImage}
-              className={`${styles.heroBg} ${
-                previousImage
-                  ? styles.fadeIn
-                  : ''
-              }`}
+              className={`${styles.heroBg} ${styles.fadeIn}`}
               style={{
                 backgroundImage: `url(${renderedImage})`,
               }}
@@ -531,9 +521,7 @@ export default function Hero() {
           )}
         </div>
 
-        <div
-          className={styles.heroOverlay}
-        />
+        <div className={styles.heroOverlay} />
 
         <div className={styles.logoPill}>
           <Image
@@ -558,9 +546,7 @@ export default function Hero() {
               {slide.description}
             </p>
 
-            <div
-              className={styles.ctaRow}
-            >
+            <div className={styles.ctaRow}>
               <Link
                 href={ctaHref}
                 className={styles.cta}

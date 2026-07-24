@@ -5,11 +5,6 @@
   color: var(--color-neutral-light, #f9fafb);
   padding-top: 0;
   margin-top: 80px;
-
-  /*
-   * Allows normal vertical scrolling while Hero.jsx handles
-   * horizontal swiping.
-   */
   touch-action: pan-y;
 }
 
@@ -23,10 +18,9 @@
   isolation: isolate;
 }
 
+/* Initial animation when the entire hero first appears */
 .slideIn {
-  animation: heroSlideIn 650ms
-    cubic-bezier(0.4, 0, 0.2, 1)
-    forwards;
+  animation: heroSlideIn 650ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
   transform-origin: center;
 }
 
@@ -42,7 +36,10 @@
   }
 }
 
-/* Background container moved while dragging. */
+/*
+ * This container handles horizontal movement
+ * when the user drags or swipes.
+ */
 .heroBgTrack {
   position: absolute;
   inset: 0;
@@ -51,8 +48,8 @@
 }
 
 /*
- * Current and previous backgrounds overlap so the new
- * image can fade smoothly over the old image.
+ * Current and previous images overlap.
+ * The incoming image appears above the previous image.
  */
 .heroBg {
   position: absolute;
@@ -61,7 +58,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  will-change: opacity;
+  backface-visibility: hidden;
+  transform-origin: center center;
+  will-change: opacity, transform;
 }
 
 .heroBgPrevious {
@@ -69,18 +68,23 @@
   opacity: 1;
 }
 
+/*
+ * The image starts slightly zoomed in and zooms outward
+ * once for 1.6 seconds.
+ */
 .fadeIn {
-  animation: heroImageFade 550ms
-    ease-out forwards;
+  animation: heroImageReveal 1600ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes heroImageFade {
+@keyframes heroImageReveal {
   from {
     opacity: 0;
+    transform: scale(1.12);
   }
 
   to {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
@@ -105,8 +109,7 @@
   padding: 0.3rem 0.9rem;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.78);
-  box-shadow: 0 14px 36px
-    rgba(0, 0, 0, 0.7);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(12px);
 }
 
@@ -193,8 +196,7 @@
   margin-top: 0.7rem;
   padding: 0.85rem 2.3rem;
   border-radius: 999px;
-  border: 1px solid
-    var(--color-accent, #ffcc57);
+  border: 1px solid var(--color-accent, #ffcc57);
   background: var(--color-accent, #ffcc57);
   color: #000;
   font-family:
@@ -212,22 +214,19 @@
     transform 150ms ease-out,
     box-shadow 150ms ease-out,
     border-color 150ms ease-out;
-  box-shadow: 0 18px 46px
-    rgba(0, 0, 0, 0.75);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.75);
 }
 
 .cta:hover {
   background: transparent;
   color: var(--color-accent, #ffcc57);
   transform: translateY(-1px);
-  box-shadow: 0 20px 52px
-    rgba(0, 0, 0, 0.85);
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.85);
 }
 
 .cta:active {
   transform: translateY(0);
-  box-shadow: 0 12px 30px
-    rgba(0, 0, 0, 0.75);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.75);
 }
 
 /* ===== DOTS ===== */
@@ -242,8 +241,7 @@
   width: 9px;
   height: 9px;
   border-radius: 999px;
-  border: 1px solid
-    rgba(248, 250, 252, 0.5);
+  border: 1px solid rgba(248, 250, 252, 0.5);
   background: transparent;
   padding: 0;
   cursor: pointer;
@@ -301,9 +299,7 @@
   background: transparent;
   border-color: transparent;
   box-shadow: none;
-  transform:
-    translateY(-50%)
-    translateY(-1px);
+  transform: translateY(-50%) translateY(-1px);
   opacity: 0.9;
 }
 
@@ -359,8 +355,7 @@
     bottom: auto;
     padding: 0.12rem 0.6rem;
     gap: 0.3rem;
-    box-shadow: 0 10px 26px
-      rgba(0, 0, 0, 0.7);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7);
   }
 
   .logoPill img {
