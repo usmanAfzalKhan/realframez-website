@@ -28,7 +28,7 @@ Exterior: crisp, high-resolution photos that boost curb appeal by showcasing gar
     short: 'Get stunning bird’s-eye views with professional drone shots.',
     description: `Our licensed drone pilots provide dynamic, high-impact aerial shots for a complete perspective of your property and neighborhood.`,
     why: `Aerial views give context—show off property size, neighborhood, and landscaping for a competitive edge.`,
-    price: 79.99,
+    price: 99.99,
     images: [
       '/images/gallery/aerial/1.webp',
       '/images/gallery/aerial/1.webp',

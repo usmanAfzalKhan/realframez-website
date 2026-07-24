@@ -1,88 +1,238 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Link from 'next/link'
-import packagesContent from '../../app/packages/packagesContent'
-import styles from '../../app/page.module.scss'
+import { useState } from 'react';
+import Link from 'next/link';
+import packagesContent from '../../app/packages/packagesContent';
+import styles from '../../app/page.module.scss';
 
 export default function HomePackagesSection() {
-  const [openPackage, setOpenPackage] = useState(null)
+  /*
+   * One shared value controls all three cards.
+   * Clicking See more on any card opens all three.
+   */
+  const [allPackagesOpen, setAllPackagesOpen] =
+    useState(false);
 
-  const miniPackages = packagesContent.sections.map((pkg) => ({
-    id: pkg.title.toLowerCase(),
-    title: pkg.title,
-    price: pkg.price,
-    oldPrice: pkg.value,
-    tagline: pkg.tagline,
-    features: pkg.features,
-  }))
+  /*
+   * Each package still has its own reel selection.
+   */
+  const [reelSelections, setReelSelections] =
+    useState({});
 
-  const togglePackage = (id) => {
-    setOpenPackage((prev) => (prev === id ? null : id))
-  }
+  const toggleAllPackages = () => {
+    setAllPackagesOpen(
+      (currentValue) => !currentValue,
+    );
+  };
+
+  const handleReelChange = (packageId) => {
+    setReelSelections((currentSelections) => ({
+      ...currentSelections,
+
+      [packageId]:
+        !currentSelections[packageId],
+    }));
+  };
+
+  const getBookingHref = (pkg) => {
+    const includeReel = Boolean(
+      reelSelections[pkg.id],
+    );
+
+    if (includeReel) {
+      return `/contact?package=${pkg.id}&service=${pkg.addon.serviceSlug}`;
+    }
+
+    return `/contact?package=${pkg.id}`;
+  };
 
   return (
     <>
-      {/* PACKAGES MINI */}
-      <h3 className={styles.packagesHeading}>Packages</h3>
+      <h3 className={styles.packagesHeading}>
+        Packages
+      </h3>
+
       <p className={styles.packagesCopy}>
-        Fast, bundled options based on what GTA agents book the most. Pick one, or view all packages.
+        Fast, bundled options based on what GTA
+        agents book the most. Pick one, or view all
+        packages.
       </p>
 
-      <ul className={styles.packagesGrid} role="list">
-        {miniPackages.map((pkg) => {
-          const isOpen = openPackage === pkg.id
+      <ul
+        className={styles.packagesGrid}
+        role="list"
+      >
+        {packagesContent.sections.map((pkg) => {
+          const reelSelected = Boolean(
+            reelSelections[pkg.id],
+          );
+
           return (
             <li
               key={pkg.id}
-              className={`${styles.packageCard} ${styles[`package-${pkg.id}`]} ${
-                isOpen ? styles.packageOpen : ''
+              className={`${styles.packageCard} ${
+                styles[
+                  `package-${pkg.styleKey}`
+                ]
+              } ${
+                allPackagesOpen
+                  ? styles.packageOpen
+                  : ''
               }`}
             >
               <div className={styles.packageTop}>
-                <p className={styles.packageTitle}>{pkg.title}</p>
-                <p className={styles.packagePriceBlock}>
-                  <span className={styles.packagePriceLabel}>Starting from</span>
-                  <span className={styles.packagePrice}>{pkg.price}</span>
-                  {pkg.oldPrice && <span className={styles.packageOld}>{pkg.oldPrice}</span>}
+                <p className={styles.packageTitle}>
+                  {pkg.title}
+                </p>
+
+                <p
+                  className={
+                    styles.packagePriceBlock
+                  }
+                >
+                  <span
+                    className={
+                      styles.packagePriceLabel
+                    }
+                  >
+                    Starting from
+                  </span>
+
+                  <span
+                    className={
+                      styles.packagePrice
+                    }
+                  >
+                    {pkg.price}
+                  </span>
                 </p>
               </div>
 
-              <div className={`${styles.packageBody} ${isOpen ? styles.packageBodyOpen : ''}`}>
-                <p className={styles.packageText}>{pkg.features[0]}</p>
+              <div
+                className={`${styles.packageBody} ${
+                  allPackagesOpen
+                    ? styles.packageBodyOpen
+                    : ''
+                }`}
+              >
+                <p
+                  className={
+                    styles.packageText
+                  }
+                >
+                  {pkg.features[0]}
+                </p>
 
-                {isOpen && (
-                  <ul className={styles.packageList}>
-                    {pkg.features.slice(1).map((feat) => (
-                      <li key={feat}>{feat}</li>
-                    ))}
-                  </ul>
-                )}
+                {allPackagesOpen && (
+                  <>
+                    {pkg.features.length > 1 && (
+                      <ul
+                        className={
+                          styles.packageList
+                        }
+                      >
+                        {pkg.features
+                          .slice(1)
+                          .map((feature) => (
+                            <li key={feature}>
+                              {feature}
+                            </li>
+                          ))}
+                      </ul>
+                    )}
 
-                {isOpen && (
-                  <div className={styles.packageActions}>
-                    <p className={styles.packageTagline}>{pkg.tagline}</p>
-                    <Link href={`/contact?package=${pkg.id}`} className={styles.packageBook}>
-                      Book now
-                    </Link>
-                  </div>
+                    <div
+                      className={
+                        styles.packageActions
+                      }
+                    >
+                      <label
+                        className={
+                          styles.packageTagline
+                        }
+                        style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '0.55rem',
+                          textAlign: 'left',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={reelSelected}
+                          onChange={() =>
+                            handleReelChange(
+                              pkg.id,
+                            )
+                          }
+                          style={{
+                            flex: '0 0 auto',
+                            width: '17px',
+                            height: '17px',
+                            marginTop: '2px',
+                            accentColor:
+                              '#ffcc57',
+                            cursor: 'pointer',
+                          }}
+                        />
+
+                        <span>
+                          Add an{' '}
+                          {pkg.addon.label} — Just{' '}
+                          {pkg.addon.price}
+                        </span>
+                      </label>
+
+                      <Link
+                        href={getBookingHref(pkg)}
+                        className={
+                          styles.packageBook
+                        }
+                      >
+                        Book now
+                      </Link>
+                    </div>
+                  </>
                 )}
               </div>
 
-              {!isOpen && <div className={styles.packageFade} aria-hidden="true" />}
+              {!allPackagesOpen && (
+                <div
+                  className={
+                    styles.packageFade
+                  }
+                  aria-hidden="true"
+                />
+              )}
 
               <button
                 type="button"
-                className={styles.packageSeeMore}
-                onClick={() => togglePackage(pkg.id)}
+                className={
+                  styles.packageSeeMore
+                }
+                onClick={toggleAllPackages}
+                aria-expanded={allPackagesOpen}
               >
-                {isOpen ? 'Hide details' : 'See more'}
-                <span className={styles.packageSeeMoreArrow}>{isOpen ? '▲' : '▼'}</span>
+                {allPackagesOpen
+                  ? 'Hide details'
+                  : 'See more'}
+
+                <span
+                  className={
+                    styles.packageSeeMoreArrow
+                  }
+                  aria-hidden="true"
+                >
+                  {allPackagesOpen
+                    ? '▲'
+                    : '▼'}
+                </span>
               </button>
             </li>
-          )
+          );
         })}
       </ul>
     </>
-  )
+  );
 }

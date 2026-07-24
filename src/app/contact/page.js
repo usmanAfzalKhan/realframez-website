@@ -8,28 +8,41 @@ import styles from './Contact.module.scss';
 import { services } from '../../data/services';
 import packagesContent from '../packages/packagesContent';
 
-/*
- * Packages are now loaded from the same packagesContent.js file
- * used by the homepage and Packages page.
- */
-const packageDefinitions = packagesContent.sections.map((pkg) => ({
-  slug: pkg.id,
-  tier: pkg.tier,
-  title: pkg.title,
-  price: pkg.price,
-  priceValue: pkg.priceValue,
-  includes: pkg.includes || [],
-  features: pkg.features || [],
-  addon: pkg.addon || '',
-}));
+const packageDefinitions =
+  packagesContent.sections.map((pkg) => ({
+    slug: pkg.id,
+    title: pkg.title,
+    price: pkg.price,
+    priceValue: pkg.priceValue,
+    includes: pkg.includes || [],
+    features: pkg.features || [],
+    addon: pkg.addon || null,
+  }));
 
-const today = new Date().toISOString().split('T')[0];
+/*
+ * Interior/Exterior Photography is no longer displayed
+ * as an A La Carte service.
+ *
+ * It can still be selected internally when a package
+ * containing photography is chosen.
+ */
+const aLaCarteServices = services.filter(
+  (service) => service.slug !== 'photography',
+);
+
+const today = new Date()
+  .toISOString()
+  .split('T')[0];
 
 function getServiceDisplay(service) {
-  if (service.slug === 'social-media-reel-with-realtor') {
+  if (
+    service.slug ===
+    'social-media-reel-with-realtor'
+  ) {
     return {
-      title: 'Agent-On-Camera Social Media Reel',
-      price: '$79.99',
+      title:
+        'Agent-On-Camera Social Media Reel',
+      price: '$99.99',
     };
   }
 
@@ -54,56 +67,92 @@ export default function ContactPage() {
 
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [submittedPhone, setSubmittedPhone] = useState('');
+  const [loading, setLoading] =
+    useState(false);
+
+  const [
+    submittedPhone,
+    setSubmittedPhone,
+  ] = useState('');
 
   /*
-   * Automatically select a package or service when somebody
-   * arrives using a Book Now link.
+   * Automatically select package and reel/service
+   * when arriving through a Book Now link.
    */
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(
+      window.location.search,
+    );
 
-    const preService = params.get('service');
-    const prePackage = params.get('package');
-    const special = params.get('special');
+    const preService =
+      params.get('service');
+
+    const prePackage =
+      params.get('package');
+
+    const special =
+      params.get('special');
 
     setForm((currentForm) => {
       const updated = {
         ...currentForm,
-        packages: [...currentForm.packages],
-        services: [...currentForm.services],
+
+        packages: [
+          ...currentForm.packages,
+        ],
+
+        services: [
+          ...currentForm.services,
+        ],
       };
 
       if (prePackage) {
-        const selectedPackage = packageDefinitions.find(
-          (pkg) => pkg.slug === prePackage,
-        );
+        const selectedPackage =
+          packageDefinitions.find(
+            (pkg) =>
+              pkg.slug === prePackage,
+          );
 
         if (selectedPackage) {
-          updated.packages = [selectedPackage.slug];
+          updated.packages = [
+            selectedPackage.slug,
+          ];
 
-          updated.services = Array.from(
-            new Set([
-              ...updated.services,
-              ...selectedPackage.includes,
-            ]),
-          );
+          updated.services =
+            Array.from(
+              new Set([
+                ...updated.services,
+                ...selectedPackage.includes,
+              ]),
+            );
         }
       }
 
       if (preService) {
-        updated.services = Array.from(
-          new Set([...updated.services, preService]),
-        );
+        updated.services =
+          Array.from(
+            new Set([
+              ...updated.services,
+              preService,
+            ]),
+          );
       }
 
-      if (special === 'first-time-client') {
-        const tag = 'First-time client';
+      if (
+        special ===
+        'first-time-client'
+      ) {
+        const tag =
+          'First-time client';
 
         if (updated.message) {
-          if (!updated.message.includes(tag)) {
-            updated.message = `${tag} - ${updated.message}`;
+          if (
+            !updated.message.includes(
+              tag,
+            )
+          ) {
+            updated.message =
+              `${tag} - ${updated.message}`;
           }
         } else {
           updated.message = tag;
@@ -114,14 +163,20 @@ export default function ContactPage() {
     });
   }, []);
 
-  const normalizePhoneDigits = (value) => {
-    const digitsOnly = value.replace(/\D/g, '');
+  const normalizePhoneDigits = (
+    value,
+  ) => {
+    const digitsOnly =
+      value.replace(/\D/g, '');
 
     return digitsOnly.slice(0, 10);
   };
 
-  const formatPhoneNumber = (value) => {
-    const digits = normalizePhoneDigits(value);
+  const formatPhoneNumber = (
+    value,
+  ) => {
+    const digits =
+      normalizePhoneDigits(value);
 
     if (digits.length === 10) {
       return digits.replace(
@@ -137,7 +192,8 @@ export default function ContactPage() {
     const validationErrors = {};
 
     if (!form.name.trim()) {
-      validationErrors.name = 'Name is required.';
+      validationErrors.name =
+        'Name is required.';
     }
 
     if (
@@ -168,7 +224,8 @@ export default function ContactPage() {
     }
 
     if (!form.city.trim()) {
-      validationErrors.city = 'City is required.';
+      validationErrors.city =
+        'City is required.';
     }
 
     if (!form.date) {
@@ -176,21 +233,29 @@ export default function ContactPage() {
         'Please choose a date.';
     }
 
-    if (new Date(form.date) < new Date(today)) {
+    if (
+      new Date(form.date) <
+      new Date(today)
+    ) {
       validationErrors.date =
         'Date cannot be in the past.';
     }
 
     setErrors(validationErrors);
 
-    return Object.keys(validationErrors).length === 0;
+    return (
+      Object.keys(validationErrors)
+        .length === 0
+    );
   };
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value } =
+      event.target;
 
     if (name === 'phone') {
-      const digits = normalizePhoneDigits(value);
+      const digits =
+        normalizePhoneDigits(value);
 
       setForm((currentForm) => ({
         ...currentForm,
@@ -204,17 +269,22 @@ export default function ContactPage() {
     }
 
     if (errors[name]) {
-      setErrors((currentErrors) => ({
-        ...currentErrors,
-        [name]: '',
-      }));
+      setErrors(
+        (currentErrors) => ({
+          ...currentErrors,
+          [name]: '',
+        }),
+      );
     }
   };
 
-  const handlePhoneBlur = (event) => {
-    const formatted = formatPhoneNumber(
-      event.target.value,
-    );
+  const handlePhoneBlur = (
+    event,
+  ) => {
+    const formatted =
+      formatPhoneNumber(
+        event.target.value,
+      );
 
     setForm((currentForm) => ({
       ...currentForm,
@@ -223,38 +293,52 @@ export default function ContactPage() {
   };
 
   /*
-   * If somebody manually changes a service included in a package,
-   * the related package is deselected.
+   * Manually changing a service that belongs to
+   * a selected package deselects that package.
    */
-  const handleServiceChange = (event) => {
-    const { value, checked } = event.target;
+  const handleServiceChange = (
+    event,
+  ) => {
+    const { value, checked } =
+      event.target;
 
     setForm((currentForm) => {
       let updatedPackages = [
         ...currentForm.packages,
       ];
 
-      packageDefinitions.forEach((pkg) => {
-        if (
-          pkg.includes.includes(value) &&
-          currentForm.packages.includes(pkg.slug)
-        ) {
-          updatedPackages = updatedPackages.filter(
-            (packageSlug) => packageSlug !== pkg.slug,
-          );
-        }
-      });
-
-      const updatedServices = checked
-        ? Array.from(
-            new Set([
-              ...currentForm.services,
+      packageDefinitions.forEach(
+        (pkg) => {
+          if (
+            pkg.includes.includes(
               value,
-            ]),
-          )
-        : currentForm.services.filter(
-            (serviceSlug) => serviceSlug !== value,
-          );
+            ) &&
+            currentForm.packages.includes(
+              pkg.slug,
+            )
+          ) {
+            updatedPackages =
+              updatedPackages.filter(
+                (packageSlug) =>
+                  packageSlug !==
+                  pkg.slug,
+              );
+          }
+        },
+      );
+
+      const updatedServices =
+        checked
+          ? Array.from(
+              new Set([
+                ...currentForm.services,
+                value,
+              ]),
+            )
+          : currentForm.services.filter(
+              (serviceSlug) =>
+                serviceSlug !== value,
+            );
 
       return {
         ...currentForm,
@@ -264,29 +348,36 @@ export default function ContactPage() {
     });
 
     if (errors.services) {
-      setErrors((currentErrors) => ({
-        ...currentErrors,
-        services: '',
-      }));
+      setErrors(
+        (currentErrors) => ({
+          ...currentErrors,
+          services: '',
+        }),
+      );
     }
   };
 
   /*
-   * Selecting a package automatically selects all services
-   * included in that package.
+   * Selecting a package automatically selects
+   * the services included in that package.
    */
-  const handlePackageChange = (event) => {
-    const { value, checked } = event.target;
+  const handlePackageChange = (
+    event,
+  ) => {
+    const { value, checked } =
+      event.target;
 
     setForm((currentForm) => {
       if (checked) {
         const selectedPackage =
           packageDefinitions.find(
-            (pkg) => pkg.slug === value,
+            (pkg) =>
+              pkg.slug === value,
           );
 
         const includedServices =
-          selectedPackage?.includes || [];
+          selectedPackage?.includes ||
+          [];
 
         return {
           ...currentForm,
@@ -309,79 +400,107 @@ export default function ContactPage() {
 
       const remainingPackages =
         currentForm.packages.filter(
-          (packageSlug) => packageSlug !== value,
+          (packageSlug) =>
+            packageSlug !== value,
         );
 
       const remainingIncludedServices =
-        remainingPackages.flatMap((packageSlug) => {
-          const pkg = packageDefinitions.find(
-            (definition) =>
-              definition.slug === packageSlug,
-          );
+        remainingPackages.flatMap(
+          (packageSlug) => {
+            const pkg =
+              packageDefinitions.find(
+                (definition) =>
+                  definition.slug ===
+                  packageSlug,
+              );
 
-          return pkg?.includes || [];
-        });
+            return pkg?.includes || [];
+          },
+        );
 
       const removedPackage =
         packageDefinitions.find(
-          (pkg) => pkg.slug === value,
+          (pkg) =>
+            pkg.slug === value,
         );
 
       const servicesToRemove =
         removedPackage?.includes || [];
 
       const updatedServices =
-        currentForm.services.filter((serviceSlug) => {
-          if (
-            servicesToRemove.includes(serviceSlug) &&
-            !remainingIncludedServices.includes(
-              serviceSlug,
-            )
-          ) {
-            return false;
-          }
+        currentForm.services.filter(
+          (serviceSlug) => {
+            if (
+              servicesToRemove.includes(
+                serviceSlug,
+              ) &&
+              !remainingIncludedServices.includes(
+                serviceSlug,
+              )
+            ) {
+              return false;
+            }
 
-          return true;
-        });
+            return true;
+          },
+        );
 
       return {
         ...currentForm,
-        packages: remainingPackages,
-        services: updatedServices,
+
+        packages:
+          remainingPackages,
+
+        services:
+          updatedServices,
       };
     });
 
     if (errors.services) {
-      setErrors((currentErrors) => ({
-        ...currentErrors,
-        services: '',
-      }));
-    }
-  };
-
-  const trackContactConversion = () => {
-    try {
-      if (typeof window === 'undefined') {
-        return;
-      }
-
-      if (typeof window.gtag !== 'function') {
-        return;
-      }
-
-      window.gtag(
-        'event',
-        'ads_conversion_Contact_Us_1',
-        {
-          event_timeout: 2000,
-        },
+      setErrors(
+        (currentErrors) => ({
+          ...currentErrors,
+          services: '',
+        }),
       );
-    } catch {
-      // Keep the form working if tracking is blocked.
     }
   };
 
-  const handleSubmit = async (event) => {
+  const trackContactConversion =
+    () => {
+      try {
+        if (
+          typeof window ===
+          'undefined'
+        ) {
+          return;
+        }
+
+        if (
+          typeof window.gtag !==
+          'function'
+        ) {
+          return;
+        }
+
+        window.gtag(
+          'event',
+          'ads_conversion_Contact_Us_1',
+          {
+            event_timeout: 2000,
+          },
+        );
+      } catch {
+        /*
+         * Keep the contact form working
+         * when tracking is unavailable.
+         */
+      }
+    };
+
+  const handleSubmit = async (
+    event,
+  ) => {
     event.preventDefault();
 
     if (loading) {
@@ -400,8 +519,12 @@ export default function ContactPage() {
       const payload = {
         name: form.name,
         phone: form.phone,
-        packages: form.packages,
-        services: form.services,
+
+        packages:
+          form.packages,
+
+        services:
+          form.services,
 
         address: {
           street: form.street,
@@ -413,15 +536,21 @@ export default function ContactPage() {
         message: form.message,
       };
 
-      const response = await fetch('/api/contact', {
-        method: 'POST',
+      const response = await fetch(
+        '/api/contact',
+        {
+          method: 'POST',
 
-        headers: {
-          'Content-Type': 'application/json',
+          headers: {
+            'Content-Type':
+              'application/json',
+          },
+
+          body: JSON.stringify(
+            payload,
+          ),
         },
-
-        body: JSON.stringify(payload),
-      });
+      );
 
       if (!response.ok) {
         throw new Error();
@@ -429,7 +558,10 @@ export default function ContactPage() {
 
       trackContactConversion();
 
-      setSubmittedPhone(form.phone);
+      setSubmittedPhone(
+        form.phone,
+      );
+
       setStatus('SENT');
 
       setForm({
@@ -457,6 +589,7 @@ export default function ContactPage() {
         style={{
           paddingTop:
             'var(--header-offset, 100px)',
+
           textAlign: 'center',
         }}
       >
@@ -465,7 +598,9 @@ export default function ContactPage() {
           alt="RealFrames Logo"
           width={120}
           height={120}
-          className={styles.thankLogo}
+          className={
+            styles.thankLogo
+          }
           style={{
             margin: '0 auto',
             display: 'block',
@@ -477,16 +612,26 @@ export default function ContactPage() {
         </h1>
 
         <p className={styles.intro}>
-          We appreciate you reaching out. A member
-          of our team will contact you at{' '}
-          <strong>{submittedPhone}</strong> within
-          the next 12 hours.
+          We appreciate you reaching
+          out. A member of our team
+          will contact you at{' '}
+
+          <strong>
+            {submittedPhone}
+          </strong>{' '}
+
+          within the next 12 hours.
         </p>
 
         <p className={styles.intro}>
-          If you need immediate assistance, please
-          call us at{' '}
-          <strong>647-533-2748</strong>.
+          If you need immediate
+          assistance, please call us
+          at{' '}
+
+          <strong>
+            647-533-2748
+          </strong>
+          .
         </p>
       </section>
     );
@@ -498,32 +643,42 @@ export default function ContactPage() {
       style={{
         paddingTop:
           'var(--header-offset, 100px)',
+
         maxWidth: 1000,
         margin: '0 auto',
       }}
     >
       <h1
         className={styles.title}
-        style={{ textAlign: 'center' }}
+        style={{
+          textAlign: 'center',
+        }}
       >
         Contact Us
       </h1>
 
       <p className={styles.intro}>
         You can reach us via{' '}
+
         <a href="tel:6475332748">
           phone
         </a>
         ,{' '}
+
         <a href="https://www.instagram.com/realframes.ca/?igsh=MWcyeGQ5NGhzNGNpNg%3D%3D#">
           Instagram
         </a>{' '}
+
         or{' '}
+
         <a href="https://www.tiktok.com/@realframes.ca?_t=ZS-8yVAStzmNwm&_r=1">
           TikTok
         </a>
-        . If you’d rather not use those, fill out
-        the form below and we’ll be in touch soon.
+
+        . If you’d rather not use
+        those, fill out the form
+        below and we’ll be in touch
+        soon.
       </p>
 
       <form
@@ -533,7 +688,12 @@ export default function ContactPage() {
         aria-describedby="form-errors"
       >
         {/* Name */}
-        <div className={styles.fieldGroup}>
+
+        <div
+          className={
+            styles.fieldGroup
+          }
+        >
           <label
             className={styles.label}
             htmlFor="name"
@@ -544,6 +704,7 @@ export default function ContactPage() {
             >
               *
             </span>{' '}
+
             Name
           </label>
 
@@ -555,7 +716,9 @@ export default function ContactPage() {
             value={form.name}
             onChange={handleChange}
             required
-            aria-invalid={!!errors.name}
+            aria-invalid={
+              !!errors.name
+            }
             aria-describedby={
               errors.name
                 ? 'error-name'
@@ -575,7 +738,12 @@ export default function ContactPage() {
         </div>
 
         {/* Phone */}
-        <div className={styles.fieldGroup}>
+
+        <div
+          className={
+            styles.fieldGroup
+          }
+        >
           <label
             className={styles.label}
             htmlFor="phone"
@@ -586,12 +754,19 @@ export default function ContactPage() {
             >
               *
             </span>{' '}
+
             Phone
           </label>
 
-          <div className={styles.phoneRow}>
+          <div
+            className={
+              styles.phoneRow
+            }
+          >
             <div
-              className={styles.plusOne}
+              className={
+                styles.plusOne
+              }
               aria-hidden="true"
             >
               +1
@@ -601,13 +776,19 @@ export default function ContactPage() {
               id="phone"
               name="phone"
               type="tel"
-              className={styles.input}
+              className={
+                styles.input
+              }
               value={form.phone}
               onChange={handleChange}
-              onBlur={handlePhoneBlur}
+              onBlur={
+                handlePhoneBlur
+              }
               placeholder="123-456-7890"
               required
-              aria-invalid={!!errors.phone}
+              aria-invalid={
+                !!errors.phone
+              }
               aria-describedby={
                 errors.phone
                   ? 'error-phone'
@@ -618,7 +799,9 @@ export default function ContactPage() {
 
           {errors.phone && (
             <p
-              className={styles.error}
+              className={
+                styles.error
+              }
               id="error-phone"
               role="alert"
             >
@@ -628,8 +811,11 @@ export default function ContactPage() {
         </div>
 
         {/* Address */}
+
         <div
-          className={styles.addressWrapper}
+          className={
+            styles.addressWrapper
+          }
           style={{
             display: 'flex',
             flexWrap: 'wrap',
@@ -637,14 +823,18 @@ export default function ContactPage() {
           }}
         >
           <div
-            className={styles.fieldGroup}
+            className={
+              styles.fieldGroup
+            }
             style={{
               flex: '1 1 100%',
               minWidth: 0,
             }}
           >
             <label
-              className={styles.label}
+              className={
+                styles.label
+              }
               htmlFor="street"
             >
               Street Address
@@ -654,11 +844,15 @@ export default function ContactPage() {
               id="street"
               name="street"
               type="text"
-              className={styles.input}
+              className={
+                styles.input
+              }
               value={form.street}
               onChange={handleChange}
               required
-              aria-invalid={!!errors.street}
+              aria-invalid={
+                !!errors.street
+              }
               aria-describedby={
                 errors.street
                   ? 'error-street'
@@ -668,7 +862,9 @@ export default function ContactPage() {
 
             {errors.street && (
               <p
-                className={styles.error}
+                className={
+                  styles.error
+                }
                 id="error-street"
                 role="alert"
               >
@@ -678,22 +874,29 @@ export default function ContactPage() {
           </div>
 
           <div
-            className={styles.fieldGroup}
+            className={
+              styles.fieldGroup
+            }
             style={{
               flex: '1 1 50%',
               minWidth: 0,
             }}
           >
             <label
-              className={styles.label}
+              className={
+                styles.label
+              }
               htmlFor="city"
             >
               <span
                 aria-hidden="true"
-                className={styles.req}
+                className={
+                  styles.req
+                }
               >
                 *
               </span>{' '}
+
               City
             </label>
 
@@ -701,11 +904,15 @@ export default function ContactPage() {
               id="city"
               name="city"
               type="text"
-              className={styles.input}
+              className={
+                styles.input
+              }
               value={form.city}
               onChange={handleChange}
               required
-              aria-invalid={!!errors.city}
+              aria-invalid={
+                !!errors.city
+              }
               aria-describedby={
                 errors.city
                   ? 'error-city'
@@ -715,7 +922,9 @@ export default function ContactPage() {
 
             {errors.city && (
               <p
-                className={styles.error}
+                className={
+                  styles.error
+                }
                 id="error-city"
                 role="alert"
               >
@@ -725,22 +934,29 @@ export default function ContactPage() {
           </div>
 
           <div
-            className={styles.fieldGroup}
+            className={
+              styles.fieldGroup
+            }
             style={{
               flex: '1 1 50%',
               minWidth: 0,
             }}
           >
             <label
-              className={styles.label}
+              className={
+                styles.label
+              }
               htmlFor="province"
             >
               <span
                 aria-hidden="true"
-                className={styles.req}
+                className={
+                  styles.req
+                }
               >
                 *
               </span>{' '}
+
               Province
             </label>
 
@@ -748,11 +964,15 @@ export default function ContactPage() {
               id="province"
               name="province"
               type="text"
-              className={styles.input}
+              className={
+                styles.input
+              }
               value={form.province}
               readOnly
               required
-              aria-invalid={!!errors.province}
+              aria-invalid={
+                !!errors.province
+              }
               aria-describedby={
                 errors.province
                   ? 'error-province'
@@ -762,7 +982,9 @@ export default function ContactPage() {
 
             {errors.province && (
               <p
-                className={styles.error}
+                className={
+                  styles.error
+                }
                 id="error-province"
                 role="alert"
               >
@@ -772,8 +994,13 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Packages and Services */}
-        <div className={styles.sectionRow}>
+        {/* Packages and services */}
+
+        <div
+          className={
+            styles.sectionRow
+          }
+        >
           <p className={styles.label}>
             <span
               aria-hidden="true"
@@ -781,142 +1008,228 @@ export default function ContactPage() {
             >
               *
             </span>{' '}
+
             Package or Services
           </p>
 
           <div
-            className={styles.inlineOptions}
+            className={
+              styles.inlineOptions
+            }
             aria-label="Package and service selection"
           >
-            {packageDefinitions.map((pkg) => (
-              <div
-                key={pkg.slug}
-                className={styles.optionItem}
-              >
-                <input
-                  type="checkbox"
-                  id={`pkg-${pkg.slug}`}
-                  name="packages"
-                  value={pkg.slug}
-                  checked={form.packages.includes(
-                    pkg.slug,
-                  )}
-                  onChange={handlePackageChange}
-                  aria-checked={form.packages.includes(
-                    pkg.slug,
-                  )}
-                />
-
-                <label
-                  className={styles.checkboxLabel}
-                  htmlFor={`pkg-${pkg.slug}`}
-                >
-                  <div>
-                    <strong>{pkg.tier}</strong>
-                    {' — '}
-                    {pkg.title}
-                  </div>
-
-                  <div className={styles.subtext}>
-                    {pkg.price}
-                  </div>
-
-                  <div className={styles.subtext}>
-                    Includes:{' '}
-                    {pkg.features.join(', ')}
-                  </div>
-
-                  {pkg.addon && (
-                    <div className={styles.subtext}>
-                      Optional add-on: {pkg.addon}
-                    </div>
-                  )}
-                </label>
-              </div>
-            ))}
-
-            <div className={styles.aLaCarteLabel}>
-              A La Carte
-            </div>
-
-            {services.map((service) => {
-              const id =
-                `service-${service.slug}`;
-
-              const display =
-                getServiceDisplay(service);
-
-              const disabled =
-                form.packages.some((packageSlug) => {
-                  const selectedPackage =
-                    packageDefinitions.find(
-                      (pkg) =>
-                        pkg.slug === packageSlug,
-                    );
-
-                  return selectedPackage?.includes.includes(
-                    service.slug,
-                  );
-                });
-
-              return (
+            {packageDefinitions.map(
+              (pkg) => (
                 <div
-                  key={id}
-                  className={styles.optionItem}
+                  key={pkg.slug}
+                  className={
+                    styles.optionItem
+                  }
                 >
                   <input
                     type="checkbox"
-                    id={id}
-                    name="services"
-                    value={service.slug}
-                    checked={form.services.includes(
-                      service.slug,
+                    id={`pkg-${pkg.slug}`}
+                    name="packages"
+                    value={pkg.slug}
+                    checked={form.packages.includes(
+                      pkg.slug,
                     )}
-                    onChange={handleServiceChange}
-                    disabled={disabled}
-                    aria-checked={form.services.includes(
-                      service.slug,
+                    onChange={
+                      handlePackageChange
+                    }
+                    aria-checked={form.packages.includes(
+                      pkg.slug,
                     )}
                   />
 
                   <label
-                    className={styles.checkboxLabel}
-                    htmlFor={id}
-                    style={
-                      disabled
-                        ? {
-                            opacity: 0.6,
-                            cursor: 'not-allowed',
-                          }
-                        : {}
+                    className={
+                      styles.checkboxLabel
                     }
+                    htmlFor={`pkg-${pkg.slug}`}
                   >
-                    <div>{display.title}</div>
+                    {/*
+                     * Only the new package name is visible.
+                     * Essential/Silver/Platinum are removed.
+                     */}
 
-                    {display.price && (
-                      <div
-                        className={styles.subtext}
-                      >
-                        {display.price}
-                      </div>
-                    )}
+                    <div>
+                      <strong>
+                        {pkg.title}
+                      </strong>
+                    </div>
 
-                    {disabled && (
+                    <div
+                      className={
+                        styles.subtext
+                      }
+                    >
+                      {pkg.price}
+                    </div>
+
+                    <div
+                      className={
+                        styles.subtext
+                      }
+                    >
+                      Includes:{' '}
+
+                      {pkg.features.join(
+                        ', ',
+                      )}
+                    </div>
+
+                    {pkg.addon && (
                       <div
-                        className={styles.subtext}
+                        className={
+                          styles.subtext
+                        }
                       >
-                        Included in selected package
+                        Optional add-on:{' '}
+
+                        {
+                          pkg.addon
+                            .label
+                        }{' '}
+
+                        —{' '}
+
+                        {
+                          pkg.addon
+                            .price
+                        }
                       </div>
                     )}
                   </label>
                 </div>
-              );
-            })}
+              ),
+            )}
+
+            <div
+              className={
+                styles.aLaCarteLabel
+              }
+            >
+              A La Carte
+            </div>
+
+            {/*
+             * Photography has been filtered out here.
+             */}
+
+            {aLaCarteServices.map(
+              (service) => {
+                const id =
+                  `service-${service.slug}`;
+
+                const display =
+                  getServiceDisplay(
+                    service,
+                  );
+
+                const disabled =
+                  form.packages.some(
+                    (
+                      packageSlug,
+                    ) => {
+                      const selectedPackage =
+                        packageDefinitions.find(
+                          (pkg) =>
+                            pkg.slug ===
+                            packageSlug,
+                        );
+
+                      return selectedPackage?.includes.includes(
+                        service.slug,
+                      );
+                    },
+                  );
+
+                return (
+                  <div
+                    key={id}
+                    className={
+                      styles.optionItem
+                    }
+                  >
+                    <input
+                      type="checkbox"
+                      id={id}
+                      name="services"
+                      value={
+                        service.slug
+                      }
+                      checked={form.services.includes(
+                        service.slug,
+                      )}
+                      onChange={
+                        handleServiceChange
+                      }
+                      disabled={
+                        disabled
+                      }
+                      aria-checked={form.services.includes(
+                        service.slug,
+                      )}
+                    />
+
+                    <label
+                      className={
+                        styles.checkboxLabel
+                      }
+                      htmlFor={id}
+                      style={
+                        disabled
+                          ? {
+                              opacity:
+                                0.6,
+
+                              cursor:
+                                'not-allowed',
+                            }
+                          : {}
+                      }
+                    >
+                      <div>
+                        {
+                          display.title
+                        }
+                      </div>
+
+                      {display.price && (
+                        <div
+                          className={
+                            styles.subtext
+                          }
+                        >
+                          {
+                            display.price
+                          }
+                        </div>
+                      )}
+
+                      {disabled && (
+                        <div
+                          className={
+                            styles.subtext
+                          }
+                        >
+                          Included in
+                          selected package
+                        </div>
+                      )}
+                    </label>
+                  </div>
+                );
+              },
+            )}
           </div>
 
           {errors.services && (
             <p
-              className={styles.error}
+              className={
+                styles.error
+              }
               id="error-services"
               role="alert"
             >
@@ -925,8 +1238,13 @@ export default function ContactPage() {
           )}
         </div>
 
-        {/* Appointment Date */}
-        <div className={styles.fieldGroup}>
+        {/* Appointment date */}
+
+        <div
+          className={
+            styles.fieldGroup
+          }
+        >
           <label
             className={styles.label}
             htmlFor="date"
@@ -937,6 +1255,7 @@ export default function ContactPage() {
             >
               *
             </span>{' '}
+
             Appointment Date
           </label>
 
@@ -949,7 +1268,9 @@ export default function ContactPage() {
             onChange={handleChange}
             min={today}
             required
-            aria-invalid={!!errors.date}
+            aria-invalid={
+              !!errors.date
+            }
             aria-describedby={
               errors.date
                 ? 'error-date'
@@ -959,7 +1280,9 @@ export default function ContactPage() {
 
           {errors.date && (
             <p
-              className={styles.error}
+              className={
+                styles.error
+              }
               id="error-date"
               role="alert"
             >
@@ -968,8 +1291,13 @@ export default function ContactPage() {
           )}
         </div>
 
-        {/* Additional Message */}
-        <div className={styles.fieldGroup}>
+        {/* Additional message */}
+
+        <div
+          className={
+            styles.fieldGroup
+          }
+        >
           <label
             className={styles.label}
             htmlFor="message"
@@ -980,7 +1308,9 @@ export default function ContactPage() {
           <textarea
             id="message"
             name="message"
-            className={styles.textarea}
+            className={
+              styles.textarea
+            }
             rows="4"
             value={form.message}
             onChange={handleChange}
@@ -988,10 +1318,17 @@ export default function ContactPage() {
         </div>
 
         {/* Submit */}
-        <div className={styles.addBtnWrap}>
+
+        <div
+          className={
+            styles.addBtnWrap
+          }
+        >
           <button
             type="submit"
-            className={styles.addBtn}
+            className={
+              styles.addBtn
+            }
             disabled={loading}
             aria-busy={loading}
           >
@@ -1006,7 +1343,8 @@ export default function ContactPage() {
             className={styles.error}
             role="alert"
           >
-            ❌ Something went wrong. Please try again.
+            ❌ Something went wrong.
+            Please try again.
           </p>
         )}
       </form>

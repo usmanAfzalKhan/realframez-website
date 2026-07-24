@@ -5,12 +5,14 @@ const packagesContent = {
 
   sections: [
     {
+      /*
+       * Keep the old ID internally so existing links such as
+       * /contact?package=essential continue working.
+       */
       id: 'essential',
       styleKey: 'essential',
 
-      tier: 'Essential',
       title: 'Marketing Essential',
-
       price: '$199.99',
       priceValue: 199.99,
       badge: null,
@@ -22,22 +24,23 @@ const packagesContent = {
       ],
 
       /*
-       * Service slugs automatically selected on the contact page.
-       * Marketing Essential includes photography only.
+       * Photography remains part of the package internally,
+       * even though it is removed from the A La Carte list.
        */
       includes: ['photography'],
 
-      addon:
-        'Agent-On-Camera Social Media Reel — Just $79.99',
+      addon: {
+        label: 'Agent-On-Camera Social Media Reel',
+        price: '$99.99',
+        serviceSlug: 'social-media-reel-with-realtor',
+      },
     },
 
     {
       id: 'silver',
       styleKey: 'silver',
 
-      tier: 'Silver',
       title: 'Multi Media',
-
       price: '$279.99',
       priceValue: 279.99,
       badge: 'Popular',
@@ -53,17 +56,18 @@ const packagesContent = {
         'aerial-photography',
       ],
 
-      addon:
-        'Agent-On-Camera Social Media Reel — Just $79.99',
+      addon: {
+        label: 'Agent-On-Camera Social Media Reel',
+        price: '$99.99',
+        serviceSlug: 'social-media-reel-with-realtor',
+      },
     },
 
     {
       id: 'platinum',
       styleKey: 'platinum',
 
-      tier: 'Platinum',
       title: 'Media Pro',
-
       price: '$499.99',
       priceValue: 499.99,
       badge: 'Best Value',
@@ -82,8 +86,11 @@ const packagesContent = {
         'video-production',
       ],
 
-      addon:
-        'Agent-On-Camera Social Media Reel — Just $79.99',
+      addon: {
+        label: 'Agent-On-Camera Social Media Reel',
+        price: '$99.99',
+        serviceSlug: 'social-media-reel-with-realtor',
+      },
     },
   ],
 };
