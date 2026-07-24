@@ -1,7 +1,8 @@
 // src/components/Hero/Hero.jsx
+
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { slides } from '../../data/slides';
@@ -11,17 +12,106 @@ const heroServiceBookingMap = {
   photography: 'photography',
   'aerial-photography': 'aerial-photography',
   'twilight-photography': 'twilight-shoots',
-  'video-production': 'video-production',
   'virtual-staging': 'virtual-staging',
-  'social-media-reel-with-realtor': 'social-media-reel-with-realtor',
 };
+
+function getImagePoolLength(slide) {
+  const desktopLength = slide.images?.length || 0;
+  const mobileLength = slide.mobileImages?.length || 0;
+
+  return Math.max(desktopLength, mobileLength, 1);
+}
+
+function getDifferentRandomIndex(currentIndex, poolLength) {
+  if (poolLength <= 1) {
+    return 0;
+  }
+
+  /*
+   * Selects another image without immediately choosing the image
+   * that is currently being displayed.
+   */
+  const randomOffset =
+    1 + Math.floor(Math.random() * (poolLength - 1));
+
+  return (currentIndex + randomOffset) % poolLength;
+}
+
+function getDesktopImage(slide, imageIndex) {
+  return (
+    slide.images?.[imageIndex] ||
+    slide.images?.[0] ||
+    null
+  );
+}
+
+function getMobileImage(slide, imageIndex) {
+  return (
+    slide.mobileImages?.[imageIndex] ||
+    slide.mobileImages?.[0] ||
+    slide.mobileImage ||
+    getDesktopImage(slide, imageIndex)
+  );
+}
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const currentSlideRef = useRef(0);
+
+  /*
+   * Every slide starts at image zero.
+   *
+   * This means Interior/Exterior initially displays the original
+   * image that the client asked to keep.
+   */
+  const [imageIndexes, setImageIndexes] = useState(() =>
+    slides.map(() => 0),
+  );
+
+  /*
+   * First visit to each slide uses its first image.
+   * Returning to a previously visited slide selects another image.
+   */
+  const visitedSlidesRef = useRef(new Set([0]));
+
   const [isMobileHero, setIsMobileHero] = useState(false);
 
+  const [dragOffset, setDragOffset] = useState(0);
+  const [dragging, setDragging] = useState(false);
+
+  const startX = useRef(0);
+
+  const initialHeroImage =
+    slides[0]?.images?.[0] || null;
+
+  /*
+   * The old background stays visible until the next background
+   * has fully loaded.
+   */
+  const [renderedImage, setRenderedImage] =
+    useState(initialHeroImage);
+
+  const [previousImage, setPreviousImage] =
+    useState(null);
+
+  const transitionTimerRef = useRef(null);
+
+  const slide = slides[currentSlide] || slides[0];
+
+  const activeImageIndex =
+    imageIndexes[currentSlide] || 0;
+
+  const activeImage = isMobileHero
+    ? getMobileImage(slide, activeImageIndex)
+    : getDesktopImage(slide, activeImageIndex);
+
+  /*
+   * Detect desktop or mobile mode.
+   */
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 767px)');
+    const mediaQuery = window.matchMedia(
+      '(max-width: 767px)',
+    );
 
     const updateHeroMode = () => {
       setIsMobileHero(mediaQuery.matches);
@@ -30,94 +120,339 @@ export default function Hero() {
     updateHeroMode();
 
     if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', updateHeroMode);
-      return () => mediaQuery.removeEventListener('change', updateHeroMode);
+      mediaQuery.addEventListener(
+        'change',
+        updateHeroMode,
+      );
+
+      return () => {
+        mediaQuery.removeEventListener(
+          'change',
+          updateHeroMode,
+        );
+      };
     }
 
     mediaQuery.addListener(updateHeroMode);
-    return () => mediaQuery.removeListener(updateHeroMode);
+
+    return () => {
+      mediaQuery.removeListener(updateHeroMode);
+    };
   }, []);
 
-  const [dragOffset, setDragOffset] = useState(0);
-  const [dragging, setDragging] = useState(false);
-  const startX = useRef(0);
+  /*
+   * Preload every hero image so changing slides does not produce
+   * a blank flash.
+   */
+  useEffect(() => {
+    const loadedImages = [];
 
-  const slide = slides[currentSlide];
+    const preloadSources = (sources) => {
+      const uniqueSources = [
+        ...new Set(sources.filter(Boolean)),
+      ];
 
-  const activeImage = isMobileHero
-    ? slide.mobileImage || slide.images?.[0] || null
-    : slide.images?.[0] || null;
+      uniqueSources.forEach((source) => {
+        const image = new window.Image();
 
-  const defaultHref = slide.slug === 'welcome' ? '/services' : '/services';
-  const defaultLabel =
-    slide.slug === 'welcome' ? 'View Services' : 'View Service';
+        image.decoding = 'async';
+        image.src = source;
 
-  const ctaHref = slide.ctaHref || defaultHref;
-  const ctaLabel = slide.ctaLabel || defaultLabel;
+        loadedImages.push(image);
+      });
+    };
 
-  const bookingServiceSlug = heroServiceBookingMap[slide.slug];
-  const showBookNow = Boolean(bookingServiceSlug);
+    /*
+     * Load the first image for every slide immediately.
+     */
+    const firstImages = slides.flatMap(
+      (heroSlide) => [
+        heroSlide.images?.[0],
+        heroSlide.mobileImages?.[0],
+        heroSlide.mobileImage,
+      ],
+    );
+
+    preloadSources(firstImages);
+
+    /*
+     * Load the remaining images shortly afterwards.
+     */
+    const allImages = slides.flatMap(
+      (heroSlide) => [
+        ...(heroSlide.images || []),
+        ...(heroSlide.mobileImages || []),
+      ],
+    );
+
+    const firstImageSet = new Set(
+      firstImages.filter(Boolean),
+    );
+
+    const remainingImages = allImages.filter(
+      (source) =>
+        source && !firstImageSet.has(source),
+    );
+
+    let idleCallbackId;
+    let timeoutId;
+
+    const preloadRemainingImages = () => {
+      preloadSources(remainingImages);
+    };
+
+    if ('requestIdleCallback' in window) {
+      idleCallbackId = window.requestIdleCallback(
+        preloadRemainingImages,
+        {
+          timeout: 1800,
+        },
+      );
+    } else {
+      timeoutId = window.setTimeout(
+        preloadRemainingImages,
+        300,
+      );
+    }
+
+    return () => {
+      if (
+        idleCallbackId !== undefined &&
+        'cancelIdleCallback' in window
+      ) {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+  }, []);
+
+  /*
+   * Load the requested background before displaying it.
+   * Once loaded, the new image fades over the old image.
+   */
+  useEffect(() => {
+    if (!activeImage || activeImage === renderedImage) {
+      return undefined;
+    }
+
+    let cancelled = false;
+    let imageWasSwapped = false;
+
+    const loader = new window.Image();
+
+    loader.decoding = 'async';
+
+    const swapImages = () => {
+      if (cancelled || imageWasSwapped) {
+        return;
+      }
+
+      imageWasSwapped = true;
+
+      if (transitionTimerRef.current) {
+        window.clearTimeout(
+          transitionTimerRef.current,
+        );
+      }
+
+      setPreviousImage(renderedImage);
+      setRenderedImage(activeImage);
+
+      transitionTimerRef.current =
+        window.setTimeout(() => {
+          setPreviousImage(null);
+          transitionTimerRef.current = null;
+        }, 600);
+    };
+
+    loader.onload = swapImages;
+
+    loader.onerror = () => {
+      if (!cancelled) {
+        console.warn(
+          `Hero image could not be loaded: ${activeImage}`,
+        );
+      }
+    };
+
+    loader.src = activeImage;
+
+    if (
+      loader.complete &&
+      loader.naturalWidth > 0
+    ) {
+      swapImages();
+    }
+
+    return () => {
+      cancelled = true;
+      loader.onload = null;
+      loader.onerror = null;
+    };
+  }, [activeImage, renderedImage]);
+
+  useEffect(() => {
+    return () => {
+      if (transitionTimerRef.current) {
+        window.clearTimeout(
+          transitionTimerRef.current,
+        );
+      }
+    };
+  }, []);
+
+  const changeSlide = (requestedIndex) => {
+    const normalizedIndex =
+      ((requestedIndex % slides.length) +
+        slides.length) %
+      slides.length;
+
+    setImageIndexes((currentIndexes) => {
+      const updatedIndexes = [
+        ...currentIndexes,
+      ];
+
+      if (
+        visitedSlidesRef.current.has(
+          normalizedIndex,
+        )
+      ) {
+        const currentImageIndex =
+          currentIndexes[normalizedIndex] || 0;
+
+        const imagePoolLength =
+          getImagePoolLength(
+            slides[normalizedIndex],
+          );
+
+        updatedIndexes[normalizedIndex] =
+          getDifferentRandomIndex(
+            currentImageIndex,
+            imagePoolLength,
+          );
+      } else {
+        /*
+         * First visit displays image zero.
+         */
+        visitedSlidesRef.current.add(
+          normalizedIndex,
+        );
+
+        updatedIndexes[normalizedIndex] = 0;
+      }
+
+      return updatedIndexes;
+    });
+
+    currentSlideRef.current = normalizedIndex;
+    setCurrentSlide(normalizedIndex);
+  };
 
   const goToSlide = (index) => {
-    setCurrentSlide(index);
+    changeSlide(index);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((s) => (s - 1 + slides.length) % slides.length);
+    changeSlide(
+      currentSlideRef.current - 1,
+    );
   };
 
   const nextSlide = () => {
-    setCurrentSlide((s) => (s + 1) % slides.length);
+    changeSlide(
+      currentSlideRef.current + 1,
+    );
   };
 
-  const THRESHOLD = 35;
+  const dragThreshold = 35;
 
   const onStart = (clientX) => {
     setDragging(true);
+    setDragOffset(0);
     startX.current = clientX;
   };
 
   const onMove = (clientX) => {
-    if (!dragging) return;
-    setDragOffset(clientX - startX.current);
+    if (!dragging) {
+      return;
+    }
+
+    setDragOffset(
+      clientX - startX.current,
+    );
   };
 
   const onEnd = () => {
-    if (!dragging) return;
+    if (!dragging) {
+      return;
+    }
 
-    const dx = dragOffset;
+    const completedDragOffset =
+      dragOffset;
+
     setDragging(false);
     setDragOffset(0);
 
-    if (dx > THRESHOLD) {
+    if (
+      completedDragOffset >
+      dragThreshold
+    ) {
       prevSlide();
-    } else if (dx < -THRESHOLD) {
+    } else if (
+      completedDragOffset <
+      -dragThreshold
+    ) {
       nextSlide();
     }
   };
 
-  const handleTouchStart = (e) => {
-    if (!e.touches || !e.touches[0]) return;
-    onStart(e.touches[0].clientX);
+  const handleTouchStart = (event) => {
+    if (
+      !event.touches ||
+      !event.touches[0]
+    ) {
+      return;
+    }
+
+    onStart(
+      event.touches[0].clientX,
+    );
   };
 
-  const handleTouchMove = (e) => {
-    if (!e.touches || !e.touches[0]) return;
-    onMove(e.touches[0].clientX);
+  const handleTouchMove = (event) => {
+    if (
+      !event.touches ||
+      !event.touches[0]
+    ) {
+      return;
+    }
+
+    onMove(
+      event.touches[0].clientX,
+    );
   };
 
   const handleTouchEnd = () => {
     onEnd();
   };
 
-  const handleMouseDown = (e) => {
-    if (e.button !== 0) return;
-    onStart(e.clientX);
+  const handleMouseDown = (event) => {
+    if (event.button !== 0) {
+      return;
+    }
+
+    onStart(event.clientX);
   };
 
-  const handleMouseMove = (e) => {
-    if (!dragging) return;
-    onMove(e.clientX);
+  const handleMouseMove = (event) => {
+    if (!dragging) {
+      return;
+    }
+
+    onMove(event.clientX);
   };
 
   const handleMouseUp = () => {
@@ -128,10 +463,30 @@ export default function Hero() {
     onEnd();
   };
 
-  const bgStyle = {
-    backgroundImage: activeImage ? `url(${activeImage})` : undefined,
-    transform: `translateX(${dragging ? dragOffset : 0}px)`,
-    transition: dragging ? 'none' : 'transform 280ms ease-out',
+  const ctaHref =
+    slide.ctaHref || '/services';
+
+  const ctaLabel =
+    slide.ctaLabel ||
+    (slide.slug === 'welcome'
+      ? 'View Services'
+      : 'View Service');
+
+  const bookingServiceSlug =
+    heroServiceBookingMap[slide.slug];
+
+  const showBookNow = Boolean(
+    bookingServiceSlug,
+  );
+
+  const heroTrackStyle = {
+    transform: `translateX(${
+      dragging ? dragOffset : 0
+    }px)`,
+
+    transition: dragging
+      ? 'none'
+      : 'transform 280ms ease-out',
   };
 
   return (
@@ -145,16 +500,40 @@ export default function Hero() {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={`${styles.heroInner} ${styles.slideIn}`}>
-        {activeImage && (
-          <div
-            key={`${currentSlide}-${isMobileHero ? 'mobile' : 'desktop'}`}
-            className={`${styles.heroBg} ${styles.fadeIn}`}
-            style={bgStyle}
-          />
-        )}
+      <div
+        className={`${styles.heroInner} ${styles.slideIn}`}
+      >
+        <div
+          className={styles.heroBgTrack}
+          style={heroTrackStyle}
+        >
+          {previousImage && (
+            <div
+              className={`${styles.heroBg} ${styles.heroBgPrevious}`}
+              style={{
+                backgroundImage: `url(${previousImage})`,
+              }}
+            />
+          )}
 
-        <div className={styles.heroOverlay} />
+          {renderedImage && (
+            <div
+              key={renderedImage}
+              className={`${styles.heroBg} ${
+                previousImage
+                  ? styles.fadeIn
+                  : ''
+              }`}
+              style={{
+                backgroundImage: `url(${renderedImage})`,
+              }}
+            />
+          )}
+        </div>
+
+        <div
+          className={styles.heroOverlay}
+        />
 
         <div className={styles.logoPill}>
           <Image
@@ -163,23 +542,29 @@ export default function Hero() {
             width={32}
             height={32}
           />
-          <span className={styles.logoText}>Real Frames</span>
+
+          <span className={styles.logoText}>
+            Real Frames
+          </span>
         </div>
 
         <div className={styles.content}>
           <div className={styles.copyBlock}>
-            <h1 className={styles.title}>{slide.title}</h1>
-            <p className={styles.desc}>{slide.description}</p>
+            <h1 className={styles.title}>
+              {slide.title}
+            </h1>
+
+            <p className={styles.desc}>
+              {slide.description}
+            </p>
 
             <div
-              style={{
-                display: 'flex',
-                gap: '0.75rem',
-                flexWrap: 'wrap',
-                alignItems: 'center',
-              }}
+              className={styles.ctaRow}
             >
-              <Link href={ctaHref} className={styles.cta}>
+              <Link
+                href={ctaHref}
+                className={styles.cta}
+              >
                 {ctaLabel}
               </Link>
 
@@ -195,17 +580,25 @@ export default function Hero() {
           </div>
 
           <div className={styles.dots}>
-            {slides.map((s, idx) => (
-              <button
-                key={s.slug}
-                type="button"
-                className={`${styles.dot} ${
-                  idx === currentSlide ? styles.dotActive : ''
-                }`}
-                onClick={() => goToSlide(idx)}
-                aria-label={`Go to slide ${idx + 1}: ${s.title}`}
-              />
-            ))}
+            {slides.map(
+              (heroSlide, index) => (
+                <button
+                  key={heroSlide.slug}
+                  type="button"
+                  className={`${styles.dot} ${
+                    index === currentSlide
+                      ? styles.dotActive
+                      : ''
+                  }`}
+                  onClick={() =>
+                    goToSlide(index)
+                  }
+                  aria-label={`Go to slide ${
+                    index + 1
+                  }: ${heroSlide.title}`}
+                />
+              ),
+            )}
           </div>
         </div>
 
