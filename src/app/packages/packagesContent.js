@@ -1,40 +1,91 @@
 // src/app/packages/packagesContent.js
 
 const packagesContent = {
-  heading: "Our Packages",
+  heading: 'Our Packages',
+
   sections: [
     {
-      title: "Essential",
-      price: "$199.99",
-      tagline: "Saving $30",
+      id: 'essential',
+      styleKey: 'essential',
+
+      tier: 'Essential',
+      title: 'Marketing Essential',
+
+      price: '$199.99',
+      priceValue: 199.99,
+      badge: null,
+
       features: [
-        "Interior/Exterior HDR",
-        "Aerial Photography (Top Down Lot View + Property Exterior Images)"
-      ]
+        'Premium HDR Images',
+        'MLS-Ready Images',
+        '6–10 Hour Delivery',
+      ],
+
+      /*
+       * Service slugs automatically selected on the contact page.
+       * Marketing Essential includes photography only.
+       */
+      includes: ['photography'],
+
+      addon:
+        'Agent-On-Camera Social Media Reel — Just $79.99',
     },
+
     {
-      title: "Silver",
-      price: "$249.99",
-      tagline: "Saving $60",
+      id: 'silver',
+      styleKey: 'silver',
+
+      tier: 'Silver',
+      title: 'Multi Media',
+
+      price: '$279.99',
+      priceValue: 279.99,
+      badge: 'Popular',
+
       features: [
-        "Interior/Exterior HDR",
-        "Aerial Photography (Top Down Lot View + Property Exterior Images)",
-        "Twilight Photography (Hero Images For The Most Appealing Listing & Quick Sale)"
-      ]
+        'Premium HDR Images',
+        'Aerial Photography',
+        'MLS-Ready Images',
+      ],
+
+      includes: [
+        'photography',
+        'aerial-photography',
+      ],
+
+      addon:
+        'Agent-On-Camera Social Media Reel — Just $79.99',
     },
+
     {
-      title: "Platinum",
-      price: "$479.99",
-      tagline: "Saving $210",
+      id: 'platinum',
+      styleKey: 'platinum',
+
+      tier: 'Platinum',
+      title: 'Media Pro',
+
+      price: '$499.99',
+      priceValue: 499.99,
+      badge: 'Best Value',
+
       features: [
-        "Interior/Exterior HDR",
-        "Aerial Package (Top Down Lot View + Property Exterior Images + Video + Neighbourhood View)",
-        "Twilight Photography (Hero Images For The Most Appealing Listing & Quick Sale)",
-        "Cinematic Video (Interior/Exterior)",
-        "Social Media Reel With Realtor"
-      ]
-    }
-  ]
+        'Premium HDR Images',
+        'Aerial Photography',
+        'Cinematic Walkthrough Video',
+        'MLS-Ready Images',
+        '4–8 Hour Delivery',
+      ],
+
+      includes: [
+        'photography',
+        'aerial-photography',
+        'video-production',
+      ],
+
+      addon:
+        'Agent-On-Camera Social Media Reel — Just $79.99',
+    },
+  ],
 };
 
 export default packagesContent;

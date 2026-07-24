@@ -1,3 +1,5 @@
+// src/app/packages/page.js
+
 'use client';
 
 import Link from 'next/link';
@@ -6,52 +8,83 @@ import styles from './packages.module.scss';
 
 export default function PackagesPage() {
   return (
-    <section className={styles.packages}>
-      <h1>{packagesContent.heading}</h1>
+    <main className={styles.page}>
+      <section className={styles.packages}>
+        <h1>{packagesContent.heading}</h1>
 
-      <div className={styles.grid}>
-        {packagesContent.sections.map((pkg) => (
-          <div
-            key={pkg.title}
-            className={`${styles.section} ${styles[pkg.title.toLowerCase()]}`}
-          >
-            {/* badge */}
-            {pkg.title === 'Silver' && (
-              <span className={styles.badge}>Popular</span>
-            )}
-            {pkg.title === 'Platinum' && (
-              <span className={styles.badge}>Best Value</span>
-            )}
+        <p className={styles.intro}>
+          Choose the right media package for your listing.
+          Add an Agent-On-Camera Social Media Reel to any
+          package for just $79.99.
+        </p>
 
-            {/* package name */}
-            <div className={styles.header}>{pkg.title}</div>
-
-            {/* price block */}
-            <p className={styles.price}>
-              <span className={styles.start}>Starting at</span>
-              <span className={styles.amount}>{pkg.price}</span>
-            </p>
-
-            {/* features */}
-            <ul className={styles.features}>
-              {pkg.features.map((feat) => (
-                <li key={feat}>{feat}</li>
-              ))}
-            </ul>
-
-            {/* savings tagline */}
-            <p className={styles.tagline}>{pkg.tagline}</p>
-
-            {/* call to action */}
-            <Link
-              href={`/contact?package=${pkg.title.toLowerCase()}`}
-              className={styles.button}
+        <div className={styles.grid}>
+          {packagesContent.sections.map((pkg) => (
+            <article
+              key={pkg.id}
+              className={`${styles.section} ${
+                styles[pkg.styleKey]
+              }`}
             >
-              Book Now
-            </Link>
-          </div>
-        ))}
-      </div>
-    </section>
+              {pkg.badge && (
+                <span className={styles.badge}>
+                  {pkg.badge}
+                </span>
+              )}
+
+              <div className={styles.header}>
+                <span className={styles.tierName}>
+                  {pkg.tier}
+                </span>
+
+                <span className={styles.packageName}>
+                  {pkg.title}
+                </span>
+              </div>
+
+              <p className={styles.price}>
+                <span className={styles.start}>
+                  Starting at
+                </span>
+
+                <span className={styles.amount}>
+                  {pkg.price}
+                </span>
+              </p>
+
+              <ul className={styles.features}>
+                {pkg.features.map((feature) => (
+                  <li key={feature}>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              {pkg.addon && (
+                <div className={styles.addon}>
+                  <span
+                    className={styles.addonIcon}
+                    aria-hidden="true"
+                  >
+                    +
+                  </span>
+
+                  <span className={styles.addonText}>
+                    Add an {pkg.addon}
+                  </span>
+                </div>
+              )}
+
+              <Link
+                href={`/contact?package=${pkg.id}`}
+                className={styles.button}
+              >
+                Book Now
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
